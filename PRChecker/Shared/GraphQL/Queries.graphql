@@ -1,0 +1,15 @@
+
+query GetRepositoriesByUserName($username: String!) {
+  user(login: $username) {
+    repositories(last: 10) {
+      nodes {
+        id
+        name
+        description
+        createdAt
+        url
+        stargazerCount
+      }
+    }
+  }
+}
