@@ -1,0 +1,53 @@
+
+fragment PRInfo on PullRequest {
+    id
+        
+    isReadByViewer
+    url
+        
+    repository {
+        id
+        name
+    }
+    baseRefName
+    headRefName
+        
+    number
+    title
+    body
+        
+    changedFiles
+    additions
+    deletions
+
+    state
+    viewerLatestReview {
+        id
+        state
+    }
+    mergedAt
+}
+
+query GetPRsByAuthor($author: String!) {
+    user(login: $author) {
+        id
+        name
+        pullRequests(last: 100, orderBy: { field:CREATED_AT, direction:DESC }, states: [OPEN, MERGED]) {
+            nodes {
+                ...PRInfo
+            }
+        }
+    }
+}
+
+query GetAssignedPRsWithQuery($query: String!) {
+    search(last: 100, query: $query, type: ISSUE) {
+        edges {
+            node {
+                ... on PullRequest {
+                    ...PRInfo
+                }
+            }
+        }
+    }
+}
