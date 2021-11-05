@@ -18,7 +18,7 @@ private enum KeychainKey {
 
 struct LoginInfoViewModel {
     var username: String
-    var accessToken : String
+    var accessToken: String
     var apiEndpoint: String
     
     var canLogin: Bool {
