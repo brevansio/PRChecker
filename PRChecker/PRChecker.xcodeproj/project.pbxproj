@@ -114,6 +114,19 @@
 			path = CommonViews;
 			sourceTree = "<group>";
 		};
+		69BB4C2F2736E2C4001175C8 /* Unique Views */ = {
+			isa = PBXGroup;
+			children = (
+				69CA3491273161BF004D5D9C /* ContentView.swift */,
+				593118992736758400BA67BC /* FilterView.swift */,
+				69BB4C1A27357FD4001175C8 /* LoginView.swift */,
+				69CA3490273161BF004D5D9C /* PRCheckerApp.swift */,
+				69BB4C262736CB60001175C8 /* PRListView.swift */,
+				5931188A27360EA000BA67BC /* PullRequestCell.swift */,
+			);
+			path = "Unique Views";
+			sourceTree = "<group>";
+		};
 		69CA348A273161BF004D5D9C = {
 			isa = PBXGroup;
 			children = (
@@ -127,19 +140,14 @@
 		69CA348F273161BF004D5D9C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				69D6438F27325F660001BBBA /* Models */,
-				69D643882732572C0001BBBA /* ViewModels */,
+				69CA3492273161C0004D5D9C /* Assets.xcassets */,
 				5931189C2736865400BA67BC /* CommonViews */,
+				69BB4C292736CB64001175C8 /* Constants.swift */,
 				593118952736753500BA67BC /* Extensions */,
 				69CA34BB273163C4004D5D9C /* GraphQL */,
-				69CA3490273161BF004D5D9C /* PRCheckerApp.swift */,
-				69CA3491273161BF004D5D9C /* ContentView.swift */,
-				69BB4C1A27357FD4001175C8 /* LoginView.swift */,
-				69BB4C292736CB64001175C8 /* Constants.swift */,
-				5931188A27360EA000BA67BC /* PullRequestCell.swift */,
-				69BB4C262736CB60001175C8 /* PRListView.swift */,
-				593118992736758400BA67BC /* FilterView.swift */,
-				69CA3492273161C0004D5D9C /* Assets.xcassets */,
+				69D6438F27325F660001BBBA /* Models */,
+				69BB4C2F2736E2C4001175C8 /* Unique Views */,
+				69D643882732572C0001BBBA /* ViewModels */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
