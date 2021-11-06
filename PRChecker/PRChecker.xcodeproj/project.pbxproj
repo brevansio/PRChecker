@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5931188B27360EA000BA67BC /* PullRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931188A27360EA000BA67BC /* PullRequestCell.swift */; };
+		5931188C27360EA000BA67BC /* PullRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931188A27360EA000BA67BC /* PullRequestCell.swift */; };
 		692A74E3273204F200C872AB /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E2273204F200C872AB /* Apollo */; };
 		692A74E5273204F200C872AB /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E4273204F200C872AB /* ApolloAPI */; };
 		692A74E7273204F200C872AB /* ApolloCodegenLib in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E6273204F200C872AB /* ApolloCodegenLib */; };
@@ -38,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		69BB4C1A27357FD4001175C8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		5931188A27360EA000BA67BC /* PullRequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRequestCell.swift; sourceTree = "<group>"; };
 		69CA3490273161BF004D5D9C /* PRCheckerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRCheckerApp.swift; sourceTree = "<group>"; };
 		69CA3491273161BF004D5D9C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		69CA3492273161C0004D5D9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -96,6 +99,7 @@
 				69CA3490273161BF004D5D9C /* PRCheckerApp.swift */,
 				69CA3491273161BF004D5D9C /* ContentView.swift */,
 				69BB4C1A27357FD4001175C8 /* LoginView.swift */,
+				5931188A27360EA000BA67BC /* PullRequestCell.swift */,
 				69CA3492273161C0004D5D9C /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -302,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5931188B27360EA000BA67BC /* PullRequestCell.swift in Sources */,
 				69D6439127325F6F0001BBBA /* PullRequest.swift in Sources */,
 				69BB4C1B27357FD4001175C8 /* LoginView.swift in Sources */,
 				69CA34A2273161C0004D5D9C /* ContentView.swift in Sources */,
@@ -316,6 +321,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5931188C27360EA000BA67BC /* PullRequestCell.swift in Sources */,
 				69D6439227325F6F0001BBBA /* PullRequest.swift in Sources */,
 				69BB4C1C27357FD4001175C8 /* LoginView.swift in Sources */,
 				69CA34A3273161C0004D5D9C /* ContentView.swift in Sources */,
