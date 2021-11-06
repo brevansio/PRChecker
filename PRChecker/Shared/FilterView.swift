@@ -11,7 +11,10 @@ struct FilterView: View {
     var body: some View {
         VStack {
             Header()
-                .padding(8)
+                .padding(EdgeInsets(top: 16, leading: 0, bottom: 8, trailing: 8))
+            Divider()
+            FilterContentView()
+                .padding(.leading, 8)
             Spacer()
         }
     }
@@ -21,22 +24,56 @@ private struct Header: View {
     var body: some View {
         HStack {
             Label {
-                Text("Filter")
+                Text("Filter by")
                     .font(.title)
+                    .fontWeight(.bold)
             } icon: {
                 Image(systemName: "line.3.horizontal.decrease.circle")
                     .scaledToFit()
             }
             Spacer()
-            Button(action: {
-                // TODO:
-            }) {
-                HStack {
-                    Text("Clear")
-                    Image(systemName: "xmark.circle")
+            Button("Reset Filters") {
+                // TODO: action
+            }
+            .font(.title2)
+            .foregroundColor(.blue)
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
+private struct FilterContentView: View {
+    struct Section: View {
+        var body: some View {
+            VStack(alignment: .leading) {
+                Label {
+                    Text("Status")
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color.black)
+                } icon: {
+                    Image(systemName: "square.stack.3d.down.right")
+                        .scaledToFit()
+                }
+                .font(.title2)
+
+                VStack(spacing: 10) {
+                    ForEach(0..<3) { _ in
+                        CheckBox(text: "Open")
+                    }
+                }
+                .padding(8)
+            }
+        }
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                ForEach(0..<10) { _ in
+                    Section()
                 }
             }
-            .buttonStyle(PlainButtonStyle())
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }
@@ -46,5 +83,3 @@ struct FilterView_Previews: PreviewProvider {
         FilterView()
     }
 }
-
-

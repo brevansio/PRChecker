@@ -23,10 +23,6 @@ struct PullRequestCell: View {
     }
 }
 
-enum Colors {
-    static let darkGray: Color = .init(white: 0.2)
-}
-
 // MARK: - Title
 
 private struct Header: View {
@@ -69,7 +65,7 @@ private struct Header: View {
                 )
                 Image(systemName: "arrow.backward")
                     .scaledToFit()
-                    .foregroundColor(Colors.darkGray)
+                    .foregroundColor(Color.darkGray2)
                 BranchLabel(
                     labelText: "branch-1",
                     type: .new
@@ -111,7 +107,7 @@ private struct ContentBody: View {
             HStack(alignment: .top) {
                 Image(systemName: "person")
                     .scaledToFit()
-                    .foregroundColor(Colors.darkGray)
+                    .foregroundColor(Color.darkGray2)
                 Text("User-1234567")
                     .font(.caption)
             }
@@ -120,7 +116,7 @@ private struct ContentBody: View {
             HStack(alignment: .top) {
                 Image(systemName: "plus.slash.minus")
                     .scaledToFit()
-                    .foregroundColor(Colors.darkGray)
+                    .foregroundColor(Color.darkGray2)
                 HStack {
                     Text("+1,203")
                         .font(.caption)
@@ -132,7 +128,7 @@ private struct ContentBody: View {
                 HStack {
                     Image(systemName: "number.square")
                         .scaledToFit()
-                        .foregroundColor(Colors.darkGray)
+                        .foregroundColor(Color.darkGray2)
                     Text("9 commits")
                         .font(.caption)
                 }
@@ -143,7 +139,7 @@ private struct ContentBody: View {
             HStack(alignment: .top) {
                 Image(systemName: "doc.text")
                     .scaledToFit()
-                    .foregroundColor(Colors.darkGray)
+                    .foregroundColor(Color.darkGray2)
                 Text("This sets up the project and a basic GraphQL API for grabbing a list of PRs for a user.")
                     .padding(8)
                     .background(Color(white: 0.92))
@@ -156,7 +152,7 @@ private struct ContentBody: View {
             HStack {
                 Image(systemName: "tag")
                     .scaledToFit()
-                    .foregroundColor(Colors.darkGray)
+                    .foregroundColor(Color.darkGray2)
                 Tag(text: "Feature", color: .yellow)
                 Tag(text: "Bugfix", color: .gray)
             }
@@ -188,7 +184,7 @@ private struct Footer: View {
             HStack {
                 Image(systemName: "command")
                     .scaledToFit()
-                    .foregroundColor(Colors.darkGray)
+                    .foregroundColor(Color.darkGray2)
                 Tag(text: "Commented", color: .orange)
                 Spacer()
                 Text("14h")
