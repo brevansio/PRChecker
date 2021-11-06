@@ -8,21 +8,28 @@
 import Apollo
 import Combine
 import Foundation
+import KeychainAccess
 
 final class NetworkSerivce {
     static let shared = NetworkSerivce()
 
-    private var username: String!
-    private var accessToken: String!
-    private var apiEndpoint: String!
+    private var username: String
+    private var accessToken: String
+    private var apiEndpoint: String
+    
+    private init() {
+        let keychainService = Keychain(service: KeychainKey.service)
+        username = keychainService[KeychainKey.username] ?? ""
+        accessToken = keychainService[KeychainKey.accessToken] ?? ""
+        apiEndpoint = keychainService[KeychainKey.apiEndpoint] ?? "https://api.github.com/graphql"
+    }
         
-    /// Note: **ALWAYS** call ``ìnitialize`` before accessing this property
     private(set) lazy var apollo: ApolloClient = {
         let url = URL(string: apiEndpoint)!
         let configuration = URLSessionConfiguration.default
 
         let store = ApolloStore()
-        configuration.httpAdditionalHeaders = ["authorization": "Bearer \(accessToken!)"]
+        configuration.httpAdditionalHeaders = ["authorization": "Bearer \(accessToken)"]
 
         let sessionClient = URLSessionClient(sessionConfiguration: configuration, callbackQueue: nil)
 
@@ -43,8 +50,8 @@ final class NetworkSerivce {
     }
     
     func getAllPRs() -> AnyPublisher<[PullRequest], Error> {
-        let assignedQuery = "is:open is:pr assignee:\(username!) archived:false"
-        let requestedQuery = "is:open is:pr review-requested:\(username!) archived:false"
+        let assignedQuery = "is:open is:pr assignee:\(username) archived:false"
+        let requestedQuery = "is:open is:pr review-requested:\(username) archived:false"
         
         let resultPublisher = CurrentValueSubject<[PullRequest], Error>([])
         

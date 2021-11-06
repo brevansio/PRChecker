@@ -622,16 +622,35 @@ public struct PrInfo: GraphQLFragment {
       repository {
         __typename
         id
-        name
+        nameWithOwner
       }
       baseRefName
       headRefName
-      number
+      author {
+        __typename
+        login
+      }
       title
       body
       changedFiles
       additions
       deletions
+      commits(last: 100) {
+        __typename
+        nodes {
+          __typename
+          id
+        }
+      }
+      labels(last: 10) {
+        __typename
+        nodes {
+          __typename
+          id
+          name
+          color
+        }
+      }
       state
       viewerLatestReview {
         __typename
@@ -639,6 +658,7 @@ public struct PrInfo: GraphQLFragment {
         state
       }
       mergedAt
+      createdAt
     }
     """
 
@@ -653,15 +673,18 @@ public struct PrInfo: GraphQLFragment {
       GraphQLField("repository", type: .nonNull(.object(Repository.selections))),
       GraphQLField("baseRefName", type: .nonNull(.scalar(String.self))),
       GraphQLField("headRefName", type: .nonNull(.scalar(String.self))),
-      GraphQLField("number", type: .nonNull(.scalar(Int.self))),
+      GraphQLField("author", type: .object(Author.selections)),
       GraphQLField("title", type: .nonNull(.scalar(String.self))),
       GraphQLField("body", type: .nonNull(.scalar(String.self))),
       GraphQLField("changedFiles", type: .nonNull(.scalar(Int.self))),
       GraphQLField("additions", type: .nonNull(.scalar(Int.self))),
       GraphQLField("deletions", type: .nonNull(.scalar(Int.self))),
+      GraphQLField("commits", arguments: ["last": 100], type: .nonNull(.object(Commit.selections))),
+      GraphQLField("labels", arguments: ["last": 10], type: .object(Label.selections)),
       GraphQLField("state", type: .nonNull(.scalar(PullRequestState.self))),
       GraphQLField("viewerLatestReview", type: .object(ViewerLatestReview.selections)),
       GraphQLField("mergedAt", type: .scalar(String.self)),
+      GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
     ]
   }
 
@@ -671,8 +694,8 @@ public struct PrInfo: GraphQLFragment {
     self.resultMap = unsafeResultMap
   }
 
-  public init(id: GraphQLID, isReadByViewer: Bool? = nil, url: String, repository: Repository, baseRefName: String, headRefName: String, number: Int, title: String, body: String, changedFiles: Int, additions: Int, deletions: Int, state: PullRequestState, viewerLatestReview: ViewerLatestReview? = nil, mergedAt: String? = nil) {
-    self.init(unsafeResultMap: ["__typename": "PullRequest", "id": id, "isReadByViewer": isReadByViewer, "url": url, "repository": repository.resultMap, "baseRefName": baseRefName, "headRefName": headRefName, "number": number, "title": title, "body": body, "changedFiles": changedFiles, "additions": additions, "deletions": deletions, "state": state, "viewerLatestReview": viewerLatestReview.flatMap { (value: ViewerLatestReview) -> ResultMap in value.resultMap }, "mergedAt": mergedAt])
+  public init(id: GraphQLID, isReadByViewer: Bool? = nil, url: String, repository: Repository, baseRefName: String, headRefName: String, author: Author? = nil, title: String, body: String, changedFiles: Int, additions: Int, deletions: Int, commits: Commit, labels: Label? = nil, state: PullRequestState, viewerLatestReview: ViewerLatestReview? = nil, mergedAt: String? = nil, createdAt: String) {
+    self.init(unsafeResultMap: ["__typename": "PullRequest", "id": id, "isReadByViewer": isReadByViewer, "url": url, "repository": repository.resultMap, "baseRefName": baseRefName, "headRefName": headRefName, "author": author.flatMap { (value: Author) -> ResultMap in value.resultMap }, "title": title, "body": body, "changedFiles": changedFiles, "additions": additions, "deletions": deletions, "commits": commits.resultMap, "labels": labels.flatMap { (value: Label) -> ResultMap in value.resultMap }, "state": state, "viewerLatestReview": viewerLatestReview.flatMap { (value: ViewerLatestReview) -> ResultMap in value.resultMap }, "mergedAt": mergedAt, "createdAt": createdAt])
   }
 
   public var __typename: String {
@@ -743,13 +766,13 @@ public struct PrInfo: GraphQLFragment {
     }
   }
 
-  /// Identifies the pull request number.
-  public var number: Int {
+  /// The actor who authored the comment.
+  public var author: Author? {
     get {
-      return resultMap["number"]! as! Int
+      return (resultMap["author"] as? ResultMap).flatMap { Author(unsafeResultMap: $0) }
     }
     set {
-      resultMap.updateValue(newValue, forKey: "number")
+      resultMap.updateValue(newValue?.resultMap, forKey: "author")
     }
   }
 
@@ -803,6 +826,26 @@ public struct PrInfo: GraphQLFragment {
     }
   }
 
+  /// A list of commits present in this pull request's head branch not present in the base branch.
+  public var commits: Commit {
+    get {
+      return Commit(unsafeResultMap: resultMap["commits"]! as! ResultMap)
+    }
+    set {
+      resultMap.updateValue(newValue.resultMap, forKey: "commits")
+    }
+  }
+
+  /// A list of labels associated with the object.
+  public var labels: Label? {
+    get {
+      return (resultMap["labels"] as? ResultMap).flatMap { Label(unsafeResultMap: $0) }
+    }
+    set {
+      resultMap.updateValue(newValue?.resultMap, forKey: "labels")
+    }
+  }
+
   /// Identifies the state of the pull request.
   public var state: PullRequestState {
     get {
@@ -833,6 +876,16 @@ public struct PrInfo: GraphQLFragment {
     }
   }
 
+  /// Identifies the date and time when the object was created.
+  public var createdAt: String {
+    get {
+      return resultMap["createdAt"]! as! String
+    }
+    set {
+      resultMap.updateValue(newValue, forKey: "createdAt")
+    }
+  }
+
   public struct Repository: GraphQLSelectionSet {
     public static let possibleTypes: [String] = ["Repository"]
 
@@ -840,7 +893,7 @@ public struct PrInfo: GraphQLFragment {
       return [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
-        GraphQLField("name", type: .nonNull(.scalar(String.self))),
+        GraphQLField("nameWithOwner", type: .nonNull(.scalar(String.self))),
       ]
     }
 
@@ -850,8 +903,8 @@ public struct PrInfo: GraphQLFragment {
       self.resultMap = unsafeResultMap
     }
 
-    public init(id: GraphQLID, name: String) {
-      self.init(unsafeResultMap: ["__typename": "Repository", "id": id, "name": name])
+    public init(id: GraphQLID, nameWithOwner: String) {
+      self.init(unsafeResultMap: ["__typename": "Repository", "id": id, "nameWithOwner": nameWithOwner])
     }
 
     public var __typename: String {
@@ -872,13 +925,249 @@ public struct PrInfo: GraphQLFragment {
       }
     }
 
-    /// The name of the repository.
-    public var name: String {
+    /// The repository's name with owner.
+    public var nameWithOwner: String {
       get {
-        return resultMap["name"]! as! String
+        return resultMap["nameWithOwner"]! as! String
       }
       set {
-        resultMap.updateValue(newValue, forKey: "name")
+        resultMap.updateValue(newValue, forKey: "nameWithOwner")
+      }
+    }
+  }
+
+  public struct Author: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Bot", "EnterpriseUserAccount", "Mannequin", "Organization", "User"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("login", type: .nonNull(.scalar(String.self))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public static func makeBot(login: String) -> Author {
+      return Author(unsafeResultMap: ["__typename": "Bot", "login": login])
+    }
+
+    public static func makeEnterpriseUserAccount(login: String) -> Author {
+      return Author(unsafeResultMap: ["__typename": "EnterpriseUserAccount", "login": login])
+    }
+
+    public static func makeMannequin(login: String) -> Author {
+      return Author(unsafeResultMap: ["__typename": "Mannequin", "login": login])
+    }
+
+    public static func makeOrganization(login: String) -> Author {
+      return Author(unsafeResultMap: ["__typename": "Organization", "login": login])
+    }
+
+    public static func makeUser(login: String) -> Author {
+      return Author(unsafeResultMap: ["__typename": "User", "login": login])
+    }
+
+    public var __typename: String {
+      get {
+        return resultMap["__typename"]! as! String
+      }
+      set {
+        resultMap.updateValue(newValue, forKey: "__typename")
+      }
+    }
+
+    /// The username of the actor.
+    public var login: String {
+      get {
+        return resultMap["login"]! as! String
+      }
+      set {
+        resultMap.updateValue(newValue, forKey: "login")
+      }
+    }
+  }
+
+  public struct Commit: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["PullRequestCommitConnection"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("nodes", type: .list(.object(Node.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(nodes: [Node?]? = nil) {
+      self.init(unsafeResultMap: ["__typename": "PullRequestCommitConnection", "nodes": nodes.flatMap { (value: [Node?]) -> [ResultMap?] in value.map { (value: Node?) -> ResultMap? in value.flatMap { (value: Node) -> ResultMap in value.resultMap } } }])
+    }
+
+    public var __typename: String {
+      get {
+        return resultMap["__typename"]! as! String
+      }
+      set {
+        resultMap.updateValue(newValue, forKey: "__typename")
+      }
+    }
+
+    /// A list of nodes.
+    public var nodes: [Node?]? {
+      get {
+        return (resultMap["nodes"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Node?] in value.map { (value: ResultMap?) -> Node? in value.flatMap { (value: ResultMap) -> Node in Node(unsafeResultMap: value) } } }
+      }
+      set {
+        resultMap.updateValue(newValue.flatMap { (value: [Node?]) -> [ResultMap?] in value.map { (value: Node?) -> ResultMap? in value.flatMap { (value: Node) -> ResultMap in value.resultMap } } }, forKey: "nodes")
+      }
+    }
+
+    public struct Node: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["PullRequestCommit"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(id: GraphQLID) {
+        self.init(unsafeResultMap: ["__typename": "PullRequestCommit", "id": id])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var id: GraphQLID {
+        get {
+          return resultMap["id"]! as! GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "id")
+        }
+      }
+    }
+  }
+
+  public struct Label: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["LabelConnection"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("nodes", type: .list(.object(Node.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(nodes: [Node?]? = nil) {
+      self.init(unsafeResultMap: ["__typename": "LabelConnection", "nodes": nodes.flatMap { (value: [Node?]) -> [ResultMap?] in value.map { (value: Node?) -> ResultMap? in value.flatMap { (value: Node) -> ResultMap in value.resultMap } } }])
+    }
+
+    public var __typename: String {
+      get {
+        return resultMap["__typename"]! as! String
+      }
+      set {
+        resultMap.updateValue(newValue, forKey: "__typename")
+      }
+    }
+
+    /// A list of nodes.
+    public var nodes: [Node?]? {
+      get {
+        return (resultMap["nodes"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Node?] in value.map { (value: ResultMap?) -> Node? in value.flatMap { (value: ResultMap) -> Node in Node(unsafeResultMap: value) } } }
+      }
+      set {
+        resultMap.updateValue(newValue.flatMap { (value: [Node?]) -> [ResultMap?] in value.map { (value: Node?) -> ResultMap? in value.flatMap { (value: Node) -> ResultMap in value.resultMap } } }, forKey: "nodes")
+      }
+    }
+
+    public struct Node: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["Label"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("name", type: .nonNull(.scalar(String.self))),
+          GraphQLField("color", type: .nonNull(.scalar(String.self))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(id: GraphQLID, name: String, color: String) {
+        self.init(unsafeResultMap: ["__typename": "Label", "id": id, "name": name, "color": color])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var id: GraphQLID {
+        get {
+          return resultMap["id"]! as! GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      /// Identifies the label name.
+      public var name: String {
+        get {
+          return resultMap["name"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "name")
+        }
+      }
+
+      /// Identifies the label color.
+      public var color: String {
+        get {
+          return resultMap["color"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "color")
+        }
       }
     }
   }
