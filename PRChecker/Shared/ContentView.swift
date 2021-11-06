@@ -38,11 +38,15 @@ struct ContentView: View {
                     .buttonStyle(LinkButtonStyle())
                 }
                 .padding([.leading, .bottom, .top])
-                Color.secondary
+                Color.lightGray8
                     .frame(width: 1, height: geometry.size.height)
                 Spacer()
                 Text("Hello, world!")
                 Spacer()
+                Color.lightGray8
+                    .frame(width: 1, height: geometry.size.height)
+                FilterView()
+                    .frame(width: 300, height: geometry.size.height)
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
