@@ -8,9 +8,44 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var showLogin = true
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        GeometryReader { geometry in
+            HStack {
+                VStack {
+                    Spacer()
+                    Button {
+                        showLogin.toggle()
+                    } label: {
+                        Text(.init(systemName: "person"))
+                            .font(.system(size: 45))
+                            .foregroundColor(.secondary)
+                    }
+                    .buttonStyle(.link)
+                    .popover(isPresented: $showLogin, arrowEdge: .trailing) {
+                        LoginView {
+                            // TODO: Refresh
+                        }
+                    }
+
+                    Button {
+                        // TODO: Settings Page
+                    } label: {
+                        Text(.init(systemName: "gearshape"))
+                            .font(.system(size: 45))
+                            .foregroundColor(.secondary)
+                    }
+                        .buttonStyle(.link)
+                }
+                .padding([.leading, .bottom, .top])
+                Color.secondary
+                    .frame(width: 1, height: geometry.size.height)
+                Spacer()
+                Text("Hello, world!")
+                Spacer()
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+        }
     }
 }
 

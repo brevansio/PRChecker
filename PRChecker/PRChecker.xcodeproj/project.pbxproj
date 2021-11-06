@@ -13,6 +13,8 @@
 		692A74E9273204F200C872AB /* ApolloSQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E8273204F200C872AB /* ApolloSQLite */; };
 		692A74EB273204F200C872AB /* ApolloUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74EA273204F200C872AB /* ApolloUtils */; };
 		692A74ED273204F200C872AB /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74EC273204F200C872AB /* ApolloWebSocket */; };
+		69BB4C1B27357FD4001175C8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C1A27357FD4001175C8 /* LoginView.swift */; };
+		69BB4C1C27357FD4001175C8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C1A27357FD4001175C8 /* LoginView.swift */; };
 		69CA34A0273161C0004D5D9C /* PRCheckerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA3490273161BF004D5D9C /* PRCheckerApp.swift */; };
 		69CA34A1273161C0004D5D9C /* PRCheckerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA3490273161BF004D5D9C /* PRCheckerApp.swift */; };
 		69CA34A2273161C0004D5D9C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA3491273161BF004D5D9C /* ContentView.swift */; };
@@ -35,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		69BB4C1A27357FD4001175C8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		69CA3490273161BF004D5D9C /* PRCheckerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRCheckerApp.swift; sourceTree = "<group>"; };
 		69CA3491273161BF004D5D9C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		69CA3492273161C0004D5D9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -92,6 +95,7 @@
 				69CA34BB273163C4004D5D9C /* GraphQL */,
 				69CA3490273161BF004D5D9C /* PRCheckerApp.swift */,
 				69CA3491273161BF004D5D9C /* ContentView.swift */,
+				69BB4C1A27357FD4001175C8 /* LoginView.swift */,
 				69CA3492273161C0004D5D9C /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -299,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69D6439127325F6F0001BBBA /* PullRequest.swift in Sources */,
+				69BB4C1B27357FD4001175C8 /* LoginView.swift in Sources */,
 				69CA34A2273161C0004D5D9C /* ContentView.swift in Sources */,
 				69CA34C5273165D3004D5D9C /* API.swift in Sources */,
 				69D64386273256DF0001BBBA /* NetworkService.swift in Sources */,
@@ -312,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69D6439227325F6F0001BBBA /* PullRequest.swift in Sources */,
+				69BB4C1C27357FD4001175C8 /* LoginView.swift in Sources */,
 				69CA34A3273161C0004D5D9C /* ContentView.swift in Sources */,
 				69CA34C6273165D3004D5D9C /* API.swift in Sources */,
 				69D64387273256DF0001BBBA /* NetworkService.swift in Sources */,
@@ -374,6 +380,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -427,6 +435,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
