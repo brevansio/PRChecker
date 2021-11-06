@@ -43,7 +43,7 @@ struct LoginView: View {
                     dismissBlock?()
                 }
                 .disabled(!loginInfo.canLogin)
-                .buttonStyle(.bordered)
+                .buttonStyle(BorderedButtonStyle())
                 Spacer()
             }
         }
