@@ -37,8 +37,9 @@ struct ContentView: View {
                     }
                         .buttonStyle(.link)
                 }
-                .frame(alignment: .leading)
-                .border(BackgroundStyle(), width: 5.0)
+                .padding([.leading, .bottom, .top])
+                Color.secondary
+                    .frame(width: 1, height: geometry.size.height)
                 Spacer()
                 Text("Hello, world!")
                 Spacer()
