@@ -19,7 +19,6 @@ class PRListViewModel: ObservableObject {
             .sink { error in
                 // TODO: Handle Errors
             } receiveValue: { prList in
-                print(prList)
                 DispatchQueue.main.async {
                     self.prList = prList
                 }

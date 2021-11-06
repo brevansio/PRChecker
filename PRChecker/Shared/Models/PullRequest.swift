@@ -206,7 +206,6 @@ struct LabelModel {
     }
     
     var color: Color {
-        print(labelConnection.color)
         return .init(hexValue: labelConnection.color)
     }
 }
