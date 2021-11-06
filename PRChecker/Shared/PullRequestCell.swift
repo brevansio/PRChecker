@@ -9,12 +9,22 @@ import SwiftUI
 
 struct PullRequestCell: View {
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Header()
-                .padding(6)
+                .padding(8)
             Divider()
+            ContentBody()
+                .padding(8)
+            Divider()
+            Footer()
+                .padding(8)
         }
+        .frame(minWidth: 300, maxWidth: .infinity)
     }
+}
+
+enum Colors {
+    static let darkGray: Color = .init(white: 0.2)
 }
 
 // MARK: - Title
@@ -22,26 +32,44 @@ struct PullRequestCell: View {
 private struct Header: View {
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                Text("Setup the basic API and Project")
-                    .font(.title)
+            // Repository Name
+            HStack(alignment: .top) {
+                Text("xxxxxxxx/PRChecker")
+                    .padding(8)
+                    .font(.headline)
+                    .background(Color(white: 0.92))
+                    .cornerRadius(8)
+            }
+            .padding(.vertical, 4)
+
+            // Title, Status
+            HStack(alignment: .top) {
+                Text("Open")
+                    .padding(4)
+                    .foregroundColor(.white)
+                    .background(Color.green)
+                    .font(.subheadline)
+                    .cornerRadius(8)
+                // TODO: combine title and number
+                Text("Setup the basic API and Project #1")
+                    .font(.title2)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             Spacer()
                 .frame(height: 6)
+
+            // Branch
             HStack {
                 Image(systemName: "arrow.triangle.branch")
                     .scaledToFit()
                     .foregroundColor(.green)
-                Text("User")
-                    .font(.subheadline)
-                Text("wants to merge 10 commits into")
-                    .font(.subheadline)
                 BranchLabel(
                     labelText: "origin",
                     type: .origin
                 )
-                Text("from")
-                    .font(.subheadline)
+                Image(systemName: "arrow.backward")
+                    .scaledToFit()
+                    .foregroundColor(Colors.darkGray)
                 BranchLabel(
                     labelText: "branch-1",
                     type: .new
@@ -70,17 +98,106 @@ private struct BranchLabel: View {
     let type: BranchType
 
     var body: some View {
+        Tag(text: labelText, color: type.color)
+    }
+}
+
+// MARK: - Body
+
+private struct ContentBody: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            // User
+            HStack(alignment: .top) {
+                Image(systemName: "person")
+                    .scaledToFit()
+                    .foregroundColor(Colors.darkGray)
+                Text("User-1234567")
+                    .font(.caption)
+            }
+
+            // Line Additions/Deletions, Commit count
+            HStack(alignment: .top) {
+                Image(systemName: "plus.slash.minus")
+                    .scaledToFit()
+                    .foregroundColor(Colors.darkGray)
+                HStack {
+                    Text("+1,203")
+                        .font(.caption)
+                        .foregroundColor(.green)
+                    Text("-87")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                }
+                HStack {
+                    Image(systemName: "number.square")
+                        .scaledToFit()
+                        .foregroundColor(Colors.darkGray)
+                    Text("9 commits")
+                        .font(.caption)
+                }
+                .padding(.leading, 16)
+            }
+
+            // Description
+            HStack(alignment: .top) {
+                Image(systemName: "doc.text")
+                    .scaledToFit()
+                    .foregroundColor(Colors.darkGray)
+                Text("This sets up the project and a basic GraphQL API for grabbing a list of PRs for a user.")
+                    .padding(8)
+                    .background(Color(white: 0.92))
+                    .font(.caption)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .cornerRadius(8)
+            }
+
+            // Tags
+            HStack {
+                Image(systemName: "tag")
+                    .scaledToFit()
+                    .foregroundColor(Colors.darkGray)
+                Tag(text: "Feature", color: .yellow)
+                Tag(text: "Bugfix", color: .gray)
+            }
+        }
+    }
+}
+
+private struct Tag: View {
+    let text: String
+    let color: Color
+
+    var body: some View {
         HStack {
-            Text(labelText)
+            Text(text)
                 .padding(4)
-                .background(type.color)
-                .font(.subheadline)
+                .background(color)
+                .font(.caption)
                 .cornerRadius(8)
         }
     }
 }
 
-// MARK: - Body
+// MARK: - Footer
+
+private struct Footer: View {
+    var body: some View {
+        VStack {
+            // Viewer Status
+            HStack {
+                Image(systemName: "command")
+                    .scaledToFit()
+                    .foregroundColor(Colors.darkGray)
+                Tag(text: "Commented", color: .orange)
+                Spacer()
+                Text("14h")
+                    .padding(.horizontal, 8)
+                    .font(.caption)
+            }
+        }
+    }
+}
 
 struct PullRequestCell_Previews: PreviewProvider {
     static var previews: some View {
