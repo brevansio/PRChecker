@@ -49,7 +49,6 @@ private struct FilterContentView: View {
                 Label {
                     Text("Status")
                         .fontWeight(.semibold)
-                        .foregroundColor(Color.black)
                 } icon: {
                     Image(systemName: "square.stack.3d.down.right")
                         .scaledToFit()

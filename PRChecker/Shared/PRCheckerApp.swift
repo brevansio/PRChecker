@@ -12,7 +12,7 @@ struct PRCheckerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .background(Color.white)
+                .background(Color.gray6)
         }
     }
 }

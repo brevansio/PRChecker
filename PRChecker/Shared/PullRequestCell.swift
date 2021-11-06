@@ -20,6 +20,7 @@ struct PullRequestCell: View {
                 .padding(8)
         }
         .frame(minWidth: 300, maxWidth: .infinity)
+        .background(Color.gray6)
     }
 }
 
@@ -33,7 +34,7 @@ private struct Header: View {
                 Text("xxxxxxxx/PRChecker")
                     .padding(8)
                     .font(.headline)
-                    .background(Color(white: 0.92))
+                    .background(Color.gray5)
                     .cornerRadius(8)
             }
             .padding(.vertical, 4)
@@ -65,7 +66,7 @@ private struct Header: View {
                 )
                 Image(systemName: "arrow.backward")
                     .scaledToFit()
-                    .foregroundColor(Color.darkGray2)
+                    .foregroundColor(Color.primary)
                 BranchLabel(
                     labelText: "branch-1",
                     type: .new
@@ -107,7 +108,7 @@ private struct ContentBody: View {
             HStack(alignment: .top) {
                 Image(systemName: "person")
                     .scaledToFit()
-                    .foregroundColor(Color.darkGray2)
+                    .foregroundColor(Color.primary)
                 Text("User-1234567")
                     .font(.caption)
             }
@@ -116,7 +117,7 @@ private struct ContentBody: View {
             HStack(alignment: .top) {
                 Image(systemName: "plus.slash.minus")
                     .scaledToFit()
-                    .foregroundColor(Color.darkGray2)
+                    .foregroundColor(Color.primary)
                 HStack {
                     Text("+1,203")
                         .font(.caption)
@@ -128,7 +129,7 @@ private struct ContentBody: View {
                 HStack {
                     Image(systemName: "number.square")
                         .scaledToFit()
-                        .foregroundColor(Color.darkGray2)
+                        .foregroundColor(Color.primary)
                     Text("9 commits")
                         .font(.caption)
                 }
@@ -139,10 +140,10 @@ private struct ContentBody: View {
             HStack(alignment: .top) {
                 Image(systemName: "doc.text")
                     .scaledToFit()
-                    .foregroundColor(Color.darkGray2)
+                    .foregroundColor(Color.primary)
                 Text("This sets up the project and a basic GraphQL API for grabbing a list of PRs for a user.")
                     .padding(8)
-                    .background(Color(white: 0.92))
+                    .background(Color.gray5)
                     .font(.caption)
                     .fixedSize(horizontal: false, vertical: true)
                     .cornerRadius(8)
@@ -152,7 +153,7 @@ private struct ContentBody: View {
             HStack {
                 Image(systemName: "tag")
                     .scaledToFit()
-                    .foregroundColor(Color.darkGray2)
+                    .foregroundColor(Color.primary)
                 Tag(text: "Feature", color: .yellow)
                 Tag(text: "Bugfix", color: .gray)
             }
@@ -168,6 +169,7 @@ private struct Tag: View {
         HStack {
             Text(text)
                 .padding(4)
+                .foregroundColor(.black)
                 .background(color)
                 .font(.caption)
                 .cornerRadius(8)
@@ -184,7 +186,7 @@ private struct Footer: View {
             HStack {
                 Image(systemName: "command")
                     .scaledToFit()
-                    .foregroundColor(Color.darkGray2)
+                    .foregroundColor(Color.primary)
                 Tag(text: "Commented", color: .orange)
                 Spacer()
                 Text("14h")
@@ -197,6 +199,8 @@ private struct Footer: View {
 
 struct PullRequestCell_Previews: PreviewProvider {
     static var previews: some View {
-        PullRequestCell()
+        ForEach(ColorScheme.allCases, id: \.self) {
+            PullRequestCell().preferredColorScheme($0)
+        }
     }
 }
