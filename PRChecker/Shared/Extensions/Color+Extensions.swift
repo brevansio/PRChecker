@@ -16,3 +16,16 @@ extension Color {
     static let gray5 = Color("gray5")
     static let gray6 = Color("gray6")
 }
+
+extension Color {
+    init(hexValue: String) {
+        let normalizedString = hexValue.trimmingCharacters(in: .init(charactersIn: "#")).uppercased()
+        
+        let hexValue = Int(normalizedString, radix: 16) ?? 0
+        let red = (hexValue & 0xFF0000) >> 16
+        let green = (hexValue & 0x00FF00) >> 8
+        let blue = (hexValue & 0x0000FF)
+        
+        self.init(red: Double(red) / 255.0, green: Double(green) / 255.0, blue: Double(blue) / 255.0)
+    }
+}
