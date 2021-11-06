@@ -27,9 +27,9 @@ struct LoginInfoViewModel {
     
     init() {
         let keychainService = Keychain(service: KeychainKey.service)
-        apiEndpoint = keychainService[KeychainKey.apiEndpoint] ?? ""
         username = keychainService[KeychainKey.username] ?? ""
-        accessToken = keychainService[KeychainKey.accessToken] ?? "https://api.github.com/graphql"
+        accessToken = keychainService[KeychainKey.accessToken] ?? ""
+        apiEndpoint = keychainService[KeychainKey.apiEndpoint] ?? "https://api.github.com/graphql"
     }
 
     func saveToKeychain() {
