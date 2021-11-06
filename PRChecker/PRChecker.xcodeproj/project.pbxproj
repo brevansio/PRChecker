@@ -13,6 +13,8 @@
 		593118982736754600BA67BC /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593118962736754600BA67BC /* Color+Extensions.swift */; };
 		5931189A2736758400BA67BC /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593118992736758400BA67BC /* FilterView.swift */; };
 		5931189B2736758400BA67BC /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593118992736758400BA67BC /* FilterView.swift */; };
+		5931189E2736867B00BA67BC /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931189D2736867B00BA67BC /* CheckBox.swift */; };
+		5931189F2736867B00BA67BC /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931189D2736867B00BA67BC /* CheckBox.swift */; };
 		692A74E3273204F200C872AB /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E2273204F200C872AB /* Apollo */; };
 		692A74E5273204F200C872AB /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E4273204F200C872AB /* ApolloAPI */; };
 		692A74E7273204F200C872AB /* ApolloCodegenLib in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E6273204F200C872AB /* ApolloCodegenLib */; };
@@ -46,6 +48,7 @@
 		5931188A27360EA000BA67BC /* PullRequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRequestCell.swift; sourceTree = "<group>"; };
 		593118962736754600BA67BC /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		593118992736758400BA67BC /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		5931189D2736867B00BA67BC /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		69BB4C1A27357FD4001175C8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		69CA3490273161BF004D5D9C /* PRCheckerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRCheckerApp.swift; sourceTree = "<group>"; };
 		69CA3491273161BF004D5D9C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -94,6 +97,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		5931189C2736865400BA67BC /* CommonViews */ = {
+			isa = PBXGroup;
+			children = (
+				5931189D2736867B00BA67BC /* CheckBox.swift */,
+			);
+			path = CommonViews;
+			sourceTree = "<group>";
+		};
 		69CA348A273161BF004D5D9C = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +120,7 @@
 			children = (
 				69D6438F27325F660001BBBA /* Models */,
 				69D643882732572C0001BBBA /* ViewModels */,
+				5931189C2736865400BA67BC /* CommonViews */,
 				593118952736753500BA67BC /* Extensions */,
 				69CA34BB273163C4004D5D9C /* GraphQL */,
 				69CA3490273161BF004D5D9C /* PRCheckerApp.swift */,
@@ -325,6 +337,7 @@
 				5931188B27360EA000BA67BC /* PullRequestCell.swift in Sources */,
 				69D6439127325F6F0001BBBA /* PullRequest.swift in Sources */,
 				593118972736754600BA67BC /* Color+Extensions.swift in Sources */,
+				5931189E2736867B00BA67BC /* CheckBox.swift in Sources */,
 				69BB4C1B27357FD4001175C8 /* LoginView.swift in Sources */,
 				69CA34A2273161C0004D5D9C /* ContentView.swift in Sources */,
 				69CA34C5273165D3004D5D9C /* API.swift in Sources */,
@@ -342,6 +355,7 @@
 				5931188C27360EA000BA67BC /* PullRequestCell.swift in Sources */,
 				69D6439227325F6F0001BBBA /* PullRequest.swift in Sources */,
 				593118982736754600BA67BC /* Color+Extensions.swift in Sources */,
+				5931189F2736867B00BA67BC /* CheckBox.swift in Sources */,
 				69BB4C1C27357FD4001175C8 /* LoginView.swift in Sources */,
 				69CA34A3273161C0004D5D9C /* ContentView.swift in Sources */,
 				69CA34C6273165D3004D5D9C /* API.swift in Sources */,
