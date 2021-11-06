@@ -67,7 +67,6 @@ class PullRequest: ObservableObject {
         let createdTime: String
     }
     
-    
     let pullRequest: PrInfo
 
     lazy var headerViewModel: Header = {
@@ -186,11 +185,38 @@ class PullRequest: ObservableObject {
     }
     
     var mergedAt: String? {
-        pullRequest.mergedAt
+        guard let mergedAt = pullRequest.mergedAt else {
+            return nil
+        }
+
+        return Self.relativeDateString(from: mergedAt)
     }
     
     var createdAt: String {
-        pullRequest.createdAt
+        Self.relativeDateString(from: pullRequest.createdAt)
+    }
+    
+    private static let dateFormatter = ISO8601DateFormatter()
+    
+    private static let secondsPerDay: Double = 60 * 60 * 24
+    private static let secondsPerHour: Double = 60 * 60
+    private static let secondsPerMinute: Double = 60
+    
+    private static func relativeDateString(from dateString: String) -> String {
+        let date = dateFormatter.date(from: dateString) ?? Date()
+        let offset = abs(date.timeIntervalSinceNow)
+        
+        if offset / secondsPerDay > 1 {
+            return "\(Int(floor(offset / secondsPerDay)))d"
+        } else if offset /  secondsPerHour > 1 {
+            return "\(Int(floor(offset / secondsPerHour)))h"
+        } else if offset / secondsPerMinute > 1 {
+            return "\(Int(floor(offset / secondsPerMinute)))m"
+        } else {
+            return "1m"
+        }
+        
+        
     }
 }
 

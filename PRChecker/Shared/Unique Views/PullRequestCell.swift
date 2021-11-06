@@ -167,7 +167,6 @@ private struct ContentBody: View {
                     .foregroundColor(Color.primary)
                 ForEach(content.labels, id: \.id) { label in
                     Tag(text: label.title, color: label.color)
-                    // TODO: Fix tag colors
                 }
             }
         }
