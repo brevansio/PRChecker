@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var showLogin = true
+    @State var showLogin = !LoginInfoViewModel().canLogin
     var body: some View {
         GeometryReader { geometry in
             HStack {
