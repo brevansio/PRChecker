@@ -21,7 +21,7 @@ struct ContentView: View {
                             .font(.system(size: 45))
                             .foregroundColor(.secondary)
                     }
-                    .buttonStyle(.link)
+                    .buttonStyle(LinkButtonStyle())
                     .popover(isPresented: $showLogin, arrowEdge: .trailing) {
                         LoginView {
                             // TODO: Refresh
@@ -35,7 +35,7 @@ struct ContentView: View {
                             .font(.system(size: 45))
                             .foregroundColor(.secondary)
                     }
-                        .buttonStyle(.link)
+                    .buttonStyle(LinkButtonStyle())
                 }
                 .padding([.leading, .bottom, .top])
                 Color.secondary
