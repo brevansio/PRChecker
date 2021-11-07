@@ -140,14 +140,16 @@ private struct ContentBody: View {
             .labelStyle(PRItemLabel.Style(type: .description))
 
             // Tags
-            Label {
-                ForEach(content.labels, id: \.id) { label in
-                    Tag(text: label.title, backgroundColor: label.color)
+            if !content.labels.isEmpty {
+                Label {
+                    ForEach(content.labels, id: \.id) { label in
+                        Tag(text: label.title, backgroundColor: label.color)
+                    }
+                } icon: {
+                    PRItemType.tag.image
                 }
-            } icon: {
-                PRItemType.tag.image
+                .labelStyle(PRItemLabel.Style(type: .tag))
             }
-            .labelStyle(PRItemLabel.Style(type: .tag))
         }
     }
 }
