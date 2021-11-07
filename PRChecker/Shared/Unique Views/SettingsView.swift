@@ -26,7 +26,7 @@ struct SettingsView: View {
                             Image(systemName: "x.circle.fill")
                                 .foregroundColor(.red)
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(PlainButtonStyle())
                     }
                     .padding([.leading, .trailing, .top])
                 }

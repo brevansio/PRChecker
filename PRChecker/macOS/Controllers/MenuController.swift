@@ -10,13 +10,9 @@ import SwiftUI
 
 class MenuController {
 
-    private let popover: NSPopover
-    private let statusItem: NSStatusItem?
+    private let popover = NSPopover()
 
-    init(statusItem: NSStatusItem?) {
-        self.statusItem = statusItem
-        self.popover = NSPopover()
-
+    init() {
         let menuView = MenuView()
 
         popover.contentViewController = NSHostingController(rootView: menuView)
@@ -26,18 +22,19 @@ class MenuController {
         popover.animates = true
     }
 
-    @objc func didTapMenuButton(_ sender: AnyObject) {
-        guard let statusItemButton = statusItem?.button else { return }
-
+    @objc func didTapMenuButton(_ sender: NSStatusBarButton) {
         if popover.isShown {
             popover.performClose(sender)
         }
         else {
             popover.show(
-                relativeTo: statusItemButton.bounds,
-                of: statusItemButton,
+                relativeTo: sender.bounds,
+                of: sender,
                 preferredEdge: .maxY
             )
+
+            // Focus on the popover when it's clicked
+            popover.contentViewController?.view.window?.makeKey()
         }
     }
 }
