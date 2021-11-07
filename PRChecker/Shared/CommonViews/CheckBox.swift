@@ -10,10 +10,12 @@ import SwiftUI
 struct CheckBox: View {
     @State var filter: Filter
     let font: Font
+    let toggleAction: ((Bool) -> Void)?
 
-    init(filter: Filter, font: Font = .body) {
+    init(filter: Filter, font: Font = .body, toggleAction: ((Bool) -> Void)? = nil) {
         self.filter = filter
         self.font = font
+        self.toggleAction = toggleAction
     }
 
     var body: some View {
@@ -35,6 +37,7 @@ struct CheckBox: View {
 
     func toggle() -> Void {
         filter.isEnabled.toggle()
+        toggleAction?(filter.isEnabled)
         // TODO: animation
     }
 }

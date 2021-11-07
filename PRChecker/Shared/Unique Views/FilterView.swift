@@ -49,6 +49,12 @@ private struct FilterContentView: View {
     struct Section: View {
         
         @State var filterSection: FilterSection
+        let toggleAction: (() -> Void)?
+        
+        init(filterSection: FilterSection, toggleAction: (() -> Void)? = nil) {
+            self.filterSection = filterSection
+            self.toggleAction = toggleAction
+        }
 
         var body: some View {
             VStack(alignment: .leading) {
@@ -63,7 +69,10 @@ private struct FilterContentView: View {
 
                 VStack(alignment: .leading, spacing: 10) {
                     ForEach(filterSection.filters, id: \.name) { filter in
-                        CheckBox(filter: filter)
+                        CheckBox(filter: filter) { _ in
+                            filterSection.updateFilters()
+                            toggleAction?()
+                        }
                     }
                 }
                 .padding(8)
@@ -75,7 +84,9 @@ private struct FilterContentView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 ForEach(filterViewModel.sections, id: \.name) { section in
-                    Section(filterSection: section)
+                    Section(filterSection: section) {
+                        filterViewModel.updateFilters()
+                    }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)

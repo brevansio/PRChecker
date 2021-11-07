@@ -35,38 +35,24 @@ class FilterViewModel: ObservableObject {
         Self.statusFilter,
         Self.reviewStatusFilter,
         // TODO: Label Filter
-    ] {
-        didSet {
-            combinedFilter = sections.compactMap(\.combinedFilter).reduce(nil) { partialResult, filter in
-                guard let partialResult = partialResult else {
-                    return filter
-                }
-                return partialResult + filter
+    ]
+    
+    @Published var combinedFilter: Filter?
+    
+    func updateFilters() {
+        combinedFilter = sections.compactMap(\.combinedFilter).reduce(nil) { partialResult, filter in
+            guard let partialResult = partialResult else {
+                return filter
             }
+            return partialResult + filter
         }
     }
-    
-    var combinedFilter: Filter?
 }
 
-struct FilterSection {
+class FilterSection: ObservableObject {
     var name: String
     
-    var filters: [Filter] {
-        didSet {
-            let enabledfilters = filters.filter { $0.isEnabled }
-            guard !enabledfilters.isEmpty else {
-                combinedFilter = nil
-                return
-            }
-            combinedFilter = enabledfilters.reduce(nil, { partialResult, filter in
-                guard let partialResult = partialResult else {
-                    return filter
-                }
-                return partialResult | filter
-            })
-        }
-    }
+    var filters: [Filter]
     
     var combinedFilter: Filter?
     
@@ -74,9 +60,23 @@ struct FilterSection {
         self.name = name
         self.filters = filters
     }
+    
+    func updateFilters() {
+        let enabledfilters = filters.filter { $0.isEnabled }
+        guard !enabledfilters.isEmpty else {
+            combinedFilter = nil
+            return
+        }
+        combinedFilter = enabledfilters.reduce(nil, { partialResult, filter in
+            guard let partialResult = partialResult else {
+                return filter
+            }
+            return partialResult | filter
+        })
+    }
 }
 
-struct Filter {
+class Filter: ObservableObject {
     var name: String
     
     var filter: (PullRequest) -> Bool
