@@ -20,7 +20,7 @@ class MenuController {
         let menuView = MenuView()
 
         popover.contentViewController = NSHostingController(rootView: menuView)
-        popover.contentSize = NSSize(width: 300, height: 400)
+        popover.contentSize = NSSize(width: 320, height: 400)
 
         popover.behavior = .transient
         popover.animates = true
