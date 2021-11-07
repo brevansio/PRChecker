@@ -43,11 +43,23 @@ private struct Header: View {
 }
 
 private struct FilterContentView: View {
+    
+    @EnvironmentObject var filterViewModel: FilterViewModel
+    
     struct Section: View {
+        
+        @State var filterSection: FilterSection
+        let toggleAction: (() -> Void)?
+        
+        init(filterSection: FilterSection, toggleAction: (() -> Void)? = nil) {
+            self.filterSection = filterSection
+            self.toggleAction = toggleAction
+        }
+
         var body: some View {
             VStack(alignment: .leading) {
                 Label {
-                    Text("Status")
+                    Text(filterSection.name)
                         .fontWeight(.semibold)
                 } icon: {
                     Image(systemName: "square.stack.3d.down.right")
@@ -55,9 +67,12 @@ private struct FilterContentView: View {
                 }
                 .font(.title2)
 
-                VStack(spacing: 10) {
-                    ForEach(0..<3) { _ in
-                        CheckBox(text: "Open")
+                VStack(alignment: .leading, spacing: 10) {
+                    ForEach(filterSection.filters, id: \.name) { filter in
+                        CheckBox(filter: filter) { _ in
+                            filterSection.updateFilters()
+                            toggleAction?()
+                        }
                     }
                 }
                 .padding(8)
@@ -68,8 +83,10 @@ private struct FilterContentView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                ForEach(0..<10) { _ in
-                    Section()
+                ForEach(filterViewModel.sections, id: \.name) { section in
+                    Section(filterSection: section) {
+                        filterViewModel.updateFilters()
+                    }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)

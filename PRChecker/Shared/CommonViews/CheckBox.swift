@@ -8,26 +8,26 @@
 import SwiftUI
 
 struct CheckBox: View {
-    let text: String?
+    @State var filter: Filter
     let font: Font
+    let toggleAction: ((Bool) -> Void)?
 
-    @State private var isChecked = false
-
-    init(text: String?, font: Font = .body) {
-        self.text = text
+    init(filter: Filter, font: Font = .body, toggleAction: ((Bool) -> Void)? = nil) {
+        self.filter = filter
         self.font = font
+        self.toggleAction = toggleAction
     }
 
     var body: some View {
         Button(action: toggle) {
-            if isChecked {
+            if filter.isEnabled {
                 Image(systemName: "checkmark.square.fill")
                     .foregroundColor(.green)
             }
             else {
                 Image(systemName: "square")
             }
-            if let text = text {
+            if let text = filter.name {
                 Text(text)
             }
         }
@@ -36,13 +36,14 @@ struct CheckBox: View {
     }
 
     func toggle() -> Void {
-        isChecked.toggle()
+        filter.isEnabled.toggle()
+        toggleAction?(filter.isEnabled)
         // TODO: animation
     }
 }
 
 struct CheckBox_Previews: PreviewProvider {
     static var previews: some View {
-        CheckBox(text: "hello")
+        CheckBox(filter: Filter(name: "Test", filter: { _ in true }))
     }
 }
