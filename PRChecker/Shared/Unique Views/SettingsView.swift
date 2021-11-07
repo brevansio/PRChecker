@@ -41,7 +41,7 @@ struct SettingsView: View {
             }
             .padding([.leading, .trailing])
         }
-        .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+        .padding(20)
         .frame(minWidth: 200, maxHeight: 400, alignment: .leading)
     }
 }
