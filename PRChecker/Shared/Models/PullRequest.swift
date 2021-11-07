@@ -67,7 +67,7 @@ class PullRequest: ObservableObject, Identifiable {
     
     struct Footer {
         let status: ViewerStatus
-        let createdTime: String
+        let updatedTime: String
     }
     
     let pullRequest: PrInfo
@@ -96,7 +96,7 @@ class PullRequest: ObservableObject, Identifiable {
     lazy var footerViewModel: Footer = {
         Footer(
             status: viewerStatus,
-            createdTime: createdAt
+            updatedTime: updatedAt
         )
     }()
     
@@ -197,12 +197,12 @@ class PullRequest: ObservableObject, Identifiable {
         return Self.relativeDateString(from: mergedAt)
     }
     
-    var rawCreatedAt: String {
-        pullRequest.createdAt
+    var rawUpdatedAt: String {
+        pullRequest.updatedAt
     }
     
-    var createdAt: String {
-        Self.relativeDateString(from: pullRequest.createdAt)
+    var updatedAt: String {
+        Self.relativeDateString(from: pullRequest.updatedAt)
     }
     
     private static let dateFormatter = ISO8601DateFormatter()
