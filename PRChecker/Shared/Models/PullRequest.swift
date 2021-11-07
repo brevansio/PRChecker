@@ -215,8 +215,6 @@ class PullRequest: ObservableObject, Identifiable {
         } else {
             return "1m"
         }
-        
-        
     }
 }
 
