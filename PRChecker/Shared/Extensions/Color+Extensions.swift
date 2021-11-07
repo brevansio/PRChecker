@@ -15,6 +15,7 @@ extension Color {
     static let gray4 = Color("gray4")
     static let gray5 = Color("gray5")
     static let gray6 = Color("gray6")
+    static let primaryBackground = Color("primaryBackground")
 }
 
 extension Color {
