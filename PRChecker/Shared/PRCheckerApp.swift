@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct PRCheckerApp: App {
+
+#if canImport(AppKit)
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
+#endif
+
     var body: some Scene {
         WindowGroup {
             ContentView()
