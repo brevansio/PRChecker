@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State var showLogin = !LoginInfoViewModel().canLogin
+    var prListViewModel = PRListViewModel()
+    
     var body: some View {
         GeometryReader { geometry in
             HStack {
@@ -24,7 +26,7 @@ struct ContentView: View {
                     .buttonStyle(LinkButtonStyle())
                     .popover(isPresented: $showLogin, arrowEdge: .trailing) {
                         LoginView {
-                            // TODO: Refresh
+                            prListViewModel.getPRList()
                         }
                     }
 
@@ -40,7 +42,7 @@ struct ContentView: View {
                 .padding([.leading, .bottom, .top])
                 Divider()
                     .background(Color.gray5)
-                PRListView()
+                PRListView(prListViewModel: prListViewModel)
                     .frame(minWidth: 300, maxWidth: max(geometry.size.width, 300), minHeight: geometry.size.height, alignment: .topLeading)
                 Divider()
                     .background(Color.gray5)

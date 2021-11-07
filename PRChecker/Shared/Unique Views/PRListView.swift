@@ -11,7 +11,7 @@ struct PRListView: View {
     @Environment(\.openURL) var openURL
     @EnvironmentObject var filterViewModel: FilterViewModel
     
-    @StateObject var prListViewModel = PRListViewModel()
+    @ObservedObject var prListViewModel = PRListViewModel()
     
     var body: some View {
         RefreshableScrollView(onRefresh: { completion in

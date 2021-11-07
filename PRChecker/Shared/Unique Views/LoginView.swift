@@ -43,6 +43,7 @@ struct LoginView: View {
         .frame(maxWidth: 400, maxHeight: 200, alignment: .center)
         .onDisappear {
             loginInfo.saveToKeychain()
+            dismissBlock?()
         }
     }
 }
