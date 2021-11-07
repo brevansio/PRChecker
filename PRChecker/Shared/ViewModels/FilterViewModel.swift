@@ -99,7 +99,7 @@ class Filter: ObservableObject {
     
     var filter: (PullRequest) -> Bool
     
-    var isEnabled: Bool = false
+    @Published var isEnabled: Bool = false
     
     init(name: String, filter: @escaping (PullRequest) -> Bool) {
         self.name = name

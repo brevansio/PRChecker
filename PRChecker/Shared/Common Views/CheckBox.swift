@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CheckBox: View {
-    @State var filter: Filter
+    @ObservedObject var filter: Filter
     let font: Font
     let toggleAction: ((Bool) -> Void)?
 
