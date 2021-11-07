@@ -29,12 +29,12 @@ private struct Header: View {
         HStack {
             Label {
                 Text("Filter by")
-                    .font(.title)
                     .fontWeight(.bold)
             } icon: {
-                Image(systemName: "line.3.horizontal.decrease.circle")
+                Image(systemName: "line.horizontal.3.decrease")
                     .scaledToFit()
             }
+            .font(.title)
             Spacer()
             Button("Reset Filters") {
                 filterViewModel.sections.map(\.filters).flatMap { $0 }.forEach {
@@ -70,7 +70,7 @@ private struct FilterContentView: View {
                     Text(filterSection.name)
                         .fontWeight(.semibold)
                 } icon: {
-                    Image(systemName: "square.stack.3d.down.right")
+                    filterSection.type.image
                         .scaledToFit()
                 }
                 .font(.title2)

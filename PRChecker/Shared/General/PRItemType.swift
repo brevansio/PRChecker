@@ -26,7 +26,7 @@ enum PRItemType {
         guard let imageName: String = {
             switch self {
             case .repositoryName:
-                return "menucard"
+                return "square.stack.3d.down.right"
             case .state:
                 return "exclamationmark.circle"
             case .branch:
