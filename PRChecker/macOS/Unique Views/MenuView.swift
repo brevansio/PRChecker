@@ -20,7 +20,6 @@ struct MenuView: View {
             VStack(alignment: .leading, spacing: 12) {
                 ForEach(prListViewModel.prList.prefix(maxPRCount)) { pullRequest in
                     MenuBarPRCell(pullRequest: pullRequest)
-                        .background(Color.primaryBackground)
                         .cornerRadius(8)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .overlay(
