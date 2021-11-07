@@ -19,7 +19,7 @@ struct PRListView: View {
                 completion()
             }
         }) {
-            LazyVGrid(columns: [GridItem(.flexible(minimum: 300)), GridItem(.flexible(minimum: 300))], alignment: .leading) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], alignment: .leading) {
                 ForEach(prListViewModel.prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), id: \.id) { pullRequest in
                     PullRequestCell(pullRequest: pullRequest)
                         .cornerRadius(16)
