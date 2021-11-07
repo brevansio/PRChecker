@@ -43,7 +43,7 @@ enum ViewerStatus: String {
     }
 }
 
-class PullRequest: ObservableObject {
+class PullRequest: ObservableObject, Identifiable {
     struct Header {
         let repoName: String
         let status: PRState
