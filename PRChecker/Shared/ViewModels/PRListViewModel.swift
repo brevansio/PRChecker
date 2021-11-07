@@ -22,7 +22,7 @@ class PRListViewModel: ObservableObject {
                 // TODO: Handle Errors
             } receiveValue: { prList in
                 DispatchQueue.main.async {
-                    self.prList = prList
+                    self.prList = prList.sorted { $0.rawCreatedAt > $1.rawCreatedAt }
                     
                     let labelFilters = prList.map(\.labels).flatMap { $0 }.map { label in
                         Filter(name: label.title) { pullRequest in
