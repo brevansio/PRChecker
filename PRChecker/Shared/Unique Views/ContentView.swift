@@ -41,7 +41,7 @@ struct ContentView: View {
                 Divider()
                     .background(Color.gray5)
                 PRListView()
-                    .frame(minWidth: 300, maxWidth: geometry.size.width, minHeight: geometry.size.height, alignment: .topLeading)
+                    .frame(minWidth: 300, maxWidth: max(geometry.size.width, 300), minHeight: geometry.size.height, alignment: .topLeading)
                 Divider()
                     .background(Color.gray5)
                 FilterView()
