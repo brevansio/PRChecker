@@ -22,6 +22,9 @@ struct FilterView: View {
 }
 
 private struct Header: View {
+    
+    @EnvironmentObject var filterViewModel: FilterViewModel
+
     var body: some View {
         HStack {
             Label {
@@ -34,7 +37,11 @@ private struct Header: View {
             }
             Spacer()
             Button("Reset Filters") {
-                // TODO: action
+                filterViewModel.sections.map(\.filters).flatMap { $0 }.forEach {
+                    $0.isEnabled = false
+                }
+                filterViewModel.sections.forEach { $0.updateFilters() }
+                filterViewModel.updateFilters()
             }
             .font(.title2)
             .foregroundColor(.blue)

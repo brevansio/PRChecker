@@ -50,8 +50,8 @@ final class NetworkSerivce {
     }
     
     func getAllPRs() -> AnyPublisher<[PullRequest], Error> {
-        let assignedQuery = "is:open is:pr assignee:\(username) archived:false"
-        let requestedQuery = "is:open is:pr review-requested:\(username) archived:false"
+        let assignedQuery = "is:pr assignee:\(username) archived:false"
+        let requestedQuery = "is:pr review-requested:\(username) archived:false"
         
         let resultPublisher = CurrentValueSubject<[PullRequest], Error>([])
         

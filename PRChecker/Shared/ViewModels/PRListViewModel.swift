@@ -16,13 +16,13 @@ class PRListViewModel: ObservableObject {
     
     private var subscriptions = Set<AnyCancellable>()
     
-    func getPRList() {
+    func getPRList(completion: (() -> Void)? = nil)  {
         NetworkSerivce.shared.getAllPRs()
             .sink { error in
                 // TODO: Handle Errors
             } receiveValue: { prList in
                 DispatchQueue.main.async {
-                    self.prList = prList
+                    self.prList = prList.sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
                     
                     let labelFilters = prList.map(\.labels).flatMap { $0 }.map { label in
                         Filter(name: label.title) { pullRequest in
@@ -42,6 +42,7 @@ class PRListViewModel: ObservableObject {
                         "Labels": labelFilters,
                         "Repository": repositoryFilters,
                     ]
+                    completion?()
                 }
             }
             .store(in: &subscriptions)

@@ -40,7 +40,7 @@ fragment PRInfo on PullRequest {
         state
     }
     mergedAt
-    createdAt
+    updatedAt
 }
 
 query GetPRsByAuthor($author: String!) {

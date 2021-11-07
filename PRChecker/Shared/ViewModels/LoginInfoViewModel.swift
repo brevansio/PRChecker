@@ -30,6 +30,8 @@ struct LoginInfoViewModel {
         keychainService[KeychainKey.apiEndpoint] = apiEndpoint
         keychainService[KeychainKey.username] = username
         keychainService[KeychainKey.accessToken] = accessToken
+        
+        NetworkSerivce.shared.initialize(for: username, accessToken: accessToken, endpoint: apiEndpoint)
     }
 }
 

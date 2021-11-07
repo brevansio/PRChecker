@@ -658,7 +658,7 @@ public struct PrInfo: GraphQLFragment {
         state
       }
       mergedAt
-      createdAt
+      updatedAt
     }
     """
 
@@ -684,7 +684,7 @@ public struct PrInfo: GraphQLFragment {
       GraphQLField("state", type: .nonNull(.scalar(PullRequestState.self))),
       GraphQLField("viewerLatestReview", type: .object(ViewerLatestReview.selections)),
       GraphQLField("mergedAt", type: .scalar(String.self)),
-      GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
+      GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
     ]
   }
 
@@ -694,8 +694,8 @@ public struct PrInfo: GraphQLFragment {
     self.resultMap = unsafeResultMap
   }
 
-  public init(id: GraphQLID, isReadByViewer: Bool? = nil, url: String, repository: Repository, baseRefName: String, headRefName: String, author: Author? = nil, title: String, body: String, changedFiles: Int, additions: Int, deletions: Int, commits: Commit, labels: Label? = nil, state: PullRequestState, viewerLatestReview: ViewerLatestReview? = nil, mergedAt: String? = nil, createdAt: String) {
-    self.init(unsafeResultMap: ["__typename": "PullRequest", "id": id, "isReadByViewer": isReadByViewer, "url": url, "repository": repository.resultMap, "baseRefName": baseRefName, "headRefName": headRefName, "author": author.flatMap { (value: Author) -> ResultMap in value.resultMap }, "title": title, "body": body, "changedFiles": changedFiles, "additions": additions, "deletions": deletions, "commits": commits.resultMap, "labels": labels.flatMap { (value: Label) -> ResultMap in value.resultMap }, "state": state, "viewerLatestReview": viewerLatestReview.flatMap { (value: ViewerLatestReview) -> ResultMap in value.resultMap }, "mergedAt": mergedAt, "createdAt": createdAt])
+  public init(id: GraphQLID, isReadByViewer: Bool? = nil, url: String, repository: Repository, baseRefName: String, headRefName: String, author: Author? = nil, title: String, body: String, changedFiles: Int, additions: Int, deletions: Int, commits: Commit, labels: Label? = nil, state: PullRequestState, viewerLatestReview: ViewerLatestReview? = nil, mergedAt: String? = nil, updatedAt: String) {
+    self.init(unsafeResultMap: ["__typename": "PullRequest", "id": id, "isReadByViewer": isReadByViewer, "url": url, "repository": repository.resultMap, "baseRefName": baseRefName, "headRefName": headRefName, "author": author.flatMap { (value: Author) -> ResultMap in value.resultMap }, "title": title, "body": body, "changedFiles": changedFiles, "additions": additions, "deletions": deletions, "commits": commits.resultMap, "labels": labels.flatMap { (value: Label) -> ResultMap in value.resultMap }, "state": state, "viewerLatestReview": viewerLatestReview.flatMap { (value: ViewerLatestReview) -> ResultMap in value.resultMap }, "mergedAt": mergedAt, "updatedAt": updatedAt])
   }
 
   public var __typename: String {
@@ -876,13 +876,13 @@ public struct PrInfo: GraphQLFragment {
     }
   }
 
-  /// Identifies the date and time when the object was created.
-  public var createdAt: String {
+  /// Identifies the date and time when the object was last updated.
+  public var updatedAt: String {
     get {
-      return resultMap["createdAt"]! as! String
+      return resultMap["updatedAt"]! as! String
     }
     set {
-      resultMap.updateValue(newValue, forKey: "createdAt")
+      resultMap.updateValue(newValue, forKey: "updatedAt")
     }
   }
 

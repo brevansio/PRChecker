@@ -12,6 +12,7 @@ import SwiftUI
 enum PRState: String {
     case open = "Open"
     case merged = "Merged"
+    case closed = "Closed"
     
     var color: Color {
         switch self {
@@ -19,6 +20,8 @@ enum PRState: String {
             return .green
         case .merged:
             return .orange
+        case .closed:
+            return .red
         }
     }
 }
@@ -64,7 +67,7 @@ class PullRequest: ObservableObject, Identifiable {
     
     struct Footer {
         let status: ViewerStatus
-        let createdTime: String
+        let updatedTime: String
     }
     
     let pullRequest: PrInfo
@@ -93,7 +96,7 @@ class PullRequest: ObservableObject, Identifiable {
     lazy var footerViewModel: Footer = {
         Footer(
             status: viewerStatus,
-            createdTime: createdAt
+            updatedTime: updatedAt
         )
     }()
     
@@ -163,8 +166,10 @@ class PullRequest: ObservableObject, Identifiable {
             return .open
         case .merged:
             return .merged
+        case .closed:
+            return .closed
         default:
-            fatalError("This is unreachable because our query won't allow it")
+            fatalError("Unknown state: \(String(describing: pullRequest.state))")
         }
     }
     
@@ -192,8 +197,12 @@ class PullRequest: ObservableObject, Identifiable {
         return Self.relativeDateString(from: mergedAt)
     }
     
-    var createdAt: String {
-        Self.relativeDateString(from: pullRequest.createdAt)
+    var rawUpdatedAt: String {
+        pullRequest.updatedAt
+    }
+    
+    var updatedAt: String {
+        Self.relativeDateString(from: pullRequest.updatedAt)
     }
     
     private static let dateFormatter = ISO8601DateFormatter()
@@ -215,8 +224,6 @@ class PullRequest: ObservableObject, Identifiable {
         } else {
             return "1m"
         }
-        
-        
     }
 }
 
