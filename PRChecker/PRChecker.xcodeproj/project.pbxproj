@@ -17,6 +17,7 @@
 		5931189B2736758400BA67BC /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593118992736758400BA67BC /* FilterView.swift */; };
 		5931189E2736867B00BA67BC /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931189D2736867B00BA67BC /* CheckBox.swift */; };
 		5931189F2736867B00BA67BC /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931189D2736867B00BA67BC /* CheckBox.swift */; };
+		599D979D2737C746003E1835 /* MenuBarPRCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599D979C2737C746003E1835 /* MenuBarPRCell.swift */; };
 		59DDC04F2737714200101394 /* PRItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC04E2737714200101394 /* PRItemType.swift */; };
 		59DDC0502737714B00101394 /* PRItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC04E2737714200101394 /* PRItemType.swift */; };
 		59DDC0532737ABAE00101394 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC0512737ABAE00101394 /* AppDelegate.swift */; };
@@ -66,6 +67,7 @@
 		593118962736754600BA67BC /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		593118992736758400BA67BC /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		5931189D2736867B00BA67BC /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		599D979C2737C746003E1835 /* MenuBarPRCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarPRCell.swift; sourceTree = "<group>"; };
 		59DDC04E2737714200101394 /* PRItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRItemType.swift; sourceTree = "<group>"; };
 		59DDC0512737ABAE00101394 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69BB4C1A27357FD4001175C8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				592839732737B2410069651B /* MenuView.swift */,
+				599D979C2737C746003E1835 /* MenuBarPRCell.swift */,
 			);
 			path = "Unique Views";
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				69D6439227325F6F0001BBBA /* PullRequest.swift in Sources */,
 				592839742737B2410069651B /* MenuView.swift in Sources */,
 				593118982736754600BA67BC /* Color+Extensions.swift in Sources */,
+				599D979D2737C746003E1835 /* MenuBarPRCell.swift in Sources */,
 				69BB4C2E2736CB6A001175C8 /* PRListViewModel.swift in Sources */,
 				5931189F2736867B00BA67BC /* CheckBox.swift in Sources */,
 				69BB4C1C27357FD4001175C8 /* LoginView.swift in Sources */,

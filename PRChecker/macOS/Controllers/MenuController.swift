@@ -19,14 +19,14 @@ class MenuController {
 
         let menuView = MenuView()
 
+        popover.contentViewController = NSHostingController(rootView: menuView)
+        popover.contentSize = NSSize(width: 300, height: 400)
+
         popover.behavior = .transient
         popover.animates = true
-
-        popover.contentViewController = NSHostingController(rootView: menuView)
-        popover.contentSize = NSSize(width: 200, height: 600)
     }
 
-    @objc func didTapMenuButton(_ sender: NSStatusBarButton) {
+    @objc func didTapMenuButton(_ sender: AnyObject) {
         guard let statusItemButton = statusItem?.button else { return }
 
         if popover.isShown {
