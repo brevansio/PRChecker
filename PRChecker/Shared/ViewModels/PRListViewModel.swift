@@ -7,10 +7,12 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 class PRListViewModel: ObservableObject {
     
     @Published var prList = [PullRequest]()
+    @Published var labelFilters: [Filter]?
     
     private var subscriptions = Set<AnyCancellable>()
     
@@ -21,6 +23,14 @@ class PRListViewModel: ObservableObject {
             } receiveValue: { prList in
                 DispatchQueue.main.async {
                     self.prList = prList
+                    
+                    self.labelFilters = prList.map(\.labels).flatMap { $0 }.map { label in
+                        Filter(name: label.title) { pullRequest in
+                            pullRequest.labels.contains { prLabel in
+                                prLabel == label
+                            }
+                        }
+                    }
                 }
             }
             .store(in: &subscriptions)

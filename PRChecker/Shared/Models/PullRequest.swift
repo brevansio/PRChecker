@@ -235,3 +235,9 @@ struct LabelModel {
         return .init(hexValue: labelConnection.color)
     }
 }
+
+extension LabelModel: Equatable {
+    static func == (lhs: LabelModel, rhs: LabelModel) -> Bool {
+        lhs.id == rhs.id && lhs.title == rhs.title
+    }
+}

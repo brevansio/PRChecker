@@ -28,6 +28,11 @@ struct PRListView: View {
         .onAppear {
             prListViewModel.getPRList()
         }
+        .onChange(of: prListViewModel.labelFilters) { newValue in
+            guard let labelSection = filterViewModel.sections.first(where : { $0.name == "Labels" }) else { return }
+            
+            labelSection.filters = newValue ?? []
+        }
     }
 }
 

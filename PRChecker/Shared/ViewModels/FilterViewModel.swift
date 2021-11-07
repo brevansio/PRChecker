@@ -31,10 +31,10 @@ class FilterViewModel: ObservableObject {
         )
     }()
     
-    lazy var sections: [FilterSection] = [
-        Self.statusFilter,
-        Self.reviewStatusFilter,
-        // TODO: Label Filter
+    @Published var sections: [FilterSection] = [
+        FilterViewModel.statusFilter,
+        FilterViewModel.reviewStatusFilter,
+        FilterSection(name: "Labels", filters: [])
     ]
     
     @Published var combinedFilter: Filter?
@@ -52,7 +52,7 @@ class FilterViewModel: ObservableObject {
 class FilterSection: ObservableObject {
     var name: String
     
-    var filters: [Filter]
+    @Published var filters: [Filter]
     
     var combinedFilter: Filter?
     
@@ -100,5 +100,11 @@ extension Filter {
         Filter(name: "\(lhs.name) OR \(rhs.name)") { pullRequest in
             lhs.filter(pullRequest) || rhs.filter(pullRequest)
         }
+    }
+}
+
+extension Filter: Equatable {
+    static func == (lhs: Filter, rhs: Filter) -> Bool {
+        lhs.name == rhs.name
     }
 }
