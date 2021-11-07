@@ -39,9 +39,11 @@ struct ContentView: View {
                 }
                 .padding([.leading, .bottom, .top])
                 Divider()
+                    .background(Color.gray5)
                 PRListView()
                     .frame(minWidth: 300, maxWidth: geometry.size.width, minHeight: geometry.size.height, alignment: .topLeading)
                 Divider()
+                    .background(Color.gray5)
                 FilterView()
                     .frame(width: 300, height: geometry.size.height)
             }

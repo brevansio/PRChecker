@@ -14,13 +14,15 @@ struct PullRequestCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             Header(header: pullRequest.headerViewModel)
-                .padding(8)
+                .padding(EdgeInsets(top: 16, leading: 8, bottom: 8, trailing: 8))
             Divider()
+                .background(Color.gray5)
             ContentBody(content: pullRequest.contentViewModel)
                 .padding(8)
             Divider()
+                .background(Color.gray5)
             Footer(footer: pullRequest.footerViewModel)
-                .padding(8)
+                .padding(EdgeInsets(top: 8, leading: 8, bottom: 16, trailing: 8))
         }
         .frame(minWidth: 300, maxWidth: 300)
         .background(Color.gray6)
@@ -45,14 +47,14 @@ private struct Header: View {
             }
             .padding(.vertical, 4)
 
-            // Title, Status
-            HStack(alignment: .top) {
-                Text(header.status.rawValue)
-                    .padding(4)
-                    .foregroundColor(.white)
-                    .background(header.status.color)
+            // Title, State
+            HStack(alignment: .center) {
+                Tag(
+                    text: header.status.rawValue,
+                    foregroundColor: .white,
+                    backgroundColor: header.status.color
+                )
                     .font(.subheadline)
-                    .cornerRadius(8)
                 // TODO: combine title and number
                 Text(header.title)
                     .font(.title2)
@@ -63,16 +65,16 @@ private struct Header: View {
 
             // Branch
             HStack {
-                Image(systemName: "arrow.triangle.branch")
+                PRItemType.branch.image
                     .scaledToFit()
                     .foregroundColor(.green)
                 BranchLabel(
                     labelText: header.targetBranch,
                     type: .origin
                 )
-                Image(systemName: "arrow.backward")
+                PRItemType.backwardArrow.image
                     .scaledToFit()
-                    .foregroundColor(Color.primary)
+                    .foregroundColor(.primary)
                 BranchLabel(
                     labelText: header.headBranch,
                     type: .new
@@ -82,26 +84,15 @@ private struct Header: View {
     }
 }
 
-enum BranchType {
-    case origin
-    case new
-
-    var color: Color {
-        switch self {
-        case .origin:
-            return .init(red: 0.8, green: 0.9, blue: 0.8)
-        case .new:
-            return .init(red: 0.7, green: 0.9, blue: 0.9)
-        }
-    }
-}
-
 private struct BranchLabel: View {
     let labelText: String
     let type: BranchType
 
     var body: some View {
-        Tag(text: labelText, color: type.color)
+        Tag(
+            text: labelText,
+            backgroundColor: type.color
+        )
     }
 }
 
@@ -114,60 +105,50 @@ private struct ContentBody: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // User
-            HStack(alignment: .top) {
-                Image(systemName: "person")
-                    .scaledToFit()
-                    .foregroundColor(Color.primary)
-                Text(content.author)
-                    .font(.caption)
-            }
+            PRItemLabel(text: content.author, type: .author)
 
             // Line Additions/Deletions, Commit count
             HStack(alignment: .top) {
-                Image(systemName: "plus.slash.minus")
-                    .scaledToFit()
-                    .foregroundColor(Color.primary)
-                HStack {
-                    Text(content.additions)
-                        .font(.caption)
-                        .foregroundColor(.green)
-                    Text(content.deletions)
-                        .font(.caption)
-                        .foregroundColor(.red)
+                Label {
+                    HStack {
+                        Text(content.additions)
+                            .foregroundColor(.green)
+                        Text(content.deletions)
+                            .foregroundColor(.red)
+                    }
+                } icon: {
+                    PRItemType.changes.image
                 }
-                HStack {
-                    Image(systemName: "number.square")
-                        .scaledToFit()
-                        .foregroundColor(Color.primary)
-                    Text(content.commits)
-                        .font(.caption)
-                }
-                .padding(.leading, 16)
+                .labelStyle(PRItemLabel.Style(type: .changes))
+
+                PRItemLabel(text: content.commits, type: .commits)
+                    .padding(.leading, 16)
             }
 
             // Description
-            HStack(alignment: .top) {
-                Image(systemName: "doc.text")
-                    .scaledToFit()
-                    .foregroundColor(Color.primary)
+            Label {
                 Text(content.description)
-                    .lineLimit(1)
+                    .lineLimit(3)
                     .truncationMode(.tail)
                     .padding(8)
                     .background(Color.gray5)
-                    .font(.caption)
                     .fixedSize(horizontal: false, vertical: true)
                     .cornerRadius(8)
+            } icon: {
+                PRItemType.description.image
             }
+            .labelStyle(PRItemLabel.Style(type: .description))
 
             // Tags
-            HStack {
-                Image(systemName: "tag")
-                    .scaledToFit()
-                    .foregroundColor(Color.primary)
-                ForEach(content.labels, id: \.id) { label in
-                    Tag(text: label.title, color: label.color)
+            if !content.labels.isEmpty {
+                Label {
+                    ForEach(content.labels, id: \.id) { label in
+                        Tag(text: label.title, backgroundColor: label.color)
+                    }
+                } icon: {
+                    PRItemType.tag.image
                 }
+                .labelStyle(PRItemLabel.Style(type: .tag))
             }
         }
     }
@@ -175,15 +156,26 @@ private struct ContentBody: View {
 
 private struct Tag: View {
     let text: String
-    let color: Color
+    let foregroundColor: Color
+    let backgroundColor: Color
+
+    init(
+        text: String,
+        foregroundColor: Color = .black,
+        backgroundColor: Color
+    ) {
+        self.text = text
+        self.foregroundColor = foregroundColor
+        self.backgroundColor = backgroundColor
+    }
 
     var body: some View {
         HStack {
             Text(text)
+                .font(.body)
                 .padding(4)
-                .foregroundColor(.black)
-                .background(color)
-                .font(.caption)
+                .foregroundColor(foregroundColor)
+                .background(backgroundColor)
                 .cornerRadius(8)
         }
     }
@@ -198,17 +190,16 @@ private struct Footer: View {
     var body: some View {
         VStack {
             // Viewer Status
-            HStack {
-                Image(systemName: "command")
-                    .scaledToFit()
-                    .foregroundColor(Color.primary)
-                Tag(text: footer.status.rawValue, color: footer.status.color)
+            Label {
+                Tag(text: footer.status.rawValue, backgroundColor: footer.status.color)
                 Spacer()
                 // TODO: Fix timestamp
                 Text(footer.createdTime)
                     .padding(.horizontal, 8)
-                    .font(.caption)
+            } icon: {
+                PRItemType.viewerStatus.image
             }
+            .labelStyle(PRItemLabel.Style(type: .viewerStatus))
         }
     }
 }
@@ -218,5 +209,34 @@ struct PullRequestCell_Previews: PreviewProvider {
         ForEach(ColorScheme.allCases, id: \.self) {
             PullRequestCell(pullRequest: PullRequest(pullRequest: PrInfo(id: "1", isReadByViewer: false, url: "https://google.com", repository: .init(id: "2", nameWithOwner: "testUser/testRepo"), baseRefName: "main", headRefName: "dev", author: .makeBot(login: "testBot"), title: "Test PR title", body: "Test PR Body", changedFiles: 3, additions: 4, deletions: 5, commits: .init(nodes: [.init(id: "6")]), labels: .init(nodes: .none), state: .open, viewerLatestReview: nil, mergedAt: "2021", createdAt: "2021"))).preferredColorScheme($0)
         }
+    }
+}
+
+struct PRItemLabel: View {
+    struct Style: LabelStyle {
+        let type: PRItemType
+
+        func makeBody(configuration: Self.Configuration) -> some View {
+            Label {
+                configuration.title
+            } icon: {
+                configuration.icon
+                    .scaledToFit()
+            }
+            .font(.body)
+            .foregroundColor(type.foregroundColor)
+        }
+    }
+
+    let text: String
+    let type: PRItemType
+
+    var body: some View {
+        Label {
+            Text(text)
+        } icon: {
+            type.image
+        }
+        .labelStyle(Style(type: type))
     }
 }
