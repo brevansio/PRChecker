@@ -21,6 +21,7 @@ struct ContentView: View {
                     } label: {
                         Text(.init(systemName: "person"))
                             .font(.system(size: 45))
+                            .fontWeight(.thin)
                             .foregroundColor(.secondary)
                     }
                     .buttonStyle(LinkButtonStyle())
@@ -35,6 +36,7 @@ struct ContentView: View {
                     } label: {
                         Text(.init(systemName: "gearshape"))
                             .font(.system(size: 45))
+                            .fontWeight(.thin)
                             .foregroundColor(.secondary)
                     }
                     .buttonStyle(LinkButtonStyle())
