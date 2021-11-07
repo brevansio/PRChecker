@@ -13,3 +13,7 @@ enum KeychainKey {
     static let username = "USERNAME"
     static let accessToken = "ACCESST_TOKEN"
 }
+
+enum UserDefaultsKey {
+    static let userList = "io.brevans.PPRChecker.userList"
+}

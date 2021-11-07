@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var showLogin = !LoginInfoViewModel().canLogin
+    @State var showSettings = false
     var prListViewModel = PRListViewModel()
     
     var body: some View {
@@ -31,13 +32,16 @@ struct ContentView: View {
                     }
 
                     Button {
-                        // TODO: Settings Page
+                        showSettings.toggle()
                     } label: {
                         Text(.init(systemName: "gearshape"))
                             .font(.system(size: 45))
                             .foregroundColor(.secondary)
                     }
                     .buttonStyle(LinkButtonStyle())
+                    .popover(isPresented: $showSettings, arrowEdge: .trailing) {
+                        SettingsView()
+                    }
                 }
                 .padding([.leading, .bottom, .top])
                 Divider()
