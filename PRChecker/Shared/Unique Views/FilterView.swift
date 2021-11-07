@@ -13,6 +13,7 @@ struct FilterView: View {
             Header()
                 .padding(EdgeInsets(top: 16, leading: 0, bottom: 8, trailing: 8))
             Divider()
+                .background(Color.gray5)
             FilterContentView()
                 .padding(.leading, 8)
             Spacer()

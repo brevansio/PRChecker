@@ -16,8 +16,8 @@ struct PRListView: View {
         LazyVGrid(columns: [GridItem(.flexible(minimum: 300)), GridItem(.flexible(minimum: 300))], alignment: .leading) {
             ForEach(prListViewModel.prList, id: \.id) { pullRequest in
                 PullRequestCell(pullRequest: pullRequest)
-                    .cornerRadius(25)
-                    .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.secondary, lineWidth: 1))
+                    .cornerRadius(16)
+                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray3, lineWidth: 1))
                     .onTapGesture {
                         openURL(URL(string: pullRequest.url)!)
                     }

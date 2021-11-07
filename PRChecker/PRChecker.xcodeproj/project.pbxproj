@@ -15,6 +15,8 @@
 		5931189B2736758400BA67BC /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593118992736758400BA67BC /* FilterView.swift */; };
 		5931189E2736867B00BA67BC /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931189D2736867B00BA67BC /* CheckBox.swift */; };
 		5931189F2736867B00BA67BC /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931189D2736867B00BA67BC /* CheckBox.swift */; };
+		59DDC04F2737714200101394 /* PRItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC04E2737714200101394 /* PRItemType.swift */; };
+		59DDC0502737714B00101394 /* PRItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC04E2737714200101394 /* PRItemType.swift */; };
 		692A74E3273204F200C872AB /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E2273204F200C872AB /* Apollo */; };
 		692A74E5273204F200C872AB /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E4273204F200C872AB /* ApolloAPI */; };
 		692A74E7273204F200C872AB /* ApolloCodegenLib in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E6273204F200C872AB /* ApolloCodegenLib */; };
@@ -55,6 +57,7 @@
 		593118962736754600BA67BC /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		593118992736758400BA67BC /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		5931189D2736867B00BA67BC /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		59DDC04E2737714200101394 /* PRItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRItemType.swift; sourceTree = "<group>"; };
 		69BB4C1A27357FD4001175C8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		69BB4C262736CB60001175C8 /* PRListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PRListView.swift; sourceTree = "<group>"; };
 		69BB4C292736CB64001175C8 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -114,6 +117,14 @@
 			path = CommonViews;
 			sourceTree = "<group>";
 		};
+		59DDC04D2737712D00101394 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				59DDC04E2737714200101394 /* PRItemType.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
 		69BB4C2F2736E2C4001175C8 /* Unique Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +151,7 @@
 		69CA348F273161BF004D5D9C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				59DDC04D2737712D00101394 /* General */,
 				69CA3492273161C0004D5D9C /* Assets.xcassets */,
 				5931189C2736865400BA67BC /* CommonViews */,
 				69BB4C292736CB64001175C8 /* Constants.swift */,
@@ -365,6 +377,7 @@
 				69BB4C2A2736CB64001175C8 /* Constants.swift in Sources */,
 				69CA34C5273165D3004D5D9C /* API.swift in Sources */,
 				69D64386273256DF0001BBBA /* NetworkService.swift in Sources */,
+				59DDC04F2737714200101394 /* PRItemType.swift in Sources */,
 				69CA34A0273161C0004D5D9C /* PRCheckerApp.swift in Sources */,
 				5931189A2736758400BA67BC /* FilterView.swift in Sources */,
 				69D6438A2732573A0001BBBA /* LoginInfoViewModel.swift in Sources */,
@@ -386,6 +399,7 @@
 				69BB4C2B2736CB64001175C8 /* Constants.swift in Sources */,
 				69CA34C6273165D3004D5D9C /* API.swift in Sources */,
 				69D64387273256DF0001BBBA /* NetworkService.swift in Sources */,
+				59DDC0502737714B00101394 /* PRItemType.swift in Sources */,
 				69CA34A1273161C0004D5D9C /* PRCheckerApp.swift in Sources */,
 				5931189B2736758400BA67BC /* FilterView.swift in Sources */,
 				69D6438B2732573A0001BBBA /* LoginInfoViewModel.swift in Sources */,
