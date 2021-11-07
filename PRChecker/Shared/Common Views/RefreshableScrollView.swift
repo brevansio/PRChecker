@@ -71,7 +71,7 @@ struct RefreshableScrollView<Content: View>: View {
                         .frame(height: PullThreshold)
                     if state == .loading {
                         ProgressView()
-                            .progressViewStyle(.circular)
+                            .progressViewStyle(CircularProgressViewStyle())
                     }
                 }
                 .offset(y: state == .loading ? 0 : -PullThreshold)

@@ -154,33 +154,6 @@ private struct ContentBody: View {
     }
 }
 
-private struct Tag: View {
-    let text: String
-    let foregroundColor: Color
-    let backgroundColor: Color
-
-    init(
-        text: String,
-        foregroundColor: Color = .black,
-        backgroundColor: Color
-    ) {
-        self.text = text
-        self.foregroundColor = foregroundColor
-        self.backgroundColor = backgroundColor
-    }
-
-    var body: some View {
-        HStack {
-            Text(text)
-                .font(.body)
-                .padding(4)
-                .foregroundColor(foregroundColor)
-                .background(backgroundColor)
-                .cornerRadius(8)
-        }
-    }
-}
-
 // MARK: - Footer
 
 private struct Footer: View {
@@ -191,7 +164,11 @@ private struct Footer: View {
         VStack {
             // Viewer Status
             Label {
-                Tag(text: footer.status.rawValue, backgroundColor: footer.status.color)
+                Tag(
+                    text: footer.status.rawValue,
+                    foregroundColor: .white,
+                    backgroundColor: footer.status.color
+                )
                 Spacer()
                 // TODO: Fix timestamp
                 Text(footer.updatedTime)
@@ -209,34 +186,5 @@ struct PullRequestCell_Previews: PreviewProvider {
         ForEach(ColorScheme.allCases, id: \.self) {
             PullRequestCell(pullRequest: PullRequest(pullRequest: PrInfo(id: "1", isReadByViewer: false, url: "https://google.com", repository: .init(id: "2", nameWithOwner: "testUser/testRepo"), baseRefName: "main", headRefName: "dev", author: .makeBot(login: "testBot"), title: "Test PR title", body: "Test PR Body", changedFiles: 3, additions: 4, deletions: 5, commits: .init(nodes: [.init(id: "6")]), labels: .init(nodes: .none), state: .open, viewerLatestReview: nil, mergedAt: "2021", updatedAt: "2021"))).preferredColorScheme($0)
         }
-    }
-}
-
-struct PRItemLabel: View {
-    struct Style: LabelStyle {
-        let type: PRItemType
-
-        func makeBody(configuration: Self.Configuration) -> some View {
-            Label {
-                configuration.title
-            } icon: {
-                configuration.icon
-                    .scaledToFit()
-            }
-            .font(.body)
-            .foregroundColor(type.foregroundColor)
-        }
-    }
-
-    let text: String
-    let type: PRItemType
-
-    var body: some View {
-        Label {
-            Text(text)
-        } icon: {
-            type.image
-        }
-        .labelStyle(Style(type: type))
     }
 }

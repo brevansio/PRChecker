@@ -12,14 +12,50 @@ struct MenuBarPRCell: View {
     let pullRequest: PullRequest
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
+            // Viewer Status
+            Label {
+                Tag(
+                    text: pullRequest.viewerStatus.rawValue,
+                    foregroundColor: .white,
+                    backgroundColor: pullRequest.viewerStatus.color
+                )
+                Spacer()
+                Text(pullRequest.updatedAt)
+            } icon: {
+                PRItemType.viewerStatus.image
+            }
+
+            Divider()
+                .background(Color.gray5)
+
             // [Repository Name] Title
             Text("[\(pullRequest.repositoryName)] \(pullRequest.title)")
                 .lineLimit(2)
-                .padding(4)
+                .truncationMode(.tail)
                 .font(.headline)
                 .padding(.vertical, 4)
+                .frame(alignment: .leading)
+                .fixedSize(horizontal: false, vertical: true)
+
+
+            HStack(alignment: .center) {
+                PRItemLabel(text: pullRequest.author, type: .author)
+
+                Label {
+                    Tag(
+                        text: pullRequest.state.rawValue,
+                        foregroundColor: .white,
+                        backgroundColor: pullRequest.state.color
+                    )
+                } icon: {
+                    PRItemType.state.image
+                }
+                .font(.body)
+                .padding(.leading, 16)
+            }
         }
+        .padding()
     }
 }
 

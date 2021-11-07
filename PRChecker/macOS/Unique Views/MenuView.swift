@@ -16,12 +16,27 @@ struct MenuView: View {
     private let maxPRCount = 5
 
     var body: some View {
-        List(prListViewModel.prList.prefix(maxPRCount)) { pullRequest in
-            MenuBarPRCell(pullRequest: pullRequest)
-                .onTapGesture {
-                    openURL(URL(string: pullRequest.url)!)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 12) {
+                ForEach(prListViewModel.prList.prefix(maxPRCount)) { pullRequest in
+                    MenuBarPRCell(pullRequest: pullRequest)
+                        .background(Color.primaryBackground)
+                        .cornerRadius(8)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.gray3, lineWidth: 1)
+                        )
+                        .padding(.horizontal, 12)
+                        .onTapGesture {
+                            openURL(URL(string: pullRequest.url)!)
+                        }
                 }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .padding(.vertical, 12)
+        .background(Color.gray6)
         .onAppear {
             prListViewModel.getPRList()
         }
