@@ -12,6 +12,7 @@ class FilterViewModel: ObservableObject {
     static let statusFilter: FilterSection = {
         FilterSection(
             name: "Status",
+            type: .state,
             filters: [
                 Filter(name: "Open") { $0.state == .open },
                 Filter(name: "Merged") { $0.state == .merged },
@@ -22,6 +23,7 @@ class FilterViewModel: ObservableObject {
     static let reviewStatusFilter: FilterSection = {
         FilterSection(
             name: "Review Status",
+            type: .viewerStatus,
             filters: [
                 Filter(name: "Waiting") { $0.viewerStatus == .waiting },
                 Filter(name: "Blocked") { $0.viewerStatus == .blocked },
@@ -34,6 +36,7 @@ class FilterViewModel: ObservableObject {
     static let readStatusFilter: FilterSection = {
         FilterSection(
             name: "Read Status",
+            type: .readStatus,
             filters: [
                 Filter(name: "Read") { $0.isRead },
                 Filter(name: "Unread") { !$0.isRead }
@@ -45,8 +48,8 @@ class FilterViewModel: ObservableObject {
         FilterViewModel.statusFilter,
         FilterViewModel.reviewStatusFilter,
         FilterViewModel.readStatusFilter,
-        FilterSection(name: "Labels", filters: []),
-        FilterSection(name: "Repository", filters: []),
+        FilterSection(name: "Labels", type: .tag, filters: []),
+        FilterSection(name: "Repository", type: .repositoryName, filters: []),
     ]
     
     @Published var combinedFilter: Filter?
@@ -63,13 +66,15 @@ class FilterViewModel: ObservableObject {
 
 class FilterSection: ObservableObject {
     var name: String
+    var type: PRItemType
     
     @Published var filters: [Filter]
     
     var combinedFilter: Filter?
     
-    init(name: String, filters: [Filter]) {
+    init(name: String, type: PRItemType, filters: [Filter]) {
         self.name = name
+        self.type = type
         self.filters = filters
     }
     
