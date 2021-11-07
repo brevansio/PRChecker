@@ -6,41 +6,29 @@
 //
 
 import Cocoa
-import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var statusItem: NSStatusItem?
-    var popover = NSPopover()
+    private var statusItem: NSStatusItem?
+    private var menuController: MenuController?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let menuView = MenuView()
-
-        popover.behavior = .transient
-        popover.animates = true
-
-        popover.contentViewController = NSHostingController(rootView: menuView)
-        popover.contentSize = NSSize(width: 400, height: 500)
-
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        statusItem = NSStatusBar.system.statusItem(withLength: 16)
 
         guard let statusItemButton = statusItem?.button else { return }
 
         statusItemButton.image = NSImage(
             systemSymbolName: "drop",
             accessibilityDescription: nil
-
         )
+        statusItemButton.image?.size = NSSize(width: 16, height: 16)
         statusItemButton.action = #selector(didTapMenuButton)
+        statusItemButton.target = self
+
+        menuController = MenuController(statusItem: statusItem)
     }
 
-    @objc private func didTapMenuButton() {
-        guard let statusItemButton = statusItem?.button else { return }
-
-        popover.show(
-            relativeTo: statusItemButton.bounds,
-            of: statusItemButton,
-            preferredEdge: .minY
-        )
+    @objc private func didTapMenuButton(_ sender: NSStatusBarButton) {
+        menuController?.didTapMenuButton(sender)
     }
 }
