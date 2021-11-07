@@ -25,7 +25,7 @@ struct PullRequestCell: View {
                 .padding(EdgeInsets(top: 8, leading: 8, bottom: 16, trailing: 8))
         }
         .frame(minWidth: 300, maxWidth: 300)
-        .background(Color.gray6)
+        .background(Color.primaryBackground)
     }
 }
 
