@@ -10,14 +10,16 @@ import SwiftUI
 struct PullRequestCell: View {
     
     @StateObject var pullRequest: PullRequest
+
+    @State private var isHover = false
     
     var body: some View {
         VStack(alignment: .leading) {
-            Header(header: pullRequest.headerViewModel)
+            Header(header: pullRequest.headerViewModel, isHover: self.$isHover)
                 .padding(EdgeInsets(top: 16, leading: 8, bottom: 8, trailing: 8))
             Divider()
                 .background(Color.gray5)
-            ContentBody(content: pullRequest.contentViewModel)
+            ContentBody(content: pullRequest.contentViewModel, isHover: self.$isHover)
                 .padding(8)
             Divider()
                 .background(Color.gray5)
@@ -25,7 +27,11 @@ struct PullRequestCell: View {
                 .padding(EdgeInsets(top: 8, leading: 8, bottom: 16, trailing: 8))
         }
         .frame(minWidth: 300, maxWidth: 300)
-        .background(Color.primaryBackground)
+        .background(isHover ? Color.gray5 : Color.primaryBackground)
+        .animation(.spring(), value: isHover)
+        .onHover { isHover in
+            self.isHover = isHover
+        }
     }
 }
 
@@ -34,6 +40,8 @@ struct PullRequestCell: View {
 private struct Header: View {
     
     @State var header: PullRequest.Header
+
+    @Binding var isHover: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -42,7 +50,7 @@ private struct Header: View {
                 Text(header.repoName)
                     .padding(8)
                     .font(.headline)
-                    .background(Color.gray5)
+                    .background(isHover ? Color.gray4 : Color.gray5)
                     .cornerRadius(8)
             }
             .padding(.vertical, 4)
@@ -101,6 +109,8 @@ private struct BranchLabel: View {
 private struct ContentBody: View {
     
     @State var content: PullRequest.Content
+
+    @Binding var isHover: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -131,7 +141,7 @@ private struct ContentBody: View {
                     .lineLimit(3)
                     .truncationMode(.tail)
                     .padding(8)
-                    .background(Color.gray5)
+                    .background(isHover ? Color.gray4 : Color.gray5)
                     .fixedSize(horizontal: false, vertical: true)
                     .cornerRadius(8)
             } icon: {
