@@ -9,13 +9,6 @@ import Foundation
 import Apollo
 import KeychainAccess
 
-private enum KeychainKey {
-    static let service = "io.brevans.PRChecker"
-    static let apiEndpoint = "API_ENDPOINT_URL"
-    static let username = "USERNAME"
-    static let accessToken = "ACCESST_TOKEN"
-}
-
 struct LoginInfoViewModel {
     var username: String
     var accessToken: String

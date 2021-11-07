@@ -37,18 +37,13 @@ struct LoginView: View {
                     }
                 }
                 TextField(LocalizedStringKey("API Endpoint"), text: $loginInfo.apiEndpoint)
-                Spacer()
-                Button(LocalizedStringKey("Save")) {
-                    loginInfo.saveToKeychain()
-                    dismissBlock?()
-                }
-                .disabled(!loginInfo.canLogin)
-                .buttonStyle(BorderedButtonStyle())
-                Spacer()
             }
         }
         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
         .frame(maxWidth: 400, maxHeight: 200, alignment: .center)
+        .onDisappear {
+            loginInfo.saveToKeychain()
+        }
     }
 }
 

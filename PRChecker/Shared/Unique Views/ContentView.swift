@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var showLogin = true
+    @State var showLogin = !LoginInfoViewModel().canLogin
     var body: some View {
         GeometryReader { geometry in
             HStack {
@@ -39,9 +39,8 @@ struct ContentView: View {
                 }
                 .padding([.leading, .bottom, .top])
                 Divider()
-                Spacer()
-                Text("Hello, world!")
-                Spacer()
+                PRListView()
+                    .frame(minWidth: 300, maxWidth: geometry.size.width, minHeight: geometry.size.height, alignment: .topLeading)
                 Divider()
                 FilterView()
                     .frame(width: 300, height: geometry.size.height)

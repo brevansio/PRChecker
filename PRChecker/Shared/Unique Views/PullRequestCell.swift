@@ -8,18 +8,21 @@
 import SwiftUI
 
 struct PullRequestCell: View {
+    
+    @StateObject var pullRequest: PullRequest
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Header()
+            Header(header: pullRequest.headerViewModel)
                 .padding(8)
             Divider()
-            ContentBody()
+            ContentBody(content: pullRequest.contentViewModel)
                 .padding(8)
             Divider()
-            Footer()
+            Footer(footer: pullRequest.footerViewModel)
                 .padding(8)
         }
-        .frame(minWidth: 300, maxWidth: .infinity)
+        .frame(minWidth: 300, maxWidth: 300)
         .background(Color.gray6)
     }
 }
@@ -27,11 +30,14 @@ struct PullRequestCell: View {
 // MARK: - Title
 
 private struct Header: View {
+    
+    @State var header: PullRequest.Header
+    
     var body: some View {
         VStack(alignment: .leading) {
             // Repository Name
             HStack(alignment: .top) {
-                Text("xxxxxxxx/PRChecker")
+                Text(header.repoName)
                     .padding(8)
                     .font(.headline)
                     .background(Color.gray5)
@@ -41,14 +47,14 @@ private struct Header: View {
 
             // Title, Status
             HStack(alignment: .top) {
-                Text("Open")
+                Text(header.status.rawValue)
                     .padding(4)
                     .foregroundColor(.white)
-                    .background(Color.green)
+                    .background(header.status.color)
                     .font(.subheadline)
                     .cornerRadius(8)
                 // TODO: combine title and number
-                Text("Setup the basic API and Project #1")
+                Text(header.title)
                     .font(.title2)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -61,14 +67,14 @@ private struct Header: View {
                     .scaledToFit()
                     .foregroundColor(.green)
                 BranchLabel(
-                    labelText: "origin",
+                    labelText: header.targetBranch,
                     type: .origin
                 )
                 Image(systemName: "arrow.backward")
                     .scaledToFit()
                     .foregroundColor(Color.primary)
                 BranchLabel(
-                    labelText: "branch-1",
+                    labelText: header.headBranch,
                     type: .new
                 )
             }
@@ -102,6 +108,9 @@ private struct BranchLabel: View {
 // MARK: - Body
 
 private struct ContentBody: View {
+    
+    @State var content: PullRequest.Content
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // User
@@ -109,7 +118,7 @@ private struct ContentBody: View {
                 Image(systemName: "person")
                     .scaledToFit()
                     .foregroundColor(Color.primary)
-                Text("User-1234567")
+                Text(content.author)
                     .font(.caption)
             }
 
@@ -119,10 +128,10 @@ private struct ContentBody: View {
                     .scaledToFit()
                     .foregroundColor(Color.primary)
                 HStack {
-                    Text("+1,203")
+                    Text(content.additions)
                         .font(.caption)
                         .foregroundColor(.green)
-                    Text("-87")
+                    Text(content.deletions)
                         .font(.caption)
                         .foregroundColor(.red)
                 }
@@ -130,7 +139,7 @@ private struct ContentBody: View {
                     Image(systemName: "number.square")
                         .scaledToFit()
                         .foregroundColor(Color.primary)
-                    Text("9 commits")
+                    Text(content.commits)
                         .font(.caption)
                 }
                 .padding(.leading, 16)
@@ -141,7 +150,9 @@ private struct ContentBody: View {
                 Image(systemName: "doc.text")
                     .scaledToFit()
                     .foregroundColor(Color.primary)
-                Text("This sets up the project and a basic GraphQL API for grabbing a list of PRs for a user.")
+                Text(content.description)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
                     .padding(8)
                     .background(Color.gray5)
                     .font(.caption)
@@ -154,8 +165,9 @@ private struct ContentBody: View {
                 Image(systemName: "tag")
                     .scaledToFit()
                     .foregroundColor(Color.primary)
-                Tag(text: "Feature", color: .yellow)
-                Tag(text: "Bugfix", color: .gray)
+                ForEach(content.labels, id: \.id) { label in
+                    Tag(text: label.title, color: label.color)
+                }
             }
         }
     }
@@ -180,6 +192,9 @@ private struct Tag: View {
 // MARK: - Footer
 
 private struct Footer: View {
+    
+    @State var footer: PullRequest.Footer
+    
     var body: some View {
         VStack {
             // Viewer Status
@@ -187,9 +202,10 @@ private struct Footer: View {
                 Image(systemName: "command")
                     .scaledToFit()
                     .foregroundColor(Color.primary)
-                Tag(text: "Commented", color: .orange)
+                Tag(text: footer.status.rawValue, color: footer.status.color)
                 Spacer()
-                Text("14h")
+                // TODO: Fix timestamp
+                Text(footer.createdTime)
                     .padding(.horizontal, 8)
                     .font(.caption)
             }
@@ -200,7 +216,7 @@ private struct Footer: View {
 struct PullRequestCell_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) {
-            PullRequestCell().preferredColorScheme($0)
+            PullRequestCell(pullRequest: PullRequest(pullRequest: PrInfo(id: "1", isReadByViewer: false, url: "https://google.com", repository: .init(id: "2", nameWithOwner: "testUser/testRepo"), baseRefName: "main", headRefName: "dev", author: .makeBot(login: "testBot"), title: "Test PR title", body: "Test PR Body", changedFiles: 3, additions: 4, deletions: 5, commits: .init(nodes: [.init(id: "6")]), labels: .init(nodes: .none), state: .open, viewerLatestReview: nil, mergedAt: "2021", createdAt: "2021"))).preferredColorScheme($0)
         }
     }
 }

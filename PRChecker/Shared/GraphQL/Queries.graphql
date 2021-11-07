@@ -7,18 +7,32 @@ fragment PRInfo on PullRequest {
         
     repository {
         id
-        name
+        nameWithOwner
     }
     baseRefName
     headRefName
         
-    number
+    author {
+        login
+    }
     title
     body
         
     changedFiles
     additions
     deletions
+    commits(last: 100) {
+        nodes {
+            id
+        }
+    }
+    labels(last: 10) {
+        nodes {
+            id
+            name
+            color
+        }
+    }
 
     state
     viewerLatestReview {
@@ -26,6 +40,7 @@ fragment PRInfo on PullRequest {
         state
     }
     mergedAt
+    createdAt
 }
 
 query GetPRsByAuthor($author: String!) {
