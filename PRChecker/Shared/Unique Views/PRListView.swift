@@ -9,12 +9,13 @@ import SwiftUI
 
 struct PRListView: View {
     @Environment(\.openURL) var openURL
+    @EnvironmentObject var filterViewModel: FilterViewModel
     
     @StateObject var prListViewModel = PRListViewModel()
     
     var body: some View {
         LazyVGrid(columns: [GridItem(.flexible(minimum: 300)), GridItem(.flexible(minimum: 300))], alignment: .leading) {
-            ForEach(prListViewModel.prList, id: \.id) { pullRequest in
+            ForEach(prListViewModel.prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), id: \.id) { pullRequest in
                 PullRequestCell(pullRequest: pullRequest)
                     .cornerRadius(25)
                     .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.secondary, lineWidth: 1))
