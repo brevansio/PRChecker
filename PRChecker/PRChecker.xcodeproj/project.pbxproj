@@ -31,6 +31,8 @@
 		69BB4C2E2736CB6A001175C8 /* PRListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C2C2736CB6A001175C8 /* PRListViewModel.swift */; };
 		69BB4C312736EC24001175C8 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C302736EC24001175C8 /* FilterViewModel.swift */; };
 		69BB4C322736EC24001175C8 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C302736EC24001175C8 /* FilterViewModel.swift */; };
+		69BB4C3A27379B46001175C8 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C3927379B46001175C8 /* Array+Extensions.swift */; };
+		69BB4C3B27379B46001175C8 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C3927379B46001175C8 /* Array+Extensions.swift */; };
 		69CA34A0273161C0004D5D9C /* PRCheckerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA3490273161BF004D5D9C /* PRCheckerApp.swift */; };
 		69CA34A1273161C0004D5D9C /* PRCheckerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA3490273161BF004D5D9C /* PRCheckerApp.swift */; };
 		69CA34A2273161C0004D5D9C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA3491273161BF004D5D9C /* ContentView.swift */; };
@@ -62,6 +64,7 @@
 		69BB4C292736CB64001175C8 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		69BB4C2C2736CB6A001175C8 /* PRListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PRListViewModel.swift; sourceTree = "<group>"; };
 		69BB4C302736EC24001175C8 /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
+		69BB4C3927379B46001175C8 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		69CA3490273161BF004D5D9C /* PRCheckerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRCheckerApp.swift; sourceTree = "<group>"; };
 		69CA3491273161BF004D5D9C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		69CA3492273161C0004D5D9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				593118962736754600BA67BC /* Color+Extensions.swift */,
+				69BB4C3927379B46001175C8 /* Array+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -369,6 +373,7 @@
 				69CA34A2273161C0004D5D9C /* ContentView.swift in Sources */,
 				69BB4C2A2736CB64001175C8 /* Constants.swift in Sources */,
 				69CA34C5273165D3004D5D9C /* API.swift in Sources */,
+				69BB4C3A27379B46001175C8 /* Array+Extensions.swift in Sources */,
 				69D64386273256DF0001BBBA /* NetworkService.swift in Sources */,
 				69CA34A0273161C0004D5D9C /* PRCheckerApp.swift in Sources */,
 				5931189A2736758400BA67BC /* FilterView.swift in Sources */,
@@ -391,6 +396,7 @@
 				69CA34A3273161C0004D5D9C /* ContentView.swift in Sources */,
 				69BB4C2B2736CB64001175C8 /* Constants.swift in Sources */,
 				69CA34C6273165D3004D5D9C /* API.swift in Sources */,
+				69BB4C3B27379B46001175C8 /* Array+Extensions.swift in Sources */,
 				69D64387273256DF0001BBBA /* NetworkService.swift in Sources */,
 				69CA34A1273161C0004D5D9C /* PRCheckerApp.swift in Sources */,
 				5931189B2736758400BA67BC /* FilterView.swift in Sources */,

@@ -31,10 +31,22 @@ class FilterViewModel: ObservableObject {
         )
     }()
     
+    static let readStatusFilter: FilterSection = {
+        FilterSection(
+            name: "Read Status",
+            filters: [
+                Filter(name: "Read") { $0.isRead },
+                Filter(name: "Unread") { !$0.isRead }
+            ]
+        )
+    }()
+    
     @Published var sections: [FilterSection] = [
         FilterViewModel.statusFilter,
         FilterViewModel.reviewStatusFilter,
-        FilterSection(name: "Labels", filters: [])
+        FilterViewModel.readStatusFilter,
+        FilterSection(name: "Labels", filters: []),
+        FilterSection(name: "Repository", filters: []),
     ]
     
     @Published var combinedFilter: Filter?
@@ -73,6 +85,12 @@ class FilterSection: ObservableObject {
             }
             return partialResult | filter
         })
+    }
+}
+
+extension FilterSection: Equatable {
+    static func == (lhs: FilterSection, rhs: FilterSection) -> Bool {
+        lhs.name == rhs.name
     }
 }
 

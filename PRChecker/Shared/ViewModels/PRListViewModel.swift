@@ -12,7 +12,7 @@ import SwiftUI
 class PRListViewModel: ObservableObject {
     
     @Published var prList = [PullRequest]()
-    @Published var labelFilters: [Filter]?
+    @Published var additionalFilters: [String: [Filter]]?
     
     private var subscriptions = Set<AnyCancellable>()
     
@@ -24,13 +24,24 @@ class PRListViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.prList = prList
                     
-                    self.labelFilters = prList.map(\.labels).flatMap { $0 }.map { label in
+                    let labelFilters = prList.map(\.labels).flatMap { $0 }.map { label in
                         Filter(name: label.title) { pullRequest in
                             pullRequest.labels.contains { prLabel in
                                 prLabel == label
                             }
                         }
                     }
+                        .removingLaterDuplicates()
+                    
+                    let repositoryFilters = prList.map(\.repositoryName).map { name in
+                        Filter(name: name) { $0.repositoryName == name }
+                    }
+                        .removingLaterDuplicates()
+                    
+                    self.additionalFilters = [
+                        "Labels": labelFilters,
+                        "Repository": repositoryFilters,
+                    ]
                 }
             }
             .store(in: &subscriptions)
