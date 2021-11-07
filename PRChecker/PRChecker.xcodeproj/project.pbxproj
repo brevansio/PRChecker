@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		592839742737B2410069651B /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592839732737B2410069651B /* MenuView.swift */; };
+		592839782737B7200069651B /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592839772737B7200069651B /* MenuController.swift */; };
 		5931188B27360EA000BA67BC /* PullRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931188A27360EA000BA67BC /* PullRequestCell.swift */; };
 		5931188C27360EA000BA67BC /* PullRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931188A27360EA000BA67BC /* PullRequestCell.swift */; };
 		593118972736754600BA67BC /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593118962736754600BA67BC /* Color+Extensions.swift */; };
@@ -17,6 +19,7 @@
 		5931189F2736867B00BA67BC /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931189D2736867B00BA67BC /* CheckBox.swift */; };
 		59DDC04F2737714200101394 /* PRItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC04E2737714200101394 /* PRItemType.swift */; };
 		59DDC0502737714B00101394 /* PRItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC04E2737714200101394 /* PRItemType.swift */; };
+		59DDC0532737ABAE00101394 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC0512737ABAE00101394 /* AppDelegate.swift */; };
 		692A74E3273204F200C872AB /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E2273204F200C872AB /* Apollo */; };
 		692A74E5273204F200C872AB /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E4273204F200C872AB /* ApolloAPI */; };
 		692A74E7273204F200C872AB /* ApolloCodegenLib in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E6273204F200C872AB /* ApolloCodegenLib */; };
@@ -57,11 +60,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		592839732737B2410069651B /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		592839772737B7200069651B /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		5931188A27360EA000BA67BC /* PullRequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRequestCell.swift; sourceTree = "<group>"; };
 		593118962736754600BA67BC /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		593118992736758400BA67BC /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		5931189D2736867B00BA67BC /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		59DDC04E2737714200101394 /* PRItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRItemType.swift; sourceTree = "<group>"; };
+		59DDC0512737ABAE00101394 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69BB4C1A27357FD4001175C8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		69BB4C262736CB60001175C8 /* PRListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PRListView.swift; sourceTree = "<group>"; };
 		69BB4C292736CB64001175C8 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -107,6 +113,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		592839752737B6EE0069651B /* Unique Views */ = {
+			isa = PBXGroup;
+			children = (
+				592839732737B2410069651B /* MenuView.swift */,
+			);
+			path = "Unique Views";
+			sourceTree = "<group>";
+		};
+		592839762737B70B0069651B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				592839772737B7200069651B /* MenuController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		593118952736753500BA67BC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,12 +138,12 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		5931189C2736865400BA67BC /* CommonViews */ = {
+		5931189C2736865400BA67BC /* Common Views */ = {
 			isa = PBXGroup;
 			children = (
 				5931189D2736867B00BA67BC /* CheckBox.swift */,
 			);
-			path = CommonViews;
+			path = "Common Views";
 			sourceTree = "<group>";
 		};
 		59DDC04D2737712D00101394 /* General */ = {
@@ -138,7 +160,6 @@
 				69CA3491273161BF004D5D9C /* ContentView.swift */,
 				593118992736758400BA67BC /* FilterView.swift */,
 				69BB4C1A27357FD4001175C8 /* LoginView.swift */,
-				69CA3490273161BF004D5D9C /* PRCheckerApp.swift */,
 				69BB4C262736CB60001175C8 /* PRListView.swift */,
 				5931188A27360EA000BA67BC /* PullRequestCell.swift */,
 			);
@@ -158,15 +179,16 @@
 		69CA348F273161BF004D5D9C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				59DDC04D2737712D00101394 /* General */,
 				69CA3492273161C0004D5D9C /* Assets.xcassets */,
-				5931189C2736865400BA67BC /* CommonViews */,
-				69BB4C292736CB64001175C8 /* Constants.swift */,
+				59DDC04D2737712D00101394 /* General */,
+				5931189C2736865400BA67BC /* Common Views */,
 				593118952736753500BA67BC /* Extensions */,
 				69CA34BB273163C4004D5D9C /* GraphQL */,
 				69D6438F27325F660001BBBA /* Models */,
 				69BB4C2F2736E2C4001175C8 /* Unique Views */,
 				69D643882732572C0001BBBA /* ViewModels */,
+				69CA3490273161BF004D5D9C /* PRCheckerApp.swift */,
+				69BB4C292736CB64001175C8 /* Constants.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -183,6 +205,9 @@
 		69CA349E273161C0004D5D9C /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				592839762737B70B0069651B /* Controllers */,
+				592839752737B6EE0069651B /* Unique Views */,
+				59DDC0512737ABAE00101394 /* AppDelegate.swift */,
 				69CA349F273161C0004D5D9C /* macOS.entitlements */,
 			);
 			path = macOS;
@@ -398,9 +423,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				592839782737B7200069651B /* MenuController.swift in Sources */,
 				69BB4C282736CB60001175C8 /* PRListView.swift in Sources */,
 				5931188C27360EA000BA67BC /* PullRequestCell.swift in Sources */,
 				69D6439227325F6F0001BBBA /* PullRequest.swift in Sources */,
+				592839742737B2410069651B /* MenuView.swift in Sources */,
 				593118982736754600BA67BC /* Color+Extensions.swift in Sources */,
 				69BB4C2E2736CB6A001175C8 /* PRListViewModel.swift in Sources */,
 				5931189F2736867B00BA67BC /* CheckBox.swift in Sources */,
@@ -410,6 +437,7 @@
 				69BB4C2B2736CB64001175C8 /* Constants.swift in Sources */,
 				69CA34C6273165D3004D5D9C /* API.swift in Sources */,
 				69BB4C3B27379B46001175C8 /* Array+Extensions.swift in Sources */,
+				59DDC0532737ABAE00101394 /* AppDelegate.swift in Sources */,
 				69D64387273256DF0001BBBA /* NetworkService.swift in Sources */,
 				59DDC0502737714B00101394 /* PRItemType.swift in Sources */,
 				69CA34A1273161C0004D5D9C /* PRCheckerApp.swift in Sources */,
