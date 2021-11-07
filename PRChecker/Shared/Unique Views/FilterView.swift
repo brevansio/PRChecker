@@ -48,7 +48,7 @@ private struct FilterContentView: View {
     
     struct Section: View {
         
-        @State var filterSection: FilterSection
+        @ObservedObject var filterSection: FilterSection
         let toggleAction: (() -> Void)?
         
         init(filterSection: FilterSection, toggleAction: (() -> Void)? = nil) {
