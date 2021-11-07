@@ -7,7 +7,6 @@
 
 import Combine
 import Foundation
-import SwiftUI
 
 class PRListViewModel: ObservableObject {
     
@@ -16,15 +15,15 @@ class PRListViewModel: ObservableObject {
     
     private var subscriptions = Set<AnyCancellable>()
     
-    func getPRList(completion: (() -> Void)? = nil)  {
+    func getPRList(completion: (() -> Void)? = nil) {
         NetworkSerivce.shared.getAllPRs()
             .sink { error in
                 // TODO: Handle Errors
             } receiveValue: { prList in
                 DispatchQueue.main.async {
-                    self.prList = prList.sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
+                    self.prList = prList.1
                     
-                    let labelFilters = prList.map(\.labels).flatMap { $0 }.map { label in
+                    let labelFilters = self.prList.map(\.labels).flatMap { $0 }.map { label in
                         Filter(name: label.title) { pullRequest in
                             pullRequest.labels.contains { prLabel in
                                 prLabel == label
@@ -33,7 +32,7 @@ class PRListViewModel: ObservableObject {
                     }
                         .removingLaterDuplicates()
                     
-                    let repositoryFilters = prList.map(\.repositoryName).map { name in
+                    let repositoryFilters = self.prList.map(\.repositoryName).map { name in
                         Filter(name: name) { $0.repositoryName == name }
                     }
                         .removingLaterDuplicates()
