@@ -30,12 +30,12 @@ class PRListViewModel: ObservableObject {
                             }
                         }
                     }
-                        .removingLaterDuplicates()
+                        .arrayByRemovingDuplicates()
                     
                     let repositoryFilters = self.prList.map(\.repositoryName).map { name in
                         Filter(name: name) { $0.repositoryName == name }
                     }
-                        .removingLaterDuplicates()
+                        .arrayByRemovingDuplicates()
                     
                     self.additionalFilters = [
                         "Labels": labelFilters,

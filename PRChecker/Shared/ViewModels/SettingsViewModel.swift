@@ -22,7 +22,7 @@ struct SettingsViewModel {
     
     mutating func addUser() {
         guard !newUsername.isEmpty else { return }
-        userList = ([newUsername.lowercased()] + userList).removingLaterDuplicates().sorted(by: <)
+        userList = ([newUsername.lowercased()] + userList).arrayByRemovingDuplicates().sorted(by: <)
         newUsername = ""
         UserDefaults.standard.set(userList, forKey: UserDefaultsKey.userList)
     }
