@@ -8,7 +8,7 @@
 import Foundation
 
 extension Array where Element: Equatable {
-    func removingLaterDuplicates() -> [Element] {
+    func arrayByRemovingDuplicates() -> [Element] {
         var resultArray = [Element]()
         self.forEach { element in
             guard !resultArray.contains(element) else { return }
