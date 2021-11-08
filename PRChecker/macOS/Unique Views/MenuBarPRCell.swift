@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MenuBarPRCell: View {
 
+    @State private var isHover = false
+
     let pullRequest: PullRequest
 
     var body: some View {
@@ -56,6 +58,11 @@ struct MenuBarPRCell: View {
             }
         }
         .padding()
+        .background(isHover ? Color.gray5 : Color.primaryBackground)
+        .animation(.spring(), value: isHover)
+        .onHover { isHover in
+            self.isHover = isHover
+        }
     }
 }
 

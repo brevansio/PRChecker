@@ -22,10 +22,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             accessibilityDescription: nil
         )
         statusItemButton.image?.size = NSSize(width: 16, height: 16)
-        statusItemButton.action = #selector(didTapMenuButton)
+        statusItemButton.action = #selector(didTapMenuButton(_:))
         statusItemButton.target = self
 
-        menuController = MenuController(statusItem: statusItem)
+        menuController = MenuController()
     }
 
     @objc private func didTapMenuButton(_ sender: NSStatusBarButton) {
