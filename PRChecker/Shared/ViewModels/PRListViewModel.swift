@@ -9,8 +9,7 @@ import Combine
 import Foundation
 
 class PRListViewModel: ObservableObject {
-    
-    @Published var prList = [PullRequest]()
+
     @Published var additionalFilters: [String: [Filter]]?
     
     private var subscriptions = Set<AnyCancellable>()
@@ -21,9 +20,9 @@ class PRListViewModel: ObservableObject {
                 // TODO: Handle Errors
             } receiveValue: { prList in
                 DispatchQueue.main.async {
-                    self.prList = prList.1
+                    MyPRManager.shared.prList = prList.1
                     
-                    let labelFilters = self.prList.map(\.labels).flatMap { $0 }.map { label in
+                    let labelFilters = MyPRManager.shared.prList.map(\.labels).flatMap { $0 }.map { label in
                         Filter(name: label.title) { pullRequest in
                             pullRequest.labels.contains { prLabel in
                                 prLabel == label
@@ -32,7 +31,7 @@ class PRListViewModel: ObservableObject {
                     }
                         .arrayByRemovingDuplicates()
                     
-                    let repositoryFilters = self.prList.map(\.repositoryName).map { name in
+                    let repositoryFilters = MyPRManager.shared.prList.map(\.repositoryName).map { name in
                         Filter(name: name) { $0.repositoryName == name }
                     }
                         .arrayByRemovingDuplicates()
