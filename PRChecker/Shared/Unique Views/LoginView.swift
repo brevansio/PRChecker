@@ -22,7 +22,7 @@ struct LoginView: View {
     
     var body: some View {
         HStack {
-            VStack {
+            VStack(alignment: .leading) {
                 TextField(LocalizedStringKey("Username"), text: $loginInfo.username)
                 HStack {
                     TextField(LocalizedStringKey("Access Token"), text: $loginInfo.accessToken)
@@ -37,6 +37,10 @@ struct LoginView: View {
                     }
                 }
                 TextField(LocalizedStringKey("API Endpoint"), text: $loginInfo.apiEndpoint)
+                Toggle(isOn: $loginInfo.useLegacyQuery) {
+                    Text("Use Legacy Queries")
+                }
+                // TODO: Some sort of guidance on the legacy query usage
             }
         }
         .padding(20)

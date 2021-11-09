@@ -41,12 +41,14 @@ final class NetworkSerivce {
             apollo = ApolloClient(networkTransport: requestChainTransport, store: store)
         }
     }
+    private var useLegacyQuery: Bool
     
     private init() {
         let keychainService = Keychain(service: KeychainKey.service)
         username = keychainService[KeychainKey.username] ?? ""
         accessToken = keychainService[KeychainKey.accessToken] ?? ""
         apiEndpoint = keychainService[KeychainKey.apiEndpoint] ?? "https://api.github.com/graphql"
+        useLegacyQuery = keychainService[KeychainKey.legacyQueryFlag] != nil ? true : false
     }
         
     private(set) lazy var apollo: ApolloClient = {
@@ -68,21 +70,47 @@ final class NetworkSerivce {
         return ApolloClient(networkTransport: requestChainTransport, store: store)
     }()
     
-    func initialize(for username: String, accessToken: String, endpoint: String) {
+    func initialize(for username: String, accessToken: String, endpoint: String, useLegacyQuery: Bool) {
         self.username = username
         self.accessToken = accessToken
         self.apiEndpoint = endpoint
+        self.useLegacyQuery = useLegacyQuery
     }
     
     func getAllPRs() -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
-        getAllPRs(for: username)
+        if useLegacyQuery {
+            return getAllOldPRs(for: username)
+        } else {
+            return getAllNewPRs(for: username)
+        }
     }
     
-    func getAllPRs(for username: String) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+    func getAllPRs(for usernameList: [String]) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+        if useLegacyQuery {
+            return Publishers.MergeMany(usernameList.map(getAllOldPRs(for:)))
+                .eraseToAnyPublisher()
+        } else {
+            return Publishers.MergeMany(usernameList.map(getAllNewPRs(for:)))
+                .eraseToAnyPublisher()
+        }
+    }
+}
+
+extension NetworkSerivce {
+    func getAllNewPRs(for usernameList: [String]) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+        Publishers.MergeMany(usernameList.map(getAllNewPRs(for:)))
+            .eraseToAnyPublisher()
+    }
+    
+    func getAllNewPRs() -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+        getAllNewPRs(for: username)
+    }
+    
+    func getAllNewPRs(for username: String) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
         let assignedQuery = "is:pr assignee:\(username) archived:false"
         let requestedQuery = "is:pr review-requested:\(username) archived:false"
         
-        return Publishers.Zip(getPR(with: assignedQuery), getPR(with: requestedQuery))
+        return Publishers.Zip(getNewPR(with: assignedQuery), getNewPR(with: requestedQuery))
             .map { prLists in
                 (prLists.0 + prLists.1).sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
             }
@@ -92,7 +120,7 @@ final class NetworkSerivce {
             .eraseToAnyPublisher()
     }
     
-    func getPR(with query: String) -> AnyPublisher<[AbstractPullRequest], Error> {
+    func getNewPR(with query: String) -> AnyPublisher<[AbstractPullRequest], Error> {
         let resultPublisher = PassthroughSubject<[AbstractPullRequest], Error>()
         
         guard !username.isEmpty, !accessToken.isEmpty, !apiEndpoint.isEmpty else {
@@ -121,14 +149,14 @@ final class NetworkSerivce {
         
         return resultPublisher.eraseToAnyPublisher()
     }
-    
-    func getAllPRs(for usernameList: [String]) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
-        Publishers.MergeMany(usernameList.map(getAllPRs(for:)))
-            .eraseToAnyPublisher()
-    }
 }
 
 extension NetworkSerivce {
+    func getAllOldPRs(for usernameList: [String]) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+        Publishers.MergeMany(usernameList.map(getAllOldPRs(for:)))
+            .eraseToAnyPublisher()
+    }
+    
     func getAllOldPRs() -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
         getAllOldPRs(for: username)
     }
@@ -177,10 +205,5 @@ extension NetworkSerivce {
         }
         
         return resultPublisher.eraseToAnyPublisher()
-    }
-    
-    func getAllOldPRs(for usernameList: [String]) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
-        Publishers.MergeMany(usernameList.map(getAllOldPRs(for:)))
-            .eraseToAnyPublisher()
     }
 }
