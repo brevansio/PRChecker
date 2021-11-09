@@ -22,6 +22,7 @@ final class NetworkSerivce {
     private var accessToken: String
     private var apiEndpoint: String {
         didSet {
+            guard !apiEndpoint.isEmpty else { return }
             let url = URL(string: apiEndpoint)!
             let configuration = URLSessionConfiguration.default
 
@@ -73,11 +74,11 @@ final class NetworkSerivce {
         self.apiEndpoint = endpoint
     }
     
-    func getAllPRs() -> AnyPublisher<(String, [PullRequest]), Error> {
+    func getAllPRs() -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
         getAllPRs(for: username)
     }
     
-    func getAllPRs(for username: String) -> AnyPublisher<(String, [PullRequest]), Error> {
+    func getAllPRs(for username: String) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
         let assignedQuery = "is:pr assignee:\(username) archived:false"
         let requestedQuery = "is:pr review-requested:\(username) archived:false"
         
@@ -91,8 +92,8 @@ final class NetworkSerivce {
             .eraseToAnyPublisher()
     }
     
-    func getPR(with query: String) -> AnyPublisher<[PullRequest], Error> {
-        let resultPublisher = PassthroughSubject<[PullRequest], Error>()
+    func getPR(with query: String) -> AnyPublisher<[AbstractPullRequest], Error> {
+        let resultPublisher = PassthroughSubject<[AbstractPullRequest], Error>()
         
         guard !username.isEmpty, !accessToken.isEmpty, !apiEndpoint.isEmpty else {
             resultPublisher.send(completion: .failure(NetworkServiceError.missingLogin))
@@ -121,8 +122,65 @@ final class NetworkSerivce {
         return resultPublisher.eraseToAnyPublisher()
     }
     
-    func getAllPRs(for usernameList: [String]) -> AnyPublisher<(String, [PullRequest]), Error> {
+    func getAllPRs(for usernameList: [String]) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
         Publishers.MergeMany(usernameList.map(getAllPRs(for:)))
+            .eraseToAnyPublisher()
+    }
+}
+
+extension NetworkSerivce {
+    func getAllOldPRs() -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+        getAllOldPRs(for: username)
+    }
+    
+    func getAllOldPRs(for username: String) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+        let assignedQuery = "is:pr assignee:\(username) archived:false"
+        let requestedQuery = "is:pr review-requested:\(username) archived:false"
+        
+        return Publishers.Zip(getOldPR(with: assignedQuery), getOldPR(with: requestedQuery))
+            .map { prLists in
+                (prLists.0 + prLists.1).sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
+            }
+            .map{ prList in
+                (username, prList)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func getOldPR(with query: String) -> AnyPublisher<[AbstractPullRequest], Error> {
+        let resultPublisher = PassthroughSubject<[AbstractPullRequest], Error>()
+        
+        guard !username.isEmpty, !accessToken.isEmpty, !apiEndpoint.isEmpty else {
+            resultPublisher.send(completion: .failure(NetworkServiceError.missingLogin))
+            return resultPublisher.eraseToAnyPublisher()
+        }
+        
+        apollo.fetch(
+            query: GetOldAssignedPRsWithQueryQuery(query: query),
+            cachePolicy: .fetchIgnoringCacheData
+        ) { result in
+            switch result {
+            case .success(let graphQLResult):
+                guard let prList = graphQLResult.data?.search.edges?.map(\.?.node?.asPullRequest?.fragments.oldPrInfo)
+                else {
+                    resultPublisher.send(completion: .failure(NetworkServiceError.decodingIssue))
+                    return
+                }
+                let resultList = prList.compactMap { $0 }
+                    .map {
+                        OldPullRequest(pullRequest: $0, username: self.username)
+                    }
+                resultPublisher.send(resultList)
+            case .failure(let error):
+                resultPublisher.send(completion: .failure(error))
+            }
+        }
+        
+        return resultPublisher.eraseToAnyPublisher()
+    }
+    
+    func getAllOldPRs(for usernameList: [String]) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+        Publishers.MergeMany(usernameList.map(getAllOldPRs(for:)))
             .eraseToAnyPublisher()
     }
 }
