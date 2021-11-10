@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PullRequestCell: View {
     
-    let pullRequest: PullRequest
+    let pullRequest: AbstractPullRequest
 
     @State private var isHover = false
     

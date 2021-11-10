@@ -11,7 +11,7 @@ class MyPRManager: ObservableObject {
 
     static var shared = MyPRManager()
 
-    @Published var prList: [PullRequest] = []
+    @Published var prList: [AbstractPullRequest] = []
 
     private init() {}
 }
