@@ -26,9 +26,9 @@ struct PRListView: View {
                 }
                 
                 
-                ForEach(prListViewModel.watchedPRList, id: \.0) { (name, prList) in
-                    if let filteredPRList = prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
-                        PRSectionView(name: name, prList: filteredPRList)
+                ForEach(prListViewModel.watchedPRList, id: \.name) { networkPR in
+                    if let filteredPRList = networkPR.pullRequests.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
+                        PRSectionView(name: networkPR.name, prList: filteredPRList)
                     }
                     
                 }

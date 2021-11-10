@@ -15,6 +15,15 @@ enum NetworkServiceError: Error {
     case decodingIssue
 }
 
+struct NetworkPRResult: Equatable {
+    let name: String
+    let pullRequests: [AbstractPullRequest]
+    
+    static func == (lhs: NetworkPRResult, rhs: NetworkPRResult) -> Bool {
+        lhs.name == rhs.name
+    }
+}
+
 final class NetworkSerivce {
     static let shared = NetworkSerivce()
 
@@ -77,11 +86,11 @@ final class NetworkSerivce {
         self.useLegacyQuery = useLegacyQuery
     }
     
-    func getAllPRs() -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+    func getAllPRs() -> AnyPublisher<NetworkPRResult, Error> {
         getAllPRs(for: username)
     }
     
-    func getAllPRs(for username: String) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+    func getAllPRs(for username: String) -> AnyPublisher<NetworkPRResult, Error> {
         let assignedQuery = "is:pr assignee:\(username) archived:false"
         let requestedQuery = "is:pr review-requested:\(username) archived:false"
         
@@ -90,12 +99,12 @@ final class NetworkSerivce {
                 (prLists.0 + prLists.1).sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
             }
             .map{ prList in
-                (username, prList)
+                NetworkPRResult(name: username, pullRequests: prList)
             }
             .eraseToAnyPublisher()
     }
     
-    func getAllPRs(for usernameList: [String]) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+    func getAllPRs(for usernameList: [String]) -> AnyPublisher<NetworkPRResult, Error> {
         Publishers.MergeMany(usernameList.map(getAllPRs(for:)))
             .eraseToAnyPublisher()
     }

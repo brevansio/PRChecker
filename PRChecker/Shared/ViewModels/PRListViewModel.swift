@@ -10,7 +10,7 @@ import Foundation
 
 class PRListViewModel: ObservableObject {
 
-    @Published var watchedPRList = [(String, [AbstractPullRequest])]()
+    @Published var watchedPRList = [NetworkPRResult]()
     @Published var additionalFilters: [String: [Filter]]?
     
     private var subscriptions = Set<AnyCancellable>()
@@ -40,7 +40,7 @@ class PRListViewModel: ObservableObject {
                 // TODO: Handle Errors
             } receiveValue: { prList in
                 DispatchQueue.main.async {
-                    MyPRManager.shared.prList = prList.1
+                    MyPRManager.shared.prList = prList.pullRequests
                     
                     let labelFilters = MyPRManager.shared.prList
                         .map(\.labels)
@@ -69,17 +69,19 @@ class PRListViewModel: ObservableObject {
     }
     
     func getWatchedPRList(for userList: [String]) {
-        watchedPRList = watchedPRList.filter { userList.contains($0.0) }
+        watchedPRList = watchedPRList.filter { userList.contains($0.name) }
         
         NetworkSerivce.shared.getAllPRs(for: userList)
             .sink { error in
                 // TODO: Handle Error
             } receiveValue: { newEntry in
                 DispatchQueue.main.async {
-                    self.watchedPRList = ([newEntry] + self.watchedPRList).sorted { $0.0 < $1.0 }
+                    self.watchedPRList = ([newEntry] + self.watchedPRList)
+                        .arrayByRemovingDuplicates()
+                        .sorted { $0.name < $1.name }
                     
                     let labelFilters = self.watchedPRList
-                        .map(\.1)
+                        .map(\.pullRequests)
                         .flatMap { $0 }
                         .map(\.labels)
                         .flatMap { $0 }
@@ -93,7 +95,7 @@ class PRListViewModel: ObservableObject {
                         .arrayByRemovingDuplicates()
                     
                     let repositoryFilters = self.watchedPRList
-                        .map(\.1)
+                        .map(\.pullRequests)
                         .flatMap { $0 }
                         .map(\.repositoryName)
                         .map { name in
