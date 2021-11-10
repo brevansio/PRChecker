@@ -27,9 +27,10 @@ struct ContentView: View {
                     }
                     .buttonStyle(LinkButtonStyle())
                     .popover(isPresented: $showLogin, arrowEdge: .trailing) {
-                        LoginView {
-                            prListViewModel.getPRList()
-                        }
+                        LoginView()
+                            .onDisappear {
+                                prListViewModel.getPRList()
+                            }
                     }
 
                     Button {

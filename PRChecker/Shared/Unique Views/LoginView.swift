@@ -17,9 +17,7 @@ struct LoginView: View {
     private let helpURL =
         URL(string: "https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token")!
     @State private var loginInfo = LoginInfoViewModel()
-    
-    let dismissBlock: (() -> Void)?
-    
+        
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -47,13 +45,12 @@ struct LoginView: View {
         .frame(maxWidth: 400, maxHeight: 200, alignment: .center)
         .onDisappear {
             loginInfo.saveToKeychain()
-            dismissBlock?()
         }
     }
 }
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(dismissBlock: nil)
+        LoginView()
     }
 }
