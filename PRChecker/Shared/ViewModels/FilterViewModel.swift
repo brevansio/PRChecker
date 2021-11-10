@@ -102,11 +102,11 @@ extension FilterSection: Equatable {
 class Filter: ObservableObject {
     var name: String
     
-    var filter: (PullRequest) -> Bool
+    var filter: (AbstractPullRequest) -> Bool
     
     @Published var isEnabled: Bool = false
     
-    init(name: String, filter: @escaping (PullRequest) -> Bool) {
+    init(name: String, filter: @escaping (AbstractPullRequest) -> Bool) {
         self.name = name
         self.filter = filter
     }

@@ -11,7 +11,7 @@ struct MenuBarPRCell: View {
 
     @State private var isHover = false
 
-    let pullRequest: PullRequest
+    let pullRequest: AbstractPullRequest
 
     var body: some View {
         VStack(alignment: .leading) {
