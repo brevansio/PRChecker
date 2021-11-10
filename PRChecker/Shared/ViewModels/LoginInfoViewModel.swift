@@ -34,7 +34,7 @@ struct LoginInfoViewModel {
         keychainService[KeychainKey.accessToken] = accessToken
         keychainService[KeychainKey.legacyQueryFlag] = useLegacyQuery ? "1" : nil
         
-        NetworkSerivce.shared.initialize(for: username, accessToken: accessToken, endpoint: apiEndpoint, useLegacyQuery: useLegacyQuery)
+        NetworkSerivce.shared.configure(for: username, accessToken: accessToken, endpoint: apiEndpoint, useLegacyQuery: useLegacyQuery)
     }
 }
 
