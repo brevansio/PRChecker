@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 class WatchedUserViewModel: ObservableObject {
-    @Published var prList = [(String, [PullRequest])]()
+    @Published var prList = [(String, [AbstractPullRequest])]()
     @Published var additionalFilters: [String: [Filter]]?
     
     private var subscriptions = Set<AnyCancellable>()

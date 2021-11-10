@@ -13,6 +13,7 @@ struct LoginInfoViewModel {
     var username: String
     var accessToken: String
     var apiEndpoint: String
+    var useLegacyQuery: Bool
     
     var canLogin: Bool {
         !username.isEmpty && !accessToken.isEmpty && !apiEndpoint.isEmpty
@@ -23,6 +24,7 @@ struct LoginInfoViewModel {
         username = keychainService[KeychainKey.username] ?? ""
         accessToken = keychainService[KeychainKey.accessToken] ?? ""
         apiEndpoint = keychainService[KeychainKey.apiEndpoint] ?? "https://api.github.com/graphql"
+        useLegacyQuery = UserDefaults.standard.bool(forKey: UserDefaultsKey.legacyQueries)
     }
 
     func saveToKeychain() {
@@ -30,8 +32,9 @@ struct LoginInfoViewModel {
         keychainService[KeychainKey.apiEndpoint] = apiEndpoint
         keychainService[KeychainKey.username] = username
         keychainService[KeychainKey.accessToken] = accessToken
+        UserDefaults.standard.set(useLegacyQuery, forKey: UserDefaultsKey.legacyQueries)
         
-        NetworkSerivce.shared.initialize(for: username, accessToken: accessToken, endpoint: apiEndpoint)
+        NetworkSerivce.shared.configure(for: username, accessToken: accessToken, endpoint: apiEndpoint, useLegacyQuery: useLegacyQuery)
     }
 }
 

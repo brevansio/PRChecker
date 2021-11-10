@@ -22,6 +22,7 @@ final class NetworkSerivce {
     private var accessToken: String
     private var apiEndpoint: String {
         didSet {
+            guard !apiEndpoint.isEmpty else { return }
             let url = URL(string: apiEndpoint)!
             let configuration = URLSessionConfiguration.default
 
@@ -40,12 +41,14 @@ final class NetworkSerivce {
             apollo = ApolloClient(networkTransport: requestChainTransport, store: store)
         }
     }
+    private var useLegacyQuery: Bool
     
     private init() {
         let keychainService = Keychain(service: KeychainKey.service)
         username = keychainService[KeychainKey.username] ?? ""
         accessToken = keychainService[KeychainKey.accessToken] ?? ""
         apiEndpoint = keychainService[KeychainKey.apiEndpoint] ?? "https://api.github.com/graphql"
+        useLegacyQuery = UserDefaults.standard.bool(forKey: UserDefaultsKey.legacyQueries)
     }
         
     private(set) lazy var apollo: ApolloClient = {
@@ -67,17 +70,18 @@ final class NetworkSerivce {
         return ApolloClient(networkTransport: requestChainTransport, store: store)
     }()
     
-    func initialize(for username: String, accessToken: String, endpoint: String) {
+    func configure(for username: String, accessToken: String, endpoint: String, useLegacyQuery: Bool) {
         self.username = username
         self.accessToken = accessToken
         self.apiEndpoint = endpoint
+        self.useLegacyQuery = useLegacyQuery
     }
     
-    func getAllPRs() -> AnyPublisher<(String, [PullRequest]), Error> {
+    func getAllPRs() -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
         getAllPRs(for: username)
     }
     
-    func getAllPRs(for username: String) -> AnyPublisher<(String, [PullRequest]), Error> {
+    func getAllPRs(for username: String) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
         let assignedQuery = "is:pr assignee:\(username) archived:false"
         let requestedQuery = "is:pr review-requested:\(username) archived:false"
         
@@ -91,13 +95,24 @@ final class NetworkSerivce {
             .eraseToAnyPublisher()
     }
     
-    func getPR(with query: String) -> AnyPublisher<[PullRequest], Error> {
-        let resultPublisher = PassthroughSubject<[PullRequest], Error>()
-        
+    func getAllPRs(for usernameList: [String]) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+        Publishers.MergeMany(usernameList.map(getAllPRs(for:)))
+            .eraseToAnyPublisher()
+    }
+    
+    func getPR(with query: String) -> AnyPublisher<[AbstractPullRequest], Error> {
         guard !username.isEmpty, !accessToken.isEmpty, !apiEndpoint.isEmpty else {
-            resultPublisher.send(completion: .failure(NetworkServiceError.missingLogin))
-            return resultPublisher.eraseToAnyPublisher()
+            return Fail(error: NetworkServiceError.missingLogin).eraseToAnyPublisher()
         }
+        
+        guard !useLegacyQuery else { return getOldPR(with: query) }
+        return getNewPR(with: query)
+    }
+}
+
+extension NetworkSerivce {
+    func getNewPR(with query: String) -> AnyPublisher<[AbstractPullRequest], Error> {
+        let resultPublisher = PassthroughSubject<[AbstractPullRequest], Error>()
         
         apollo.fetch(
             query: GetAssignedPRsWithQueryQuery(query: query),
@@ -120,9 +135,33 @@ final class NetworkSerivce {
         
         return resultPublisher.eraseToAnyPublisher()
     }
-    
-    func getAllPRs(for usernameList: [String]) -> AnyPublisher<(String, [PullRequest]), Error> {
-        Publishers.MergeMany(usernameList.map(getAllPRs(for:)))
-            .eraseToAnyPublisher()
+}
+
+extension NetworkSerivce {
+    func getOldPR(with query: String) -> AnyPublisher<[AbstractPullRequest], Error> {
+        let resultPublisher = PassthroughSubject<[AbstractPullRequest], Error>()
+        
+        apollo.fetch(
+            query: GetOldAssignedPRsWithQueryQuery(query: query),
+            cachePolicy: .fetchIgnoringCacheData
+        ) { result in
+            switch result {
+            case .success(let graphQLResult):
+                guard let prList = graphQLResult.data?.search.edges?.map(\.?.node?.asPullRequest?.fragments.oldPrInfo)
+                else {
+                    resultPublisher.send(completion: .failure(NetworkServiceError.decodingIssue))
+                    return
+                }
+                let resultList = prList.compactMap { $0 }
+                    .map {
+                        OldPullRequest(pullRequest: $0, username: self.username)
+                    }
+                resultPublisher.send(resultList)
+            case .failure(let error):
+                resultPublisher.send(completion: .failure(error))
+            }
+        }
+        
+        return resultPublisher.eraseToAnyPublisher()
     }
 }

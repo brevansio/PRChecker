@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PullRequestCell: View {
     
-    let pullRequest: PullRequest
+    let pullRequest: AbstractPullRequest
 
     @State private var isHover = false
     
@@ -39,7 +39,7 @@ struct PullRequestCell: View {
 
 private struct Header: View {
     
-    let header: PullRequest.Header
+    let header: HeaderViewModel
 
     @Binding var isHover: Bool
     
@@ -108,7 +108,7 @@ private struct BranchLabel: View {
 
 private struct ContentBody: View {
 
-    let content: PullRequest.Content
+    let content: ContentViewModel
 
     @Binding var isHover: Bool
     
@@ -168,7 +168,7 @@ private struct ContentBody: View {
 
 private struct Footer: View {
     
-    let footer: PullRequest.Footer
+    let footer: FooterViewModel
     
     var body: some View {
         VStack {

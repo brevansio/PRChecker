@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PRListView: View {
-    @Environment(\.openURL) var openURL
     @EnvironmentObject var filterViewModel: FilterViewModel
     
     @ObservedObject var prListViewModel = PRListViewModel()
@@ -26,32 +25,13 @@ struct PRListView: View {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], alignment: .leading, pinnedViews: [.sectionHeaders]) {
                 
                 if let filteredPRList = myPRManager.prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
-                    Section(header: Rectangle().frame(height: 45).foregroundColor(.gray5).overlay(Text("You").font(.title).bold().padding(.leading), alignment: .leading)) {
-                        ForEach(filteredPRList, id: \.id) { pullRequest in
-                            PullRequestCell(pullRequest: pullRequest)
-                                .cornerRadius(16)
-                                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray3, lineWidth: 1))
-                                .onTapGesture {
-                                    openURL(URL(string: pullRequest.url)!)
-                                }
-                        }
-                    }
+                    PRSectionView(name: "You", prList: filteredPRList)
                 }
                 
                 
                 ForEach(watchedUserViewModel.prList, id: \.0) { (name, prList) in
                     if let filteredPRList = prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
-                        
-                        Section(header: Rectangle().frame(height: 45).foregroundColor(.gray5).overlay(Text(name).font(.title).bold().padding(.leading), alignment: .leading)) {
-                            ForEach(filteredPRList, id: \.id) { pullRequest in
-                                PullRequestCell(pullRequest: pullRequest)
-                                    .cornerRadius(16)
-                                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray3, lineWidth: 1))
-                                    .onTapGesture {
-                                        openURL(URL(string: pullRequest.url)!)
-                                    }
-                            }
-                        }
+                        PRSectionView(name: name, prList: filteredPRList)
                     }
                     
                 }
@@ -76,6 +56,43 @@ struct PRListView: View {
             let combinedFilters = repositorySection.filters + (filters?["Repository"] ?? [])
             repositorySection.filters = combinedFilters.arrayByRemovingDuplicates().sorted { $0.name < $1.name }
         }
+    }
+}
+
+struct PRSectionView: View {
+    let name: String
+    let prList: [AbstractPullRequest]
+    
+    @Environment(\.openURL) var openURL
+    
+    var body: some View {
+        Section(header: PRSectionHeaderView(name: name)) {
+            ForEach(prList, id: \.id) { pullRequest in
+                PullRequestCell(pullRequest: pullRequest)
+                    .cornerRadius(16)
+                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray3, lineWidth: 1))
+                    .onTapGesture {
+                        openURL(URL(string: pullRequest.url)!)
+                    }
+            }
+        }
+    }
+}
+
+struct PRSectionHeaderView: View {
+    let name: String
+    
+    var body: some View {
+        Rectangle()
+            .frame(height: 45)
+            .foregroundColor(.gray5)
+            .overlay(
+                Text(name)
+                    .font(.title)
+                    .bold()
+                    .padding(.leading),
+                alignment: .leading
+            )
     }
 }
 

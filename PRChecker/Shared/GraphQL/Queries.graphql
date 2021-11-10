@@ -43,6 +43,53 @@ fragment PRInfo on PullRequest {
     updatedAt
 }
 
+fragment OldPRInfo on PullRequest {
+    id
+        
+    url
+        
+    repository {
+        id
+        nameWithOwner
+    }
+    baseRefName
+    headRefName
+        
+    author {
+        login
+    }
+    title
+    body
+        
+    changedFiles
+    additions
+    deletions
+    commits(last: 100) {
+        nodes {
+            id
+        }
+    }
+    labels(last: 10) {
+        nodes {
+            id
+            name
+            color
+        }
+    }
+
+    state
+    reviews(last: 100) {
+        nodes {
+            author {
+                login
+            }
+            state
+        }
+    }
+    mergedAt
+    updatedAt
+}
+
 query GetPRsByAuthor($author: String!) {
     user(login: $author) {
         id
@@ -61,6 +108,18 @@ query GetAssignedPRsWithQuery($query: String!) {
             node {
                 ... on PullRequest {
                     ...PRInfo
+                }
+            }
+        }
+    }
+}
+
+query GetOldAssignedPRsWithQuery($query: String!) {
+    search(last: 100, query: $query, type: ISSUE) {
+        edges {
+            node {
+                ... on PullRequest {
+                    ...OldPRInfo
                 }
             }
         }

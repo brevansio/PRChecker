@@ -1,19 +1,21 @@
 //
-//  PullRequest.swift
+//  OldPullRequest.swift
 //  PRChecker
 //
-//  Created by Bruce Evans on 2021/11/03.
+//  Created by Bruce Evans on 2021/11/09.
 //
 
 import Foundation
 import Apollo
 import SwiftUI
 
-class PullRequest: AbstractPullRequest {
-    let pullRequest: PrInfo
+class OldPullRequest: AbstractPullRequest {
+    let pullRequest: OldPrInfo
+    let username: String
     
-    init(pullRequest: PrInfo) {
+    init(pullRequest: OldPrInfo, username: String) {
         self.pullRequest = pullRequest
+        self.username = username
     }
     
     override var id: GraphQLID {
@@ -21,7 +23,7 @@ class PullRequest: AbstractPullRequest {
     }
     
     override var isRead: Bool {
-        pullRequest.isReadByViewer ?? false
+        false   // TODO: Can we get this data somewhere else?
     }
     
     override var url: String {
@@ -86,7 +88,15 @@ class PullRequest: AbstractPullRequest {
     }
     
     override var viewerStatus: ViewerStatus {
-        switch pullRequest.viewerLatestReview?.state {
+        guard let nodes = pullRequest.reviews?.nodes else {
+            return .waiting     // No reviews at all
+        }
+        
+        guard let viewersReview = nodes.last(where: { $0?.author?.login == username }) else {
+            return .waiting     // Viewer has not reviewed
+        }
+        
+        switch viewersReview?.state {
         case .none, .pending, .dismissed:
             return .waiting
         case .approved:
@@ -96,7 +106,7 @@ class PullRequest: AbstractPullRequest {
         case .commented:
             return .commented
         default:
-            assertionFailure("Unknown status: \(String(describing: pullRequest.viewerLatestReview?.state))")
+            assertionFailure("Unknown status: \(String(describing: viewersReview?.state))")
             return .waiting
         }
     }

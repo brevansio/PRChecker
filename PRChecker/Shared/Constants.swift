@@ -16,4 +16,5 @@ enum KeychainKey {
 
 enum UserDefaultsKey {
     static let userList = "io.brevans.PPRChecker.userList"
+    static let legacyQueries = "io.brevans.PRChecker.legacyQueries"
 }
