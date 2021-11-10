@@ -92,7 +92,7 @@ class OldPullRequest: AbstractPullRequest {
             return .waiting     // No reviews at all
         }
         
-        guard let viewersReview = nodes.first(where: { $0?.author?.login == username }) else {
+        guard let viewersReview = nodes.last(where: { $0?.author?.login == username }) else {
             return .waiting     // Viewer has not reviewed
         }
         
