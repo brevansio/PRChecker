@@ -13,7 +13,9 @@ struct PRListView: View {
     
     @ObservedObject var prListViewModel = PRListViewModel()
     @StateObject var watchedUserViewModel = WatchedUserViewModel()
-    
+
+    @ObservedObject var myPRManager = MyPRManager.shared
+
     var body: some View {
         RefreshableScrollView(onRefresh: { completion in
             prListViewModel.getPRList() {
@@ -23,7 +25,7 @@ struct PRListView: View {
         }) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], alignment: .leading, pinnedViews: [.sectionHeaders]) {
                 
-                if let filteredPRList = prListViewModel.prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
+                if let filteredPRList = myPRManager.prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
                     Section(header: Rectangle().frame(height: 45).foregroundColor(.gray5).overlay(Text("You").font(.title).bold().padding(.leading), alignment: .leading)) {
                         ForEach(filteredPRList, id: \.id) { pullRequest in
                             PullRequestCell(pullRequest: pullRequest)

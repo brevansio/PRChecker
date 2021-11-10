@@ -17,6 +17,8 @@
 		5931189B2736758400BA67BC /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593118992736758400BA67BC /* FilterView.swift */; };
 		5931189E2736867B00BA67BC /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931189D2736867B00BA67BC /* CheckBox.swift */; };
 		5931189F2736867B00BA67BC /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931189D2736867B00BA67BC /* CheckBox.swift */; };
+		5990F52C27396BB1007DC686 /* MyPRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5990F52B27396BB1007DC686 /* MyPRManager.swift */; };
+		5990F52D27396BB1007DC686 /* MyPRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5990F52B27396BB1007DC686 /* MyPRManager.swift */; };
 		599D979D2737C746003E1835 /* MenuBarPRCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599D979C2737C746003E1835 /* MenuBarPRCell.swift */; };
 		59CEC3D3273801FA003F94B1 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEC3D2273801FA003F94B1 /* Tag.swift */; };
 		59CEC3D4273801FA003F94B1 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEC3D2273801FA003F94B1 /* Tag.swift */; };
@@ -79,6 +81,7 @@
 		593118962736754600BA67BC /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		593118992736758400BA67BC /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		5931189D2736867B00BA67BC /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		5990F52B27396BB1007DC686 /* MyPRManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPRManager.swift; sourceTree = "<group>"; };
 		599D979C2737C746003E1835 /* MenuBarPRCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarPRCell.swift; sourceTree = "<group>"; };
 		59CEC3D2273801FA003F94B1 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		59CEC3D5273803BB003F94B1 /* PRItemLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRItemLabel.swift; sourceTree = "<group>"; };
@@ -174,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				59DDC04E2737714200101394 /* PRItemType.swift */,
+				5990F52B27396BB1007DC686 /* MyPRManager.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -433,6 +437,7 @@
 				69BB4C2D2736CB6A001175C8 /* PRListViewModel.swift in Sources */,
 				59CEC3D6273803BB003F94B1 /* PRItemLabel.swift in Sources */,
 				5931189E2736867B00BA67BC /* CheckBox.swift in Sources */,
+				5990F52C27396BB1007DC686 /* MyPRManager.swift in Sources */,
 				69BB4C52273807E3001175C8 /* WatchedUserViewModel.swift in Sources */,
 				69BB4C1B27357FD4001175C8 /* LoginView.swift in Sources */,
 				69BB4C312736EC24001175C8 /* FilterViewModel.swift in Sources */,
@@ -479,6 +484,7 @@
 				69BB4C472737B6F1001175C8 /* RefreshableScrollView.swift in Sources */,
 				59DDC0502737714B00101394 /* PRItemType.swift in Sources */,
 				69CA34A1273161C0004D5D9C /* PRCheckerApp.swift in Sources */,
+				5990F52D27396BB1007DC686 /* MyPRManager.swift in Sources */,
 				59CEC3D7273803BB003F94B1 /* PRItemLabel.swift in Sources */,
 				5931189B2736758400BA67BC /* FilterView.swift in Sources */,
 				69D6438B2732573A0001BBBA /* LoginInfoViewModel.swift in Sources */,

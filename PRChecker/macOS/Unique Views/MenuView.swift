@@ -12,13 +12,15 @@ struct MenuView: View {
     @Environment(\.openURL) var openURL
 
     @StateObject var prListViewModel = PRListViewModel()
+
+    @ObservedObject var myPRManager = MyPRManager.shared
     
     private let maxPRCount = 5
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
-                ForEach(prListViewModel.prList.prefix(maxPRCount)) { pullRequest in
+                ForEach(myPRManager.prList.prefix(maxPRCount)) { pullRequest in
                     MenuBarPRCell(pullRequest: pullRequest)
                         .cornerRadius(8)
                         .frame(maxWidth: .infinity, alignment: .leading)
