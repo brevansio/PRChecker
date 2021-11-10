@@ -11,8 +11,6 @@ struct PRListView: View {
     @EnvironmentObject var filterViewModel: FilterViewModel
     
     @ObservedObject var prListViewModel = PRListViewModel()
-    @StateObject var watchedUserViewModel = WatchedUserViewModel()
-
     @ObservedObject var myPRManager = MyPRManager.shared
 
     var body: some View {
@@ -20,7 +18,6 @@ struct PRListView: View {
             prListViewModel.getPRList() {
                 completion()
             }
-            watchedUserViewModel.getPRList()
         }) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], alignment: .leading, pinnedViews: [.sectionHeaders]) {
                 
@@ -29,7 +26,7 @@ struct PRListView: View {
                 }
                 
                 
-                ForEach(watchedUserViewModel.prList, id: \.0) { (name, prList) in
+                ForEach(prListViewModel.watchedPRList, id: \.0) { (name, prList) in
                     if let filteredPRList = prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
                         PRSectionView(name: name, prList: filteredPRList)
                     }
@@ -39,10 +36,8 @@ struct PRListView: View {
             .padding()
             .onAppear {
                 prListViewModel.getPRList()
-                watchedUserViewModel.getPRList()
             }
             .onChange(of: prListViewModel.additionalFilters, perform: updateAdditionalFilters(_:))
-            .onChange(of: watchedUserViewModel.additionalFilters, perform: updateAdditionalFilters(_:))
         }
     }
     
