@@ -56,6 +56,9 @@ struct ContentView: View {
                     .frame(width: 300, height: geometry.size.height)
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
+            .onReceive(NotificationCenter.default.publisher(for: NSApplication.willBecomeActiveNotification)) { _ in
+                prListViewModel.getPRList()
+            }
         }
     }
 }
