@@ -91,12 +91,15 @@ final class NetworkSerivce {
     }
     
     func getAllPRs(for username: String) -> AnyPublisher<NetworkPRResult, Error> {
-        let assignedQuery = "is:pr assignee:\(username) archived:false"
-        let requestedQuery = "is:pr review-requested:\(username) archived:false"
+        let assignedQuery = "is:pr assignee:\(username) archived:false sort:updated"
+        let requestedQuery = "is:pr review-requested:\(username) archived:false sort:updated"
+        let reviewedQuery = "is:pr reviewed-by:\(username) archived:false sort:updated"
         
-        return Publishers.Zip(getPR(with: assignedQuery), getPR(with: requestedQuery))
+        return Publishers.Zip3(getPR(with: assignedQuery), getPR(with: requestedQuery), getPR(with: reviewedQuery))
             .map { prLists in
-                (prLists.0 + prLists.1).sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
+                (prLists.0 + prLists.1 + prLists.2)
+                    .arrayByRemovingDuplicates()
+                    .sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
             }
             .map{ prList in
                 NetworkPRResult(name: username, pullRequests: prList)
@@ -135,6 +138,7 @@ extension NetworkSerivce {
                     return
                 }
                 let resultList = prList.compactMap { $0 }
+                    .filter { $0.author?.login != self.username }
                     .map(PullRequest.init)
                 resultPublisher.send(resultList)
             case .failure(let error):
@@ -162,9 +166,11 @@ extension NetworkSerivce {
                     return
                 }
                 let resultList = prList.compactMap { $0 }
+                    .filter { $0.author?.login != self.username }
                     .map {
                         OldPullRequest(pullRequest: $0, username: self.username)
                     }
+                
                 resultPublisher.send(resultList)
             case .failure(let error):
                 resultPublisher.send(completion: .failure(error))

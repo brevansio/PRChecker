@@ -189,3 +189,9 @@ class AbstractPullRequest: ObservableObject, Identifiable {
         }
     }
 }
+
+extension AbstractPullRequest: Equatable {
+    static func == (lhs: AbstractPullRequest, rhs: AbstractPullRequest) -> Bool {
+        lhs.id == rhs.id
+    }
+}
