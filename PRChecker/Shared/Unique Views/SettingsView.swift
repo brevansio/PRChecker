@@ -10,6 +10,8 @@ import SwiftUI
 struct SettingsView: View {
     @State var settingsViewModel = SettingsViewModel()
     
+    @State var height: Double = 250
+    
     var body: some View {
         VStack(alignment: .leading) {
             ScrollView {
@@ -31,8 +33,17 @@ struct SettingsView: View {
                     .padding([.leading, .trailing, .top])
                 }
             }
-            .frame(minWidth: 200, maxWidth: .infinity, idealHeight: settingsViewModel.userList.isEmpty ? 0 : 250, maxHeight: settingsViewModel.userList.isEmpty ? 0 : 250)
+            .frame(
+                minWidth: 200,
+                maxWidth: .infinity,
+                idealHeight: height,
+                maxHeight: height
+            )
+            .onChange(of: settingsViewModel.userList) { newValue in
+                height = newValue.isEmpty ? 0 : 250
+            }
             
+            Spacer()
             HStack {
                 TextField(LocalizedStringKey("Username"), text: $settingsViewModel.newUsername)
                 Button("Add") {
@@ -42,7 +53,7 @@ struct SettingsView: View {
             .padding([.leading, .trailing])
         }
         .padding(20)
-        .frame(minWidth: 200, maxHeight: 400, alignment: .leading)
+        .frame(minWidth: 200, minHeight: height, maxHeight: 400, alignment: .leading)
     }
 }
 
