@@ -14,6 +14,15 @@ class PRListViewModel: ObservableObject {
     
     private var subscriptions = Set<AnyCancellable>()
     
+    init() {
+        Timer.publish(every: 600, tolerance: 15, on: .main, in: .default)
+            .autoconnect()
+            .sink { _ in
+                self.getPRList()
+            }
+            .store(in: &subscriptions)
+    }
+    
     func getPRList(completion: (() -> Void)? = nil) {
         NetworkSerivce.shared.getAllPRs()
             .sink { error in
