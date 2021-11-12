@@ -55,8 +55,6 @@
 		69BB4C4D2737EEB4001175C8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C4B2737EEB4001175C8 /* SettingsView.swift */; };
 		69BB4C4F2737F1B1001175C8 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C4E2737F1B1001175C8 /* SettingsViewModel.swift */; };
 		69BB4C502737F1B1001175C8 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C4E2737F1B1001175C8 /* SettingsViewModel.swift */; };
-		69BB4C52273807E3001175C8 /* WatchedUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C51273807E3001175C8 /* WatchedUserViewModel.swift */; };
-		69BB4C53273807E3001175C8 /* WatchedUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C51273807E3001175C8 /* WatchedUserViewModel.swift */; };
 		69CA34A0273161C0004D5D9C /* PRCheckerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA3490273161BF004D5D9C /* PRCheckerApp.swift */; };
 		69CA34A1273161C0004D5D9C /* PRCheckerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA3490273161BF004D5D9C /* PRCheckerApp.swift */; };
 		69CA34A2273161C0004D5D9C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA3491273161BF004D5D9C /* ContentView.swift */; };
@@ -102,7 +100,6 @@
 		69BB4C452737B6F1001175C8 /* RefreshableScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshableScrollView.swift; sourceTree = "<group>"; };
 		69BB4C4B2737EEB4001175C8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		69BB4C4E2737F1B1001175C8 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
-		69BB4C51273807E3001175C8 /* WatchedUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedUserViewModel.swift; sourceTree = "<group>"; };
 		69CA3490273161BF004D5D9C /* PRCheckerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRCheckerApp.swift; sourceTree = "<group>"; };
 		69CA3491273161BF004D5D9C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		69CA3492273161C0004D5D9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -265,7 +262,6 @@
 				69D643892732573A0001BBBA /* LoginInfoViewModel.swift */,
 				69BB4C2C2736CB6A001175C8 /* PRListViewModel.swift */,
 				69BB4C4E2737F1B1001175C8 /* SettingsViewModel.swift */,
-				69BB4C51273807E3001175C8 /* WatchedUserViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -446,7 +442,6 @@
 				59CEC3D6273803BB003F94B1 /* PRItemLabel.swift in Sources */,
 				5931189E2736867B00BA67BC /* CheckBox.swift in Sources */,
 				5990F52C27396BB1007DC686 /* MyPRManager.swift in Sources */,
-				69BB4C52273807E3001175C8 /* WatchedUserViewModel.swift in Sources */,
 				69BB4C1B27357FD4001175C8 /* LoginView.swift in Sources */,
 				69BB4C312736EC24001175C8 /* FilterViewModel.swift in Sources */,
 				69CA34A2273161C0004D5D9C /* ContentView.swift in Sources */,
@@ -471,7 +466,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69BB4C53273807E3001175C8 /* WatchedUserViewModel.swift in Sources */,
 				592839782737B7200069651B /* MenuController.swift in Sources */,
 				69BB4C4D2737EEB4001175C8 /* SettingsView.swift in Sources */,
 				69BB4C282736CB60001175C8 /* PRListView.swift in Sources */,

@@ -94,7 +94,7 @@ query GetPRsByAuthor($author: String!) {
     user(login: $author) {
         id
         name
-        pullRequests(last: 100, orderBy: { field:CREATED_AT, direction:DESC }, states: [OPEN, MERGED]) {
+        pullRequests(last: 25, orderBy: { field:UPDATED_AT, direction:DESC }, states: [OPEN, MERGED]) {
             nodes {
                 ...PRInfo
             }
@@ -103,7 +103,7 @@ query GetPRsByAuthor($author: String!) {
 }
 
 query GetAssignedPRsWithQuery($query: String!) {
-    search(last: 100, query: $query, type: ISSUE) {
+    search(last: 25, query: $query, type: ISSUE) {
         edges {
             node {
                 ... on PullRequest {
@@ -115,7 +115,7 @@ query GetAssignedPRsWithQuery($query: String!) {
 }
 
 query GetOldAssignedPRsWithQuery($query: String!) {
-    search(last: 100, query: $query, type: ISSUE) {
+    search(last: 25, query: $query, type: ISSUE) {
         edges {
             node {
                 ... on PullRequest {

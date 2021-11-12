@@ -15,6 +15,15 @@ enum NetworkServiceError: Error {
     case decodingIssue
 }
 
+struct NetworkPRResult: Equatable {
+    let name: String
+    let pullRequests: [AbstractPullRequest]
+    
+    static func == (lhs: NetworkPRResult, rhs: NetworkPRResult) -> Bool {
+        lhs.name == rhs.name
+    }
+}
+
 final class NetworkSerivce {
     static let shared = NetworkSerivce()
 
@@ -77,25 +86,28 @@ final class NetworkSerivce {
         self.useLegacyQuery = useLegacyQuery
     }
     
-    func getAllPRs() -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+    func getAllPRs() -> AnyPublisher<NetworkPRResult, Error> {
         getAllPRs(for: username)
     }
     
-    func getAllPRs(for username: String) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
-        let assignedQuery = "is:pr assignee:\(username) archived:false"
-        let requestedQuery = "is:pr review-requested:\(username) archived:false"
+    func getAllPRs(for username: String) -> AnyPublisher<NetworkPRResult, Error> {
+        let assignedQuery = "is:pr assignee:\(username) archived:false sort:updated"
+        let requestedQuery = "is:pr review-requested:\(username) archived:false sort:updated"
+        let reviewedQuery = "is:pr reviewed-by:\(username) archived:false sort:updated"
         
-        return Publishers.Zip(getPR(with: assignedQuery), getPR(with: requestedQuery))
+        return Publishers.Zip3(getPR(with: assignedQuery), getPR(with: requestedQuery), getPR(with: reviewedQuery))
             .map { prLists in
-                (prLists.0 + prLists.1).sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
+                (prLists.0 + prLists.1 + prLists.2)
+                    .arrayByRemovingDuplicates()
+                    .sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
             }
             .map{ prList in
-                (username, prList)
+                NetworkPRResult(name: username, pullRequests: prList)
             }
             .eraseToAnyPublisher()
     }
     
-    func getAllPRs(for usernameList: [String]) -> AnyPublisher<(String, [AbstractPullRequest]), Error> {
+    func getAllPRs(for usernameList: [String]) -> AnyPublisher<NetworkPRResult, Error> {
         Publishers.MergeMany(usernameList.map(getAllPRs(for:)))
             .eraseToAnyPublisher()
     }
@@ -126,6 +138,7 @@ extension NetworkSerivce {
                     return
                 }
                 let resultList = prList.compactMap { $0 }
+                    .filter { $0.author?.login != self.username }
                     .map(PullRequest.init)
                 resultPublisher.send(resultList)
             case .failure(let error):
@@ -153,9 +166,11 @@ extension NetworkSerivce {
                     return
                 }
                 let resultList = prList.compactMap { $0 }
+                    .filter { $0.author?.login != self.username }
                     .map {
                         OldPullRequest(pullRequest: $0, username: self.username)
                     }
+                
                 resultPublisher.send(resultList)
             case .failure(let error):
                 resultPublisher.send(completion: .failure(error))

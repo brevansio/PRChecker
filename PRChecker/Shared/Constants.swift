@@ -15,6 +15,13 @@ enum KeychainKey {
 }
 
 enum UserDefaultsKey {
-    static let userList = "io.brevans.PPRChecker.userList"
+    fileprivate static let userList = "io.brevans.PPRChecker.userList"
     static let legacyQueries = "io.brevans.PRChecker.legacyQueries"
+}
+
+extension UserDefaults {
+    @objc dynamic var userList: [String]? {
+        get { stringArray(forKey: UserDefaultsKey.userList) }
+        set { set(newValue, forKey: UserDefaultsKey.userList) }
+    }
 }

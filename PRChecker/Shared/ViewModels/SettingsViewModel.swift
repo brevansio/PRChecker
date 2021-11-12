@@ -13,7 +13,7 @@ struct SettingsViewModel {
     var newUsername: String = ""
     
     init() {
-        if let existingUserList = UserDefaults.standard.array(forKey: UserDefaultsKey.userList) as? [String] {
+        if let existingUserList = UserDefaults.standard.userList {
             userList = existingUserList
         } else {
             userList = []
@@ -24,13 +24,13 @@ struct SettingsViewModel {
         guard !newUsername.isEmpty else { return }
         userList = ([newUsername.lowercased()] + userList).arrayByRemovingDuplicates().sorted(by: <)
         newUsername = ""
-        UserDefaults.standard.set(userList, forKey: UserDefaultsKey.userList)
+        UserDefaults.standard.userList = userList
     }
     
     mutating func remove(_ username: String) {
         userList.removeAll { name in
             name.lowercased() == username.lowercased()
         }
-        UserDefaults.standard.set(userList, forKey: UserDefaultsKey.userList)
+        UserDefaults.standard.userList = userList
     }
 }

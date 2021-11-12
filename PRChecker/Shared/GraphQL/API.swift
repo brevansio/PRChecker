@@ -124,8 +124,8 @@ public final class GetPRsByAuthorQuery: GraphQLQuery {
         id
         name
         pullRequests(
-          last: 100
-          orderBy: {field: CREATED_AT, direction: DESC}
+          last: 25
+          orderBy: {field: UPDATED_AT, direction: DESC}
           states: [OPEN, MERGED]
         ) {
           __typename
@@ -193,7 +193,7 @@ public final class GetPRsByAuthorQuery: GraphQLQuery {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
           GraphQLField("name", type: .scalar(String.self)),
-          GraphQLField("pullRequests", arguments: ["last": 100, "orderBy": ["field": "CREATED_AT", "direction": "DESC"], "states": ["OPEN", "MERGED"]], type: .nonNull(.object(PullRequest.selections))),
+          GraphQLField("pullRequests", arguments: ["last": 25, "orderBy": ["field": "UPDATED_AT", "direction": "DESC"], "states": ["OPEN", "MERGED"]], type: .nonNull(.object(PullRequest.selections))),
         ]
       }
 
@@ -345,7 +345,7 @@ public final class GetAssignedPRsWithQueryQuery: GraphQLQuery {
   public let operationDefinition: String =
     """
     query GetAssignedPRsWithQuery($query: String!) {
-      search(last: 100, query: $query, type: ISSUE) {
+      search(last: 25, query: $query, type: ISSUE) {
         __typename
         edges {
           __typename
@@ -383,7 +383,7 @@ public final class GetAssignedPRsWithQueryQuery: GraphQLQuery {
 
     public static var selections: [GraphQLSelection] {
       return [
-        GraphQLField("search", arguments: ["last": 100, "query": GraphQLVariable("query"), "type": "ISSUE"], type: .nonNull(.object(Search.selections))),
+        GraphQLField("search", arguments: ["last": 25, "query": GraphQLVariable("query"), "type": "ISSUE"], type: .nonNull(.object(Search.selections))),
       ]
     }
 
@@ -615,7 +615,7 @@ public final class GetOldAssignedPRsWithQueryQuery: GraphQLQuery {
   public let operationDefinition: String =
     """
     query GetOldAssignedPRsWithQuery($query: String!) {
-      search(last: 100, query: $query, type: ISSUE) {
+      search(last: 25, query: $query, type: ISSUE) {
         __typename
         edges {
           __typename
@@ -653,7 +653,7 @@ public final class GetOldAssignedPRsWithQueryQuery: GraphQLQuery {
 
     public static var selections: [GraphQLSelection] {
       return [
-        GraphQLField("search", arguments: ["last": 100, "query": GraphQLVariable("query"), "type": "ISSUE"], type: .nonNull(.object(Search.selections))),
+        GraphQLField("search", arguments: ["last": 25, "query": GraphQLVariable("query"), "type": "ISSUE"], type: .nonNull(.object(Search.selections))),
       ]
     }
 
