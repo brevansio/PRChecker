@@ -23,6 +23,13 @@ class PRListViewModel: ObservableObject {
                 self.getWatchedPRList(for: userList)
             }
             .store(in: &subscriptions)
+        
+        Timer.publish(every: 300, tolerance: 15, on: .main, in: .default)
+            .autoconnect()
+            .sink { _ in
+                self.getPRList()
+            }
+            .store(in: &self.subscriptions)
     }
     
     func getPRList(completion: (() -> Void)? = nil) {
