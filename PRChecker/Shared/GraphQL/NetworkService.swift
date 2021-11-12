@@ -128,7 +128,8 @@ extension NetworkSerivce {
         
         apollo.fetch(
             query: GetAssignedPRsWithQueryQuery(query: query),
-            cachePolicy: .fetchIgnoringCacheData
+            cachePolicy: .fetchIgnoringCacheData,
+            queue: .global(qos: .userInitiated)
         ) { result in
             switch result {
             case .success(let graphQLResult):
@@ -156,7 +157,8 @@ extension NetworkSerivce {
         
         apollo.fetch(
             query: GetOldAssignedPRsWithQueryQuery(query: query),
-            cachePolicy: .fetchIgnoringCacheData
+            cachePolicy: .fetchIgnoringCacheData,
+            queue: .global(qos: .userInitiated)
         ) { result in
             switch result {
             case .success(let graphQLResult):
