@@ -15,38 +15,6 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
             HStack {
-                VStack {
-                    Spacer()
-                    Button {
-                        showLogin.toggle()
-                    } label: {
-                        Text(.init(systemName: "person"))
-                            .font(.system(size: 45))
-                            .fontWeight(.thin)
-                            .foregroundColor(.secondary)
-                    }
-                    .buttonStyle(LinkButtonStyle())
-                    .popover(isPresented: $showLogin, arrowEdge: .trailing) {
-                        LoginView()
-                            .onDisappear {
-                                prListViewModel.getPRList()
-                            }
-                    }
-
-                    Button {
-                        showSettings.toggle()
-                    } label: {
-                        Text(.init(systemName: "gearshape"))
-                            .font(.system(size: 45))
-                            .fontWeight(.thin)
-                            .foregroundColor(.secondary)
-                    }
-                    .buttonStyle(LinkButtonStyle())
-                    .popover(isPresented: $showSettings, arrowEdge: .trailing) {
-                        SettingsView()
-                    }
-                }
-                .padding([.leading, .bottom, .top])
                 Divider()
                     .background(Color.gray5)
                 PRListView(prListViewModel: prListViewModel)
@@ -58,6 +26,33 @@ struct ContentView: View {
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
+        .overlay(
+            HStack {
+                VStack {
+                    Spacer()
+                    
+                    Button {
+                        showSettings.toggle()
+                    } label: {
+                        Text(.init(systemName: "gearshape"))
+                            .font(.system(size: 45))
+                            .fontWeight(.thin)
+                            .foregroundColor(.secondary)
+                    }
+                    .buttonStyle(LinkButtonStyle())
+                    .popover(isPresented: $showSettings, arrowEdge: .bottom) {
+                        SettingsView()
+                            .frame(minWidth: 200, maxHeight: 800, alignment: .leading)
+                            .onDisappear { prListViewModel.getPRList() }
+                    }
+                    .padding(8)
+                    .background(Color.gray4.clipShape(Circle()))
+                }
+                .padding([.leading, .bottom])
+                
+                Spacer()
+            }
+        )
     }
 }
 

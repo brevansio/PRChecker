@@ -9,56 +9,76 @@ import SwiftUI
 
 struct SettingsView: View {
     @State var settingsViewModel = SettingsViewModel()
-    
-    @State var height: Double = 250
-    
+        
     var body: some View {
-        VStack(alignment: .leading) {
-            ScrollView {
-                ForEach(settingsViewModel.userList, id: \.self) { user in
-                    HStack {
-                        Image(systemName: "person.fill")
-                            .font(.title)
-                        Text(user)
-                            .font(.title)
-                        Spacer()
-                        Button {
-                            settingsViewModel.remove(user)
-                        } label: {
-                            Image(systemName: "x.circle.fill")
-                                .foregroundColor(.red)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+        ScrollView {
+            VStack(alignment: .leading) {
+                LoginView()
+                    .frame(maxWidth: 600, maxHeight: 200, alignment: .leading)
+                
+                Divider()
+                
+                List {
+                    ForEach(settingsViewModel.userList, id: \.self) { user in
+                        WatchedUserView(username: user) { settingsViewModel.remove($0) }
                     }
-                    .padding([.leading, .trailing, .top])
+                    .onDelete { indexSet in
+                        settingsViewModel.remove(indexSet)
+                    }
                 }
+                .frame(height: 300)
+                
+                Spacer()
+                AddUserView() { settingsViewModel.addUser($0) }
+                .padding([.leading, .trailing])
             }
-            .frame(
-                minWidth: 200,
-                maxWidth: .infinity,
-                idealHeight: height,
-                maxHeight: height
-            )
-            .onChange(of: settingsViewModel.userList) { newValue in
-                height = newValue.isEmpty ? 0 : 250
-            }
-            
-            Spacer()
-            HStack {
-                TextField(LocalizedStringKey("Username"), text: $settingsViewModel.newUsername)
-                Button("Add") {
-                    settingsViewModel.addUser()
-                }
-            }
-            .padding([.leading, .trailing])
+            .padding()
         }
         .padding(20)
-        .frame(minWidth: 200, minHeight: height, maxHeight: 400, alignment: .leading)
     }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
+    }
+}
+
+struct WatchedUserView: View {
+    var username: String
+    var onRemove: ((String) -> Void)?
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "person.fill")
+                .font(.title)
+            Text(username)
+                .font(.title)
+            Spacer()
+            Button {
+                onRemove?(username)
+            } label: {
+                Image(systemName: "x.circle.fill")
+                    .foregroundColor(.red)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+        .padding([.leading, .trailing, .top])
+    }
+}
+
+struct AddUserView: View {
+    @State var newUsername = ""
+    var onAdd: ((String) -> Void)?
+    
+    var body: some View {
+        HStack {
+            TextField(LocalizedStringKey("Username"), text: $newUsername)
+            Button("Add") {
+                guard !newUsername.isEmpty else { return }
+                onAdd?(newUsername)
+                newUsername = ""
+            }
+        }
     }
 }
