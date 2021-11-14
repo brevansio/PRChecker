@@ -42,7 +42,6 @@ struct LoginView: View {
             }
         }
         .padding(20)
-        .frame(maxWidth: 400, maxHeight: 200, alignment: .center)
         .onDisappear {
             loginInfo.saveToKeychain()
         }

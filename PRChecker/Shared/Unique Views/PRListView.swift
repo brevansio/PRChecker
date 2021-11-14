@@ -78,7 +78,7 @@ struct PRSectionHeaderView: View {
     let name: String
     
     var body: some View {
-        Rectangle()
+        RoundedRectangle(cornerRadius: 10)
             .frame(height: 45)
             .foregroundColor(.gray5)
             .overlay(
