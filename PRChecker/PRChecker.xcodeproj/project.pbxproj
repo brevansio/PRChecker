@@ -43,8 +43,8 @@
 		69BB4C1C27357FD4001175C8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C1A27357FD4001175C8 /* LoginView.swift */; };
 		69BB4C272736CB60001175C8 /* PRListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C262736CB60001175C8 /* PRListView.swift */; };
 		69BB4C282736CB60001175C8 /* PRListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C262736CB60001175C8 /* PRListView.swift */; };
-		69BB4C2A2736CB64001175C8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C292736CB64001175C8 /* Constants.swift */; };
-		69BB4C2B2736CB64001175C8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C292736CB64001175C8 /* Constants.swift */; };
+		69BB4C2A2736CB64001175C8 /* SavedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C292736CB64001175C8 /* SavedData.swift */; };
+		69BB4C2B2736CB64001175C8 /* SavedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C292736CB64001175C8 /* SavedData.swift */; };
 		69BB4C2D2736CB6A001175C8 /* PRListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C2C2736CB6A001175C8 /* PRListViewModel.swift */; };
 		69BB4C2E2736CB6A001175C8 /* PRListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C2C2736CB6A001175C8 /* PRListViewModel.swift */; };
 		69BB4C312736EC24001175C8 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BB4C302736EC24001175C8 /* FilterViewModel.swift */; };
@@ -96,7 +96,7 @@
 		6961B762273A8EA900A238F4 /* AbstractPullRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractPullRequest.swift; sourceTree = "<group>"; };
 		69BB4C1A27357FD4001175C8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		69BB4C262736CB60001175C8 /* PRListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PRListView.swift; sourceTree = "<group>"; };
-		69BB4C292736CB64001175C8 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		69BB4C292736CB64001175C8 /* SavedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedData.swift; sourceTree = "<group>"; };
 		69BB4C2C2736CB6A001175C8 /* PRListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PRListViewModel.swift; sourceTree = "<group>"; };
 		69BB4C302736EC24001175C8 /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
 		69BB4C3927379B46001175C8 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 				69BB4C2F2736E2C4001175C8 /* Unique Views */,
 				69D643882732572C0001BBBA /* ViewModels */,
 				69CA3490273161BF004D5D9C /* PRCheckerApp.swift */,
-				69BB4C292736CB64001175C8 /* Constants.swift */,
+				69BB4C292736CB64001175C8 /* SavedData.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -449,7 +449,7 @@
 				69BB4C1B27357FD4001175C8 /* LoginView.swift in Sources */,
 				69BB4C312736EC24001175C8 /* FilterViewModel.swift in Sources */,
 				69CA34A2273161C0004D5D9C /* ContentView.swift in Sources */,
-				69BB4C2A2736CB64001175C8 /* Constants.swift in Sources */,
+				69BB4C2A2736CB64001175C8 /* SavedData.swift in Sources */,
 				6961B760273A8E9400A238F4 /* OldPullRequest.swift in Sources */,
 				69CA34C5273165D3004D5D9C /* API.swift in Sources */,
 				59CEC3D3273801FA003F94B1 /* TagView.swift in Sources */,
@@ -485,7 +485,7 @@
 				69BB4C322736EC24001175C8 /* FilterViewModel.swift in Sources */,
 				69CA34A3273161C0004D5D9C /* ContentView.swift in Sources */,
 				6961B764273A8EA900A238F4 /* AbstractPullRequest.swift in Sources */,
-				69BB4C2B2736CB64001175C8 /* Constants.swift in Sources */,
+				69BB4C2B2736CB64001175C8 /* SavedData.swift in Sources */,
 				69CA34C6273165D3004D5D9C /* API.swift in Sources */,
 				59CEC3D4273801FA003F94B1 /* TagView.swift in Sources */,
 				69BB4C3B27379B46001175C8 /* Array+Extensions.swift in Sources */,

@@ -64,7 +64,7 @@ final class NetworkSerivce {
         username = keychainService[KeychainKey.username] ?? ""
         accessToken = keychainService[KeychainKey.accessToken] ?? ""
         apiEndpoint = keychainService[KeychainKey.apiEndpoint] ?? "https://api.github.com/graphql"
-        useLegacyQuery = UserDefaults.standard.bool(forKey: UserDefaultsKey.legacyQueries)
+        useLegacyQuery = UserDefaults.standard.useLegacyQueries
     }
         
     private(set) lazy var apollo: ApolloClient = {
