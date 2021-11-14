@@ -23,6 +23,13 @@ class PRListViewModel: ObservableObject {
                 self.getWatchedPRList(for: userList)
             }
             .store(in: &subscriptions)
+        
+        Timer.publish(every: 300, tolerance: 15, on: .main, in: .default)
+            .autoconnect()
+            .sink { _ in
+                self.getPRList()
+            }
+            .store(in: &self.subscriptions)
     }
     
     func getPRList(completion: (() -> Void)? = nil) {
@@ -36,75 +43,73 @@ class PRListViewModel: ObservableObject {
     
     func getMyPRList(completion: (() -> Void)? = nil) {
         NetworkSerivce.shared.getAllPRs()
+            .receive(on: DispatchQueue.main)
             .sink { error in
                 // TODO: Handle Errors
             } receiveValue: { prList in
-                DispatchQueue.main.async {
-                    MyPRManager.shared.prList = prList.pullRequests
-                    
-                    let labelFilters = MyPRManager.shared.prList
-                        .map(\.labels)
-                        .flatMap { $0 }
-                        .map { label in
-                            Filter(name: label.title) { pullRequest in
-                                pullRequest.labels.contains { prLabel in
-                                    prLabel == label
-                                }
+                MyPRManager.shared.prList = prList.pullRequests
+                
+                let labelFilters = MyPRManager.shared.prList
+                    .map(\.labels)
+                    .flatMap { $0 }
+                    .map { label in
+                        Filter(name: label.title) { pullRequest in
+                            pullRequest.labels.contains { prLabel in
+                                prLabel == label
                             }
                         }
-                        .arrayByRemovingDuplicates()
-                    
-                    let repositoryFilters = MyPRManager.shared.prList
-                        .map(\.repositoryName)
-                        .map { name in
-                            Filter(name: name) { $0.repositoryName == name }
-                        }
-                        .arrayByRemovingDuplicates()
-                    
-                    self.updateAdditionalFilters(with: ["Labels": labelFilters, "Repository": repositoryFilters])
-                    completion?()
-                }
+                    }
+                    .arrayByRemovingDuplicates()
+                
+                let repositoryFilters = MyPRManager.shared.prList
+                    .map(\.repositoryName)
+                    .map { name in
+                        Filter(name: name) { $0.repositoryName == name }
+                    }
+                    .arrayByRemovingDuplicates()
+                
+                self.updateAdditionalFilters(with: ["Labels": labelFilters, "Repository": repositoryFilters])
+                completion?()
             }
             .store(in: &subscriptions)
     }
     
     func getWatchedPRList(for userList: [String]) {
-        watchedPRList = watchedPRList.filter { userList.contains($0.name) }
+        self.watchedPRList = self.watchedPRList.filter { userList.contains($0.name) }
         
         NetworkSerivce.shared.getAllPRs(for: userList)
+            .receive(on: DispatchQueue.main)
             .sink { error in
                 // TODO: Handle Error
             } receiveValue: { newEntry in
-                DispatchQueue.main.async {
-                    self.watchedPRList = ([newEntry] + self.watchedPRList)
-                        .arrayByRemovingDuplicates()
-                        .sorted { $0.name < $1.name }
-                    
-                    let labelFilters = self.watchedPRList
-                        .map(\.pullRequests)
-                        .flatMap { $0 }
-                        .map(\.labels)
-                        .flatMap { $0 }
-                        .map { label in
-                            Filter(name: label.title) { pullRequest in
-                                pullRequest.labels.contains { prLabel in
-                                    prLabel == label
-                                }
+                self.watchedPRList = ([newEntry] + self.watchedPRList)
+                    .arrayByRemovingDuplicates()
+                    .sorted { $0.name < $1.name }
+                
+                let labelFilters = self.watchedPRList
+                    .map(\.pullRequests)
+                    .flatMap { $0 }
+                    .map(\.labels)
+                    .flatMap { $0 }
+                    .map { label in
+                        Filter(name: label.title) { pullRequest in
+                            pullRequest.labels.contains { prLabel in
+                                prLabel == label
                             }
                         }
-                        .arrayByRemovingDuplicates()
-                    
-                    let repositoryFilters = self.watchedPRList
-                        .map(\.pullRequests)
-                        .flatMap { $0 }
-                        .map(\.repositoryName)
-                        .map { name in
-                            Filter(name: name) { $0.repositoryName == name }
-                        }
-                        .arrayByRemovingDuplicates()
-                    
-                    self.updateAdditionalFilters(with: ["Labels": labelFilters, "Repository": repositoryFilters])
-                }
+                    }
+                    .arrayByRemovingDuplicates()
+                
+                let repositoryFilters = self.watchedPRList
+                    .map(\.pullRequests)
+                    .flatMap { $0 }
+                    .map(\.repositoryName)
+                    .map { name in
+                        Filter(name: name) { $0.repositoryName == name }
+                    }
+                    .arrayByRemovingDuplicates()
+                
+                self.updateAdditionalFilters(with: ["Labels": labelFilters, "Repository": repositoryFilters])
             }
             .store(in: &subscriptions)
     }
