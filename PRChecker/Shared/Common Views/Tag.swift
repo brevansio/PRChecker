@@ -33,3 +33,9 @@ struct Tag: View {
         }
     }
 }
+
+extension Tag: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(text)
+    }
+}

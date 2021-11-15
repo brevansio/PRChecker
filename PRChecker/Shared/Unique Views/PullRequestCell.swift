@@ -151,14 +151,16 @@ private struct ContentBody: View {
 
             // Tags
             if !content.labels.isEmpty {
-                Label {
-                    ForEach(content.labels, id: \.id) { label in
-                        Tag(text: label.title, backgroundColor: label.color)
-                    }
-                } icon: {
+                HStack {
                     PRItemType.tag.image
+                        .scaledToFit()
+                        .foregroundColor(.green)
+                    TagListView(
+                        tagViews: content.labels.map {
+                            Tag(text: $0.title, backgroundColor: $0.color)
+                        }
+                    )
                 }
-                .labelStyle(PRItemLabel.Style(type: .tag))
             }
         }
     }
