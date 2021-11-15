@@ -20,8 +20,8 @@
 		5990F52C27396BB1007DC686 /* MyPRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5990F52B27396BB1007DC686 /* MyPRManager.swift */; };
 		5990F52D27396BB1007DC686 /* MyPRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5990F52B27396BB1007DC686 /* MyPRManager.swift */; };
 		599D979D2737C746003E1835 /* MenuBarPRCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599D979C2737C746003E1835 /* MenuBarPRCell.swift */; };
-		59CEC3D3273801FA003F94B1 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEC3D2273801FA003F94B1 /* Tag.swift */; };
-		59CEC3D4273801FA003F94B1 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEC3D2273801FA003F94B1 /* Tag.swift */; };
+		59CEC3D3273801FA003F94B1 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEC3D2273801FA003F94B1 /* TagView.swift */; };
+		59CEC3D4273801FA003F94B1 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEC3D2273801FA003F94B1 /* TagView.swift */; };
 		59CEC3D6273803BB003F94B1 /* PRItemLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEC3D5273803BB003F94B1 /* PRItemLabel.swift */; };
 		59CEC3D7273803BB003F94B1 /* PRItemLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEC3D5273803BB003F94B1 /* PRItemLabel.swift */; };
 		59DDC04F2737714200101394 /* PRItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC04E2737714200101394 /* PRItemType.swift */; };
@@ -87,7 +87,7 @@
 		5931189D2736867B00BA67BC /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		5990F52B27396BB1007DC686 /* MyPRManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPRManager.swift; sourceTree = "<group>"; };
 		599D979C2737C746003E1835 /* MenuBarPRCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarPRCell.swift; sourceTree = "<group>"; };
-		59CEC3D2273801FA003F94B1 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		59CEC3D2273801FA003F94B1 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		59CEC3D5273803BB003F94B1 /* PRItemLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRItemLabel.swift; sourceTree = "<group>"; };
 		59DDC04E2737714200101394 /* PRItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRItemType.swift; sourceTree = "<group>"; };
 		59DDC0512737ABAE00101394 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 			children = (
 				5931189D2736867B00BA67BC /* CheckBox.swift */,
 				69BB4C452737B6F1001175C8 /* RefreshableScrollView.swift */,
-				59CEC3D2273801FA003F94B1 /* Tag.swift */,
+				59CEC3D2273801FA003F94B1 /* TagView.swift */,
 				59CEC3D5273803BB003F94B1 /* PRItemLabel.swift */,
 				59F986402741505F00448880 /* TagListView.swift */,
 			);
@@ -452,7 +452,7 @@
 				69BB4C2A2736CB64001175C8 /* Constants.swift in Sources */,
 				6961B760273A8E9400A238F4 /* OldPullRequest.swift in Sources */,
 				69CA34C5273165D3004D5D9C /* API.swift in Sources */,
-				59CEC3D3273801FA003F94B1 /* Tag.swift in Sources */,
+				59CEC3D3273801FA003F94B1 /* TagView.swift in Sources */,
 				69BB4C3A27379B46001175C8 /* Array+Extensions.swift in Sources */,
 				69D64386273256DF0001BBBA /* NetworkService.swift in Sources */,
 				69BB4C462737B6F1001175C8 /* RefreshableScrollView.swift in Sources */,
@@ -487,7 +487,7 @@
 				6961B764273A8EA900A238F4 /* AbstractPullRequest.swift in Sources */,
 				69BB4C2B2736CB64001175C8 /* Constants.swift in Sources */,
 				69CA34C6273165D3004D5D9C /* API.swift in Sources */,
-				59CEC3D4273801FA003F94B1 /* Tag.swift in Sources */,
+				59CEC3D4273801FA003F94B1 /* TagView.swift in Sources */,
 				69BB4C3B27379B46001175C8 /* Array+Extensions.swift in Sources */,
 				59DDC0532737ABAE00101394 /* AppDelegate.swift in Sources */,
 				69D64387273256DF0001BBBA /* NetworkService.swift in Sources */,

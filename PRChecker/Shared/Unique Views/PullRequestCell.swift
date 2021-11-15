@@ -57,7 +57,7 @@ private struct Header: View {
 
             // Title, State
             HStack(alignment: .center) {
-                Tag(
+                TagView(
                     text: header.status.rawValue,
                     foregroundColor: .white,
                     backgroundColor: header.status.color
@@ -97,7 +97,7 @@ private struct BranchLabel: View {
     let type: BranchType
 
     var body: some View {
-        Tag(
+        TagView(
             text: labelText,
             backgroundColor: type.color
         )
@@ -157,7 +157,7 @@ private struct ContentBody: View {
                         .foregroundColor(.green)
                     TagListView(
                         tagViews: content.labels.map {
-                            Tag(text: $0.title, backgroundColor: $0.color)
+                            TagView(text: $0.title, backgroundColor: $0.color)
                         }
                     )
                 }
@@ -176,7 +176,7 @@ private struct Footer: View {
         VStack {
             // Viewer Status
             Label {
-                Tag(
+                TagView(
                     text: footer.status.rawValue,
                     foregroundColor: .white,
                     backgroundColor: footer.status.color

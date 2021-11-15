@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TagListView: View {
-    var tagViews: [Tag]
+    var tagViews: [TagView]
 
     @State private var totalHeight: CGFloat = 0
 
