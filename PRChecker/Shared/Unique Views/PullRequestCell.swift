@@ -155,7 +155,7 @@ private struct ContentBody: View {
                     PRItemType.tag.image
                         .scaledToFit()
                         .foregroundColor(.green)
-                    TagListView(
+                    TagGridView(
                         tagViews: content.labels.map {
                             TagView(text: $0.title, backgroundColor: $0.color)
                         }

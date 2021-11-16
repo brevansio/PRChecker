@@ -27,8 +27,8 @@
 		59DDC04F2737714200101394 /* PRItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC04E2737714200101394 /* PRItemType.swift */; };
 		59DDC0502737714B00101394 /* PRItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC04E2737714200101394 /* PRItemType.swift */; };
 		59DDC0532737ABAE00101394 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDC0512737ABAE00101394 /* AppDelegate.swift */; };
-		59F986412741505F00448880 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F986402741505F00448880 /* TagListView.swift */; };
-		59F986422741505F00448880 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F986402741505F00448880 /* TagListView.swift */; };
+		59F986412741505F00448880 /* TagGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F986402741505F00448880 /* TagGridView.swift */; };
+		59F986422741505F00448880 /* TagGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F986402741505F00448880 /* TagGridView.swift */; };
 		692A74E3273204F200C872AB /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E2273204F200C872AB /* Apollo */; };
 		692A74E5273204F200C872AB /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E4273204F200C872AB /* ApolloAPI */; };
 		692A74E7273204F200C872AB /* ApolloCodegenLib in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E6273204F200C872AB /* ApolloCodegenLib */; };
@@ -91,7 +91,7 @@
 		59CEC3D5273803BB003F94B1 /* PRItemLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRItemLabel.swift; sourceTree = "<group>"; };
 		59DDC04E2737714200101394 /* PRItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRItemType.swift; sourceTree = "<group>"; };
 		59DDC0512737ABAE00101394 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		59F986402741505F00448880 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
+		59F986402741505F00448880 /* TagGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagGridView.swift; sourceTree = "<group>"; };
 		6961B75F273A8E9400A238F4 /* OldPullRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldPullRequest.swift; sourceTree = "<group>"; };
 		6961B762273A8EA900A238F4 /* AbstractPullRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractPullRequest.swift; sourceTree = "<group>"; };
 		69BB4C1A27357FD4001175C8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 				69BB4C452737B6F1001175C8 /* RefreshableScrollView.swift */,
 				59CEC3D2273801FA003F94B1 /* TagView.swift */,
 				59CEC3D5273803BB003F94B1 /* PRItemLabel.swift */,
-				59F986402741505F00448880 /* TagListView.swift */,
+				59F986402741505F00448880 /* TagGridView.swift */,
 			);
 			path = "Common Views";
 			sourceTree = "<group>";
@@ -461,7 +461,7 @@
 				69CA34A0273161C0004D5D9C /* PRCheckerApp.swift in Sources */,
 				5931189A2736758400BA67BC /* FilterView.swift in Sources */,
 				69D6438A2732573A0001BBBA /* LoginInfoViewModel.swift in Sources */,
-				59F986412741505F00448880 /* TagListView.swift in Sources */,
+				59F986412741505F00448880 /* TagGridView.swift in Sources */,
 				69BB4C4C2737EEB4001175C8 /* SettingsView.swift in Sources */,
 				6961B763273A8EA900A238F4 /* AbstractPullRequest.swift in Sources */,
 			);
@@ -496,7 +496,7 @@
 				69CA34A1273161C0004D5D9C /* PRCheckerApp.swift in Sources */,
 				5990F52D27396BB1007DC686 /* MyPRManager.swift in Sources */,
 				59CEC3D7273803BB003F94B1 /* PRItemLabel.swift in Sources */,
-				59F986422741505F00448880 /* TagListView.swift in Sources */,
+				59F986422741505F00448880 /* TagGridView.swift in Sources */,
 				6961B761273A8E9400A238F4 /* OldPullRequest.swift in Sources */,
 				5931189B2736758400BA67BC /* FilterView.swift in Sources */,
 				69D6438B2732573A0001BBBA /* LoginInfoViewModel.swift in Sources */,

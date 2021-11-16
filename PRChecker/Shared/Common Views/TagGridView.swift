@@ -1,5 +1,5 @@
 //
-//  TagListView.swift
+//  TagGridView.swift
 //  PRChecker
 //
 //  Created by Chen Yuhan on 2021/11/14.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TagListView: View {
+struct TagGridView: View {
     var tagViews: [TagView]
 
     @State private var totalHeight: CGFloat = 0
