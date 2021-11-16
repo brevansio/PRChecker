@@ -17,12 +17,12 @@ struct TagListView: View {
         var width: CGFloat = 0
         var height: CGFloat = 0
 
-        return VStack {
+        VStack {
             GeometryReader { geometry in
                 let containerWidth = geometry.size.width
 
                 ZStack(alignment: .topLeading) {
-                    ForEach(self.tagViews, id: \.self) { tagView in
+                    ForEach(tagViews, id: \.text) { tagView in
                         tagView
                             .padding(4)
                             .alignmentGuide(.leading, computeValue: { d in
@@ -31,7 +31,7 @@ struct TagListView: View {
                                     height -= d.height
                                 }
                                 let result = width
-                                if tagView == self.tagViews.last! {
+                                if tagView == tagViews.last! {
                                     width = 0 // last item
                                 } else {
                                     width -= d.width
@@ -40,7 +40,7 @@ struct TagListView: View {
                             })
                             .alignmentGuide(.top, computeValue: { _ in
                                 let result = height
-                                if tagView == self.tagViews.last! {
+                                if tagView == tagViews.last! {
                                     height = 0 // last item
                                 }
                                 return result
