@@ -17,7 +17,7 @@ struct MenuBarPRCell: View {
         VStack(alignment: .leading) {
             // Viewer Status
             Label {
-                Tag(
+                TagView(
                     text: pullRequest.viewerStatus.rawValue,
                     foregroundColor: .white,
                     backgroundColor: pullRequest.viewerStatus.color
@@ -45,7 +45,7 @@ struct MenuBarPRCell: View {
                 PRItemLabel(text: pullRequest.author, type: .author)
 
                 Label {
-                    Tag(
+                    TagView(
                         text: pullRequest.state.rawValue,
                         foregroundColor: .white,
                         backgroundColor: pullRequest.state.color

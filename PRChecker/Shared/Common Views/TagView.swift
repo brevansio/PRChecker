@@ -1,5 +1,5 @@
 //
-//  Tag.swift
+//  TagView.swift
 //  PRChecker
 //
 //  Created by Chen Yuhan on 2021/11/07.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Tag: View {
+struct TagView: View {
     let text: String
     let foregroundColor: Color
     let backgroundColor: Color
@@ -31,5 +31,11 @@ struct Tag: View {
                 .background(backgroundColor)
                 .cornerRadius(8)
         }
+    }
+}
+
+extension TagView: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(text)
     }
 }
