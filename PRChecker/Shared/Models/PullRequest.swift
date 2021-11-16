@@ -12,8 +12,9 @@ import SwiftUI
 class PullRequest: AbstractPullRequest {
     let pullRequest: PrInfo
     
-    init(pullRequest: PrInfo) {
+    init(pullRequest: PrInfo, currentUser: String) {
         self.pullRequest = pullRequest
+        super.init(currentUser: currentUser)
     }
     
     override var id: GraphQLID {

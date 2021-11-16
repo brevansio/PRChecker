@@ -130,6 +130,14 @@ class AbstractPullRequest: ObservableObject, Identifiable {
         )
     }()
     
+    init(currentUser: String) {
+        self.currentUser = currentUser
+    }
+    
+    var currentUser: String
+    
+    var idBySection: String { id + currentUser }
+    
     var id: GraphQLID { GraphQLID("!!") }
     
     var isRead: Bool { false }

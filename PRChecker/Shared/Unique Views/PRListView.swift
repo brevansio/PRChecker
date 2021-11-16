@@ -62,7 +62,7 @@ struct PRSectionView: View {
     
     var body: some View {
         Section(header: PRSectionHeaderView(name: name)) {
-            ForEach(prList, id: \.id) { pullRequest in
+            ForEach(prList, id: \.idBySection) { pullRequest in
                 PullRequestCell(pullRequest: pullRequest)
                     .cornerRadius(16)
                     .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray3, lineWidth: 1))
