@@ -14,6 +14,7 @@ class PRListViewModel: ObservableObject {
     @Published var additionalFilters: [String: [Filter]]?
     
     private var subscriptions = Set<AnyCancellable>()
+    private var timerSubscription: AnyCancellable?
     
     init() {
         SettingsViewModel.shared.$userList
@@ -23,12 +24,17 @@ class PRListViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
         
-        Timer.publish(every: 300, tolerance: 15, on: .main, in: .default)
-            .autoconnect()
-            .sink { _ in
-                self.getPRList()
+        SettingsViewModel.shared.$refreshInterval
+            .receive(on: DispatchQueue.main)
+            .sink { refreshSetting in
+                self.timerSubscription = Timer
+                    .publish(every: refreshSetting.rawValue, tolerance: 15, on: .main, in: .default)
+                    .autoconnect()
+                    .sink { _ in
+                        self.getPRList()
+                    }
             }
-            .store(in: &self.subscriptions)
+            .store(in: &subscriptions)
     }
     
     func getPRList(completion: (() -> Void)? = nil) {
