@@ -22,6 +22,10 @@ struct SettingsView: View {
                 
                 Divider()
                 
+                DisplayOptionView(settingsViewModel: settingsViewModel)
+                
+                Divider()
+                
                 WatchedListView(settingsViewModel: settingsViewModel)
             }
             .padding()

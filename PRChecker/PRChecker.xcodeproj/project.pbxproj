@@ -33,6 +33,8 @@
 		691ED0AA2740FFBA00F6C74E /* WatchedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691ED0A82740FFBA00F6C74E /* WatchedListView.swift */; };
 		691ED0AC274100B300F6C74E /* RefreshSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691ED0AB274100B300F6C74E /* RefreshSettingsView.swift */; };
 		691ED0AD274100B300F6C74E /* RefreshSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691ED0AB274100B300F6C74E /* RefreshSettingsView.swift */; };
+		691ED0AF27410A5F00F6C74E /* DisplayOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691ED0AE27410A5F00F6C74E /* DisplayOptionView.swift */; };
+		691ED0B027410A5F00F6C74E /* DisplayOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691ED0AE27410A5F00F6C74E /* DisplayOptionView.swift */; };
 		692A74E3273204F200C872AB /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E2273204F200C872AB /* Apollo */; };
 		692A74E5273204F200C872AB /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E4273204F200C872AB /* ApolloAPI */; };
 		692A74E7273204F200C872AB /* ApolloCodegenLib in Frameworks */ = {isa = PBXBuildFile; productRef = 692A74E6273204F200C872AB /* ApolloCodegenLib */; };
@@ -98,6 +100,7 @@
 		59F986402741505F00448880 /* TagGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagGridView.swift; sourceTree = "<group>"; };
 		691ED0A82740FFBA00F6C74E /* WatchedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedListView.swift; sourceTree = "<group>"; };
 		691ED0AB274100B300F6C74E /* RefreshSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshSettingsView.swift; sourceTree = "<group>"; };
+		691ED0AE27410A5F00F6C74E /* DisplayOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayOptionView.swift; sourceTree = "<group>"; };
 		6961B75F273A8E9400A238F4 /* OldPullRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldPullRequest.swift; sourceTree = "<group>"; };
 		6961B762273A8EA900A238F4 /* AbstractPullRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractPullRequest.swift; sourceTree = "<group>"; };
 		69BB4C1A27357FD4001175C8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -199,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				69CA3491273161BF004D5D9C /* ContentView.swift */,
+				691ED0AE27410A5F00F6C74E /* DisplayOptionView.swift */,
 				593118992736758400BA67BC /* FilterView.swift */,
 				69BB4C1A27357FD4001175C8 /* LoginView.swift */,
 				69BB4C262736CB60001175C8 /* PRListView.swift */,
@@ -462,6 +466,7 @@
 				69CA34C5273165D3004D5D9C /* API.swift in Sources */,
 				59CEC3D3273801FA003F94B1 /* TagView.swift in Sources */,
 				69BB4C3A27379B46001175C8 /* Array+Extensions.swift in Sources */,
+				691ED0AF27410A5F00F6C74E /* DisplayOptionView.swift in Sources */,
 				69D64386273256DF0001BBBA /* NetworkService.swift in Sources */,
 				69BB4C462737B6F1001175C8 /* RefreshableScrollView.swift in Sources */,
 				59DDC04F2737714200101394 /* PRItemType.swift in Sources */,
@@ -510,6 +515,7 @@
 				59F986422741505F00448880 /* TagGridView.swift in Sources */,
 				691ED0AD274100B300F6C74E /* RefreshSettingsView.swift in Sources */,
 				6961B761273A8E9400A238F4 /* OldPullRequest.swift in Sources */,
+				691ED0B027410A5F00F6C74E /* DisplayOptionView.swift in Sources */,
 				5931189B2736758400BA67BC /* FilterView.swift in Sources */,
 				69D6438B2732573A0001BBBA /* LoginInfoViewModel.swift in Sources */,
 				69BB4C502737F1B1001175C8 /* SettingsViewModel.swift in Sources */,
