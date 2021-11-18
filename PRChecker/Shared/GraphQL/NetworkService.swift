@@ -38,35 +38,20 @@ final class NetworkSerivce {
     private var subscriptions = Set<AnyCancellable>()
     
     private init() {
-        // Because of the debounce, we still need the lazy setter for apollo. Because of that, we also need to
-        // dropFirst, otherwise we end up missing our first set of results. We need the debouce because typing will
-        // trigger this, and we don't need that many resets of our apollo client.
-        SettingsViewModel.shared.loginViewModel.$apiEndpoint
-            .dropFirst()
+        SettingsViewModel.shared.loginViewModel.objectWillChange
             .debounce(for: .seconds(0.75), scheduler: RunLoop.main)
-            .sink { newEndpoint in
-                guard !newEndpoint.isEmpty else { return }
-                let url = URL(string: newEndpoint)!
-                let configuration = URLSessionConfiguration.default
-                
-                let store = ApolloStore()
-                configuration.httpAdditionalHeaders = ["authorization": "Bearer \(SettingsViewModel.shared.loginViewModel.accessToken)"]
-                
-                let sessionClient = URLSessionClient(sessionConfiguration: configuration, callbackQueue: nil)
-                
-                let provider = DefaultInterceptorProvider(
-                    client: sessionClient,
-                    shouldInvalidateClientOnDeinit: true,
-                    store: store
-                )
-                let requestChainTransport = RequestChainNetworkTransport(interceptorProvider: provider, endpointURL: url)
-                
-                self.apollo = ApolloClient(networkTransport: requestChainTransport, store: store)                
+            .sink { _ in
+                DispatchQueue.main.async {
+                    guard SettingsViewModel.shared.loginViewModel.canLogin else { return }
+                    self.apollo = self.generateClient()
+                }
             }
             .store(in: &subscriptions)
     }
         
-    private(set) lazy var apollo: ApolloClient = {
+    private(set) lazy var apollo: ApolloClient = generateClient()
+    
+    private func generateClient() -> ApolloClient {
         let url = URL(string: SettingsViewModel.shared.loginViewModel.apiEndpoint)!
         let configuration = URLSessionConfiguration.default
 
@@ -83,7 +68,7 @@ final class NetworkSerivce {
         let requestChainTransport = RequestChainNetworkTransport(interceptorProvider: provider, endpointURL: url)
 
         return ApolloClient(networkTransport: requestChainTransport, store: store)
-    }()
+    }
     
     func getAllPRs() -> AnyPublisher<NetworkPRResult, Error> {
         getAllPRs(for: SettingsViewModel.shared.loginViewModel.username)

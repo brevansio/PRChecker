@@ -42,7 +42,7 @@ class SettingsViewModel: ObservableObject {
         }
     }
     
-    var loginViewModel = LoginInfoViewModel()
+    @Published var loginViewModel = LoginInfoViewModel()
         
     private init() {
         if let existingUserList = UserDefaults.standard.userList {
