@@ -49,9 +49,11 @@ class PRListViewModel: ObservableObject {
     func getMyPRList(completion: (() -> Void)? = nil) {
         NetworkSerivce.shared.getAllPRs()
             .receive(on: DispatchQueue.main)
-            .sink { error in
-                // TODO: Handle Errors
-                MyPRManager.shared.prList = []
+            .sink { termination in
+                if case .failure(let error) = termination {
+                    // TODO: Handle Errors
+                    MyPRManager.shared.prList = []
+                }
                 completion?()
             } receiveValue: { prList in
                 MyPRManager.shared.prList = prList.pullRequests
@@ -86,9 +88,11 @@ class PRListViewModel: ObservableObject {
         
         NetworkSerivce.shared.getAllPRs(for: userList)
             .receive(on: DispatchQueue.main)
-            .sink { error in
-                // TODO: Handle Error
-                self.watchedPRList = []
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    // TODO: Handle Error
+                    self.watchedPRList = []
+                }
             } receiveValue: { newEntry in
                 self.watchedPRList = ([newEntry] + self.watchedPRList)
                     .arrayByRemovingDuplicates()

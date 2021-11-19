@@ -109,8 +109,9 @@ final class NetworkSerivce {
                 prList.arrayByRemovingDuplicates()
                     .sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
             }
-            .map{ prList in
-                NetworkPRResult(name: username, pullRequests: prList)
+            .collect(publishers.count)
+            .map { prList in
+                NetworkPRResult(name: username, pullRequests: prList.flatMap { $0 })
             }
             .eraseToAnyPublisher()
     }
@@ -152,6 +153,7 @@ extension NetworkSerivce {
                         PullRequest(pullRequest: $0, currentUser: networkQuery.username)
                     }
                 resultPublisher.send(resultList)
+                resultPublisher.send(completion: .finished)
             case .failure(let error):
                 resultPublisher.send(completion: .failure(error))
             }
@@ -184,6 +186,7 @@ extension NetworkSerivce {
                     }
                 
                 resultPublisher.send(resultList)
+                resultPublisher.send(completion: .finished)
             case .failure(let error):
                 resultPublisher.send(completion: .failure(error))
             }
