@@ -16,11 +16,10 @@ class PRListViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     
     init() {
-        UserDefaults.standard
-            .publisher(for: \.userList)
+        SettingsViewModel.shared.$userList
+            .receive(on: DispatchQueue.main)
             .sink { userList in
-                guard let userList = userList else { return }
-                self.getWatchedPRList(for: userList)
+                self.watchedPRList = self.watchedPRList.filter { userList.contains($0.name) }
             }
             .store(in: &subscriptions)
         
@@ -36,8 +35,8 @@ class PRListViewModel: ObservableObject {
         // TODO: Convert these to Publishers and make it work with the RefreshableScrollView
         getMyPRList(completion: completion)
         
-        if let watchedUsers = UserDefaults.standard.userList {
-            getWatchedPRList(for: watchedUsers)
+        if !SettingsViewModel.shared.userList.isEmpty {
+            getWatchedPRList(for: SettingsViewModel.shared.userList)
         }
     }
     
@@ -74,7 +73,7 @@ class PRListViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
-    func getWatchedPRList(for userList: [String]) {
+    func getWatchedPRList(for userList: [String]) {        
         self.watchedPRList = self.watchedPRList.filter { userList.contains($0.name) }
         
         NetworkSerivce.shared.getAllPRs(for: userList)

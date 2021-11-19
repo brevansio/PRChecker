@@ -24,6 +24,8 @@ struct DisplayOption: OptionSet {
 }
 
 class SettingsViewModel: ObservableObject {
+    static let shared = SettingsViewModel()
+    
     @Published var userList: [String] {
         didSet {
             UserDefaults.standard.userList = userList
@@ -39,8 +41,10 @@ class SettingsViewModel: ObservableObject {
             UserDefaults.standard.displayOptions = displayOptions
         }
     }
+    
+    var loginViewModel = LoginInfoViewModel()
         
-    init() {
+    private init() {
         if let existingUserList = UserDefaults.standard.userList {
             userList = existingUserList
         } else {

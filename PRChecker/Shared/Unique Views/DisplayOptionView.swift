@@ -55,6 +55,6 @@ struct DisplayOptionView: View {
 
 struct DisplayOptionView_Previews: PreviewProvider {
     static var previews: some View {
-        DisplayOptionView(settingsViewModel: SettingsViewModel())
+        DisplayOptionView(settingsViewModel: SettingsViewModel.shared)
     }
 }

@@ -33,46 +33,44 @@ struct NetworkQuery {
 
 final class NetworkSerivce {
     static let shared = NetworkSerivce()
-
-    private var username: String
-    private var accessToken: String
-    private var apiEndpoint: String {
-        didSet {
-            guard !apiEndpoint.isEmpty else { return }
-            let url = URL(string: apiEndpoint)!
-            let configuration = URLSessionConfiguration.default
-
-            let store = ApolloStore()
-            configuration.httpAdditionalHeaders = ["authorization": "Bearer \(accessToken)"]
-
-            let sessionClient = URLSessionClient(sessionConfiguration: configuration, callbackQueue: nil)
-
-            let provider = DefaultInterceptorProvider(
-                client: sessionClient,
-                shouldInvalidateClientOnDeinit: true,
-                store: store
-            )
-            let requestChainTransport = RequestChainNetworkTransport(interceptorProvider: provider, endpointURL: url)
-
-            apollo = ApolloClient(networkTransport: requestChainTransport, store: store)
-        }
-    }
-    private var useLegacyQuery: Bool
+    
+    private var subscriptions = Set<AnyCancellable>()
     
     private init() {
-        let keychainService = Keychain(service: KeychainKey.service)
-        username = keychainService[KeychainKey.username] ?? ""
-        accessToken = keychainService[KeychainKey.accessToken] ?? ""
-        apiEndpoint = keychainService[KeychainKey.apiEndpoint] ?? "https://api.github.com/graphql"
-        useLegacyQuery = UserDefaults.standard.useLegacyQueries
+        // Because of the debounce, we still need the lazy setter for apollo. Because of that, we also need to
+        // dropFirst, otherwise we end up missing our first set of results. We need the debouce because typing will
+        // trigger this, and we don't need that many resets of our apollo client.
+        SettingsViewModel.shared.loginViewModel.$apiEndpoint
+            .dropFirst()
+            .debounce(for: .seconds(0.75), scheduler: RunLoop.main)
+            .sink { newEndpoint in
+                guard !newEndpoint.isEmpty else { return }
+                let url = URL(string: newEndpoint)!
+                let configuration = URLSessionConfiguration.default
+                
+                let store = ApolloStore()
+                configuration.httpAdditionalHeaders = ["authorization": "Bearer \(SettingsViewModel.shared.loginViewModel.accessToken)"]
+                
+                let sessionClient = URLSessionClient(sessionConfiguration: configuration, callbackQueue: nil)
+                
+                let provider = DefaultInterceptorProvider(
+                    client: sessionClient,
+                    shouldInvalidateClientOnDeinit: true,
+                    store: store
+                )
+                let requestChainTransport = RequestChainNetworkTransport(interceptorProvider: provider, endpointURL: url)
+                
+                self.apollo = ApolloClient(networkTransport: requestChainTransport, store: store)                
+            }
+            .store(in: &subscriptions)
     }
         
     private(set) lazy var apollo: ApolloClient = {
-        let url = URL(string: apiEndpoint)!
+        let url = URL(string: SettingsViewModel.shared.loginViewModel.apiEndpoint)!
         let configuration = URLSessionConfiguration.default
 
         let store = ApolloStore()
-        configuration.httpAdditionalHeaders = ["authorization": "Bearer \(accessToken)"]
+        configuration.httpAdditionalHeaders = ["authorization": "Bearer \(SettingsViewModel.shared.loginViewModel.accessToken)"]
 
         let sessionClient = URLSessionClient(sessionConfiguration: configuration, callbackQueue: nil)
 
@@ -86,15 +84,8 @@ final class NetworkSerivce {
         return ApolloClient(networkTransport: requestChainTransport, store: store)
     }()
     
-    func configure(for username: String, accessToken: String, endpoint: String, useLegacyQuery: Bool) {
-        self.username = username
-        self.accessToken = accessToken
-        self.apiEndpoint = endpoint
-        self.useLegacyQuery = useLegacyQuery
-    }
-    
     func getAllPRs() -> AnyPublisher<NetworkPRResult, Error> {
-        getAllPRs(for: username)
+        getAllPRs(for: SettingsViewModel.shared.loginViewModel.username)
     }
     
     func getAllPRs(for username: String) -> AnyPublisher<NetworkPRResult, Error> {
@@ -126,11 +117,11 @@ final class NetworkSerivce {
     }
     
     func getPR(with networkQuery: NetworkQuery) -> AnyPublisher<[AbstractPullRequest], Error> {
-        guard !username.isEmpty, !accessToken.isEmpty, !apiEndpoint.isEmpty else {
+        guard !SettingsViewModel.shared.loginViewModel.username.isEmpty, !SettingsViewModel.shared.loginViewModel.accessToken.isEmpty, !SettingsViewModel.shared.loginViewModel.apiEndpoint.isEmpty else {
             return Fail(error: NetworkServiceError.missingLogin).eraseToAnyPublisher()
         }
         
-        guard !useLegacyQuery else { return getOldPR(with: networkQuery) }
+        guard !SettingsViewModel.shared.loginViewModel.useLegacyQuery else { return getOldPR(with: networkQuery) }
         return getNewPR(with: networkQuery)
     }
 }
@@ -152,7 +143,7 @@ extension NetworkSerivce {
                     return
                 }
                 let resultList = prList.compactMap { $0 }
-                    .filter { $0.author?.login != self.username }
+                    .filter { $0.author?.login != SettingsViewModel.shared.loginViewModel.username }
                     .map {
                         PullRequest(pullRequest: $0, currentUser: networkQuery.username)
                     }
@@ -183,9 +174,9 @@ extension NetworkSerivce {
                     return
                 }
                 let resultList = prList.compactMap { $0 }
-                    .filter { $0.author?.login != self.username }
+                    .filter { $0.author?.login != SettingsViewModel.shared.loginViewModel.username }
                     .map {
-                        OldPullRequest(pullRequest: $0, currentUser: networkQuery.username, viewingUser: self.username)
+                        OldPullRequest(pullRequest: $0, currentUser: networkQuery.username, viewingUser: SettingsViewModel.shared.loginViewModel.username)
                     }
                 
                 resultPublisher.send(resultList)

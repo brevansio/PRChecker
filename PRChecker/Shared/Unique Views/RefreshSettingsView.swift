@@ -24,7 +24,7 @@ struct RefreshSettingsView: View {
 
 struct RefreshSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        RefreshSettingsView(settingsViewModel: SettingsViewModel())
+        RefreshSettingsView(settingsViewModel: SettingsViewModel.shared)
     }
 }
 

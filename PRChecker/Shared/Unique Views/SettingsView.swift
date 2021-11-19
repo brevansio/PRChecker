@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @StateObject var settingsViewModel = SettingsViewModel()
+    @ObservedObject var settingsViewModel = SettingsViewModel.shared
         
     var body: some View {
         ScrollView {

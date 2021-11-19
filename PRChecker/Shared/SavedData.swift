@@ -22,12 +22,12 @@ extension UserDefaults {
         static let displayOptions = "io.brevans.PRChecker.displayOptions"
     }
     
-    @objc dynamic var userList: [String]? {
+    var userList: [String]? {
         get { stringArray(forKey: UserDefaultsKey.userList) }
         set { set(newValue, forKey: UserDefaultsKey.userList) }
     }
     
-    dynamic var refreshInterval: RefreshSetting {
+    var refreshInterval: RefreshSetting {
         get {
             let rawValue = double(forKey: UserDefaultsKey.refreshInterval)
             return RefreshSetting(rawValue: rawValue) ?? .fiveMinutes
@@ -35,15 +35,15 @@ extension UserDefaults {
         set { set(newValue.rawValue, forKey: UserDefaultsKey.refreshInterval) }
     }
     
-    @objc dynamic var useLegacyQueries: Bool {
+    var useLegacyQueries: Bool {
         get { bool(forKey: UserDefaultsKey.legacyQueries) }
         set { set(newValue, forKey: UserDefaultsKey.legacyQueries) }
     }
     
-    dynamic var displayOptions: DisplayOption {
+    var displayOptions: DisplayOption {
         get {
             let rawValue = integer(forKey: UserDefaultsKey.displayOptions)
-            return DisplayOption(rawValue: rawValue) ?? [.assigned, .reviewRequested, .reviewed]
+            return DisplayOption(rawValue: rawValue)
         }
         set { set(newValue.rawValue, forKey: UserDefaultsKey.displayOptions) }
     }

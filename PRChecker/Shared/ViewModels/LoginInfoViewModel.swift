@@ -9,11 +9,11 @@ import Foundation
 import Apollo
 import KeychainAccess
 
-struct LoginInfoViewModel {
-    var username: String
-    var accessToken: String
-    var apiEndpoint: String
-    var useLegacyQuery: Bool
+class LoginInfoViewModel: ObservableObject {
+    @Published var username: String
+    @Published var accessToken: String
+    @Published var apiEndpoint: String
+    @Published var useLegacyQuery: Bool
     
     var canLogin: Bool {
         !username.isEmpty && !accessToken.isEmpty && !apiEndpoint.isEmpty
@@ -27,14 +27,12 @@ struct LoginInfoViewModel {
         useLegacyQuery = UserDefaults.standard.useLegacyQueries
     }
 
-    func saveToKeychain() {
+    func save() {
         let keychainService = Keychain(service: KeychainKey.service)
         keychainService[KeychainKey.apiEndpoint] = apiEndpoint
         keychainService[KeychainKey.username] = username
         keychainService[KeychainKey.accessToken] = accessToken
         UserDefaults.standard.useLegacyQueries = useLegacyQuery
-        
-        NetworkSerivce.shared.configure(for: username, accessToken: accessToken, endpoint: apiEndpoint, useLegacyQuery: useLegacyQuery)
     }
 }
 
