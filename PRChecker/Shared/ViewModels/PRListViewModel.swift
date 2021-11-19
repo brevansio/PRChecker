@@ -27,6 +27,10 @@ class PRListViewModel: ObservableObject {
         SettingsViewModel.shared.$refreshInterval
             .receive(on: DispatchQueue.main)
             .sink { refreshSetting in
+                guard refreshSetting != .never else {
+                    self.timerSubscription = nil
+                    return
+                }
                 self.timerSubscription = Timer
                     .publish(every: refreshSetting.rawValue, tolerance: 15, on: .main, in: .default)
                     .autoconnect()

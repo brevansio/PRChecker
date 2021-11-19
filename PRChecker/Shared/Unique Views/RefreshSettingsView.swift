@@ -41,6 +41,8 @@ extension RefreshSetting {
             return "30 min"
         case .oneHour:
             return "60 min"
+        case .never:
+            return "Never"
         }
     }
 }

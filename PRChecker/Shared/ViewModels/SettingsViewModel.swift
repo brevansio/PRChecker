@@ -13,6 +13,7 @@ enum RefreshSetting: TimeInterval, CaseIterable {
     case fifteenMinutes = 900
     case thirtyMinutes = 1800
     case oneHour = 3600
+    case never = -1
 }
 
 struct DisplayOption: OptionSet {
