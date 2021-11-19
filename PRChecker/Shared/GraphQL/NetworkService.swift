@@ -105,13 +105,14 @@ final class NetworkSerivce {
         guard !publishers.isEmpty else { return Fail(error: NetworkServiceError.missingQuery).eraseToAnyPublisher() }
         
         return Publishers.MergeMany(publishers)
-            .map { prList in
-                prList.arrayByRemovingDuplicates()
-                    .sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
-            }
             .collect(publishers.count)
             .map { prList in
-                NetworkPRResult(name: username, pullRequests: prList.flatMap { $0 })
+                prList.flatMap { $0 }
+                    .arrayByRemovingDuplicates()
+                    .sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
+            }
+            .map { prList in
+                NetworkPRResult(name: username, pullRequests: prList)
             }
             .eraseToAnyPublisher()
     }
