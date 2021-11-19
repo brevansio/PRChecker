@@ -32,6 +32,30 @@ struct NetworkQuery {
     var completedQuery: String { query(username) }
 }
 
+extension DisplayOption {
+    func queries(for username: String) -> [NetworkQuery] {
+        var queries = [NetworkQuery]()
+        
+        if contains(.assigned) {
+            queries.append(
+                NetworkQuery(username: username) { "is:pr assignee:\($0) archived:false sort:updated" }
+            )
+        }
+        if contains(.reviewRequested) {
+            queries.append(
+                NetworkQuery(username: username) { "is:pr review-requested:\($0) archived:false sort:updated" }
+            )
+        }
+        if contains(.reviewed) {
+            queries.append(
+                NetworkQuery(username: username) { "is:pr reviewed-by:\($0) archived:false sort:updated" }
+            )
+        }
+        
+        return queries
+    }
+}
+
 final class NetworkSerivce {
     static let shared = NetworkSerivce()
     
@@ -75,26 +99,8 @@ final class NetworkSerivce {
     }
     
     func getAllPRs(for username: String) -> AnyPublisher<NetworkPRResult, Error> {
-        var publishers = [AnyPublisher<[AbstractPullRequest], Error>]()
-        
-        if SettingsViewModel.shared.displayOptions.contains(.assigned) {
-            let assignedQuery = NetworkQuery(username: username) {
-                "is:pr assignee:\($0) archived:false sort:updated"
-            }
-            publishers.append(getPR(with: assignedQuery))
-        }
-        if SettingsViewModel.shared.displayOptions.contains(.reviewRequested) {
-            let requestedQuery = NetworkQuery(username: username) {
-                "is:pr review-requested:\($0) archived:false sort:updated"
-            }
-            publishers.append(getPR(with: requestedQuery))
-        }
-        if SettingsViewModel.shared.displayOptions.contains(.reviewed) {
-            let reviewedQuery = NetworkQuery(username: username) {
-                "is:pr reviewed-by:\($0) archived:false sort:updated"
-            }
-            publishers.append( getPR(with: reviewedQuery))
-        }
+        let publishers = SettingsViewModel.shared.displayOptions.queries(for: username)
+            .map { self.getPR(with: $0) }
         
         guard !publishers.isEmpty else { return Fail(error: NetworkServiceError.missingQuery).eraseToAnyPublisher() }
         
