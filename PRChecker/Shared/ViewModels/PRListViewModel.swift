@@ -51,6 +51,8 @@ class PRListViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { error in
                 // TODO: Handle Errors
+                MyPRManager.shared.prList = []
+                completion?()
             } receiveValue: { prList in
                 MyPRManager.shared.prList = prList.pullRequests
                 
@@ -86,6 +88,7 @@ class PRListViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { error in
                 // TODO: Handle Error
+                self.watchedPRList = []
             } receiveValue: { newEntry in
                 self.watchedPRList = ([newEntry] + self.watchedPRList)
                     .arrayByRemovingDuplicates()

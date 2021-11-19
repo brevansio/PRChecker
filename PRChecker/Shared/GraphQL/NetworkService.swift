@@ -13,6 +13,7 @@ import KeychainAccess
 enum NetworkServiceError: Error {
     case missingLogin
     case decodingIssue
+    case missingQuery
 }
 
 struct NetworkPRResult: Equatable {
@@ -89,20 +90,32 @@ final class NetworkSerivce {
     }
     
     func getAllPRs(for username: String) -> AnyPublisher<NetworkPRResult, Error> {
-        let assignedQuery = NetworkQuery(username: username) {
-            "is:pr assignee:\($0) archived:false sort:updated"
+        var publishers = [AnyPublisher<[AbstractPullRequest], Error>]()
+        
+        if SettingsViewModel.shared.displayOptions.contains(.assigned) {
+            let assignedQuery = NetworkQuery(username: username) {
+                "is:pr assignee:\($0) archived:false sort:updated"
+            }
+            publishers.append(getPR(with: assignedQuery))
         }
-        let requestedQuery = NetworkQuery(username: username) {
-            "is:pr review-requested:\($0) archived:false sort:updated"
+        if SettingsViewModel.shared.displayOptions.contains(.reviewRequested) {
+            let requestedQuery = NetworkQuery(username: username) {
+                "is:pr review-requested:\($0) archived:false sort:updated"
+            }
+            publishers.append(getPR(with: requestedQuery))
         }
-        let reviewedQuery = NetworkQuery(username: username) {
-            "is:pr reviewed-by:\($0) archived:false sort:updated"
+        if SettingsViewModel.shared.displayOptions.contains(.reviewed) {
+            let reviewedQuery = NetworkQuery(username: username) {
+                "is:pr reviewed-by:\($0) archived:false sort:updated"
+            }
+            publishers.append( getPR(with: reviewedQuery))
         }
         
-        return Publishers.Zip3(getPR(with: assignedQuery), getPR(with: requestedQuery), getPR(with: reviewedQuery))
-            .map { prLists in
-                (prLists.0 + prLists.1 + prLists.2)
-                    .arrayByRemovingDuplicates()
+        guard !publishers.isEmpty else { return Fail(error: NetworkServiceError.missingQuery).eraseToAnyPublisher() }
+        
+        return Publishers.MergeMany(publishers)
+            .map { prList in
+                prList.arrayByRemovingDuplicates()
                     .sorted { $0.rawUpdatedAt > $1.rawUpdatedAt }
             }
             .map{ prList in
