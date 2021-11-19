@@ -11,11 +11,12 @@ import SwiftUI
 
 class OldPullRequest: AbstractPullRequest {
     let pullRequest: OldPrInfo
-    let username: String
+    let viewingUser: String
     
-    init(pullRequest: OldPrInfo, username: String) {
+    init(pullRequest: OldPrInfo, currentUser: String, viewingUser: String) {
         self.pullRequest = pullRequest
-        self.username = username
+        self.viewingUser = viewingUser
+        super.init(currentUser: currentUser)
     }
     
     override var id: GraphQLID {
@@ -92,7 +93,7 @@ class OldPullRequest: AbstractPullRequest {
             return .waiting     // No reviews at all
         }
         
-        guard let viewersReview = nodes.last(where: { $0?.author?.login == username }) else {
+        guard let viewersReview = nodes.last(where: { $0?.author?.login == viewingUser }) else {
             return .waiting     // Viewer has not reviewed
         }
         

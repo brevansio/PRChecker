@@ -24,6 +24,13 @@ struct NetworkPRResult: Equatable {
     }
 }
 
+struct NetworkQuery {
+    let username: String
+    let query: (String) -> String
+    
+    var completedQuery: String { query(username) }
+}
+
 final class NetworkSerivce {
     static let shared = NetworkSerivce()
 
@@ -91,9 +98,15 @@ final class NetworkSerivce {
     }
     
     func getAllPRs(for username: String) -> AnyPublisher<NetworkPRResult, Error> {
-        let assignedQuery = "is:pr assignee:\(username) archived:false sort:updated"
-        let requestedQuery = "is:pr review-requested:\(username) archived:false sort:updated"
-        let reviewedQuery = "is:pr reviewed-by:\(username) archived:false sort:updated"
+        let assignedQuery = NetworkQuery(username: username) {
+            "is:pr assignee:\($0) archived:false sort:updated"
+        }
+        let requestedQuery = NetworkQuery(username: username) {
+            "is:pr review-requested:\($0) archived:false sort:updated"
+        }
+        let reviewedQuery = NetworkQuery(username: username) {
+            "is:pr reviewed-by:\($0) archived:false sort:updated"
+        }
         
         return Publishers.Zip3(getPR(with: assignedQuery), getPR(with: requestedQuery), getPR(with: reviewedQuery))
             .map { prLists in
@@ -112,22 +125,22 @@ final class NetworkSerivce {
             .eraseToAnyPublisher()
     }
     
-    func getPR(with query: String) -> AnyPublisher<[AbstractPullRequest], Error> {
+    func getPR(with networkQuery: NetworkQuery) -> AnyPublisher<[AbstractPullRequest], Error> {
         guard !username.isEmpty, !accessToken.isEmpty, !apiEndpoint.isEmpty else {
             return Fail(error: NetworkServiceError.missingLogin).eraseToAnyPublisher()
         }
         
-        guard !useLegacyQuery else { return getOldPR(with: query) }
-        return getNewPR(with: query)
+        guard !useLegacyQuery else { return getOldPR(with: networkQuery) }
+        return getNewPR(with: networkQuery)
     }
 }
 
 extension NetworkSerivce {
-    func getNewPR(with query: String) -> AnyPublisher<[AbstractPullRequest], Error> {
+    func getNewPR(with networkQuery: NetworkQuery) -> AnyPublisher<[AbstractPullRequest], Error> {
         let resultPublisher = PassthroughSubject<[AbstractPullRequest], Error>()
         
         apollo.fetch(
-            query: GetAssignedPRsWithQueryQuery(query: query),
+            query: GetAssignedPRsWithQueryQuery(query: networkQuery.completedQuery),
             cachePolicy: .fetchIgnoringCacheData,
             queue: .global(qos: .userInitiated)
         ) { result in
@@ -140,7 +153,9 @@ extension NetworkSerivce {
                 }
                 let resultList = prList.compactMap { $0 }
                     .filter { $0.author?.login != self.username }
-                    .map(PullRequest.init)
+                    .map {
+                        PullRequest(pullRequest: $0, currentUser: networkQuery.username)
+                    }
                 resultPublisher.send(resultList)
             case .failure(let error):
                 resultPublisher.send(completion: .failure(error))
@@ -152,11 +167,11 @@ extension NetworkSerivce {
 }
 
 extension NetworkSerivce {
-    func getOldPR(with query: String) -> AnyPublisher<[AbstractPullRequest], Error> {
+    func getOldPR(with networkQuery: NetworkQuery) -> AnyPublisher<[AbstractPullRequest], Error> {
         let resultPublisher = PassthroughSubject<[AbstractPullRequest], Error>()
         
         apollo.fetch(
-            query: GetOldAssignedPRsWithQueryQuery(query: query),
+            query: GetOldAssignedPRsWithQueryQuery(query: networkQuery.completedQuery),
             cachePolicy: .fetchIgnoringCacheData,
             queue: .global(qos: .userInitiated)
         ) { result in
@@ -170,7 +185,7 @@ extension NetworkSerivce {
                 let resultList = prList.compactMap { $0 }
                     .filter { $0.author?.login != self.username }
                     .map {
-                        OldPullRequest(pullRequest: $0, username: self.username)
+                        OldPullRequest(pullRequest: $0, currentUser: networkQuery.username, viewingUser: self.username)
                     }
                 
                 resultPublisher.send(resultList)
