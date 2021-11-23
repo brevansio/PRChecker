@@ -18,7 +18,7 @@ enum PRItemType {
     case commits
     case description
     case tag
-    case viewerStatus
+    case reviewStatus
     case readStatus
     case backwardArrow
 
@@ -41,7 +41,7 @@ enum PRItemType {
                 return "doc.text"
             case .tag:
                 return "tag"
-            case .viewerStatus:
+            case .reviewStatus:
                 return "bell.badge"
             case .readStatus:
                 return "envelope.open"

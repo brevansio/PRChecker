@@ -149,7 +149,7 @@ extension NetworkSerivce {
                     return
                 }
                 let resultList = prList.compactMap { $0 }
-                    .filter { $0.author?.login != SettingsViewModel.shared.loginViewModel.username }
+                    .filter { $0.author?.login.lowercased() != networkQuery.username.lowercased() }
                     .map {
                         PullRequest(pullRequest: $0, currentUser: networkQuery.username)
                     }
@@ -181,7 +181,7 @@ extension NetworkSerivce {
                     return
                 }
                 let resultList = prList.compactMap { $0 }
-                    .filter { $0.author?.login != SettingsViewModel.shared.loginViewModel.username }
+                    .filter { $0.author?.login.lowercased() != networkQuery.username.lowercased() }
                     .map {
                         OldPullRequest(pullRequest: $0, currentUser: networkQuery.username, viewingUser: SettingsViewModel.shared.loginViewModel.username)
                     }
