@@ -26,7 +26,7 @@ enum PRState: String {
     }
 }
 
-enum ViewerStatus: String {
+enum ReviewStatus: String {
     case waiting = "Waiting"
     case commented = "Commented"
     case blocked = "Blocked"
@@ -96,7 +96,7 @@ struct ContentViewModel {
 }
 
 struct FooterViewModel {
-    let status: ViewerStatus
+    let status: ReviewStatus
     let updatedTime: String
 }
 
@@ -125,7 +125,7 @@ class AbstractPullRequest: ObservableObject, Identifiable {
     
     lazy var footerViewModel: FooterViewModel = {
         FooterViewModel(
-            status: viewerStatus,
+            status: reviewStatus,
             updatedTime: updatedAt
         )
     }()
@@ -168,7 +168,7 @@ class AbstractPullRequest: ObservableObject, Identifiable {
     
     var state: PRState { .closed }
     
-    var viewerStatus: ViewerStatus { .waiting }
+    var reviewStatus: ReviewStatus { .waiting }
     
     var mergedAt: String? { nil }
     

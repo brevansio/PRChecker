@@ -86,8 +86,18 @@ class PullRequest: AbstractPullRequest {
         }
     }
     
-    override var viewerStatus: ViewerStatus {
-        switch pullRequest.viewerLatestReview?.state {
+    override var reviewStatus: ReviewStatus {
+        guard let nodes = pullRequest.reviews?.nodes else {
+            return .waiting     // No reviews at all
+        }
+        
+        guard
+            let viewersReview = nodes.last(where: { $0?.author?.login.lowercased() == currentUser.lowercased() })
+        else {
+            return .waiting     // Viewer has not reviewed
+        }
+        
+        switch viewersReview?.state {
         case .none, .pending, .dismissed:
             return .waiting
         case .approved:
@@ -97,7 +107,7 @@ class PullRequest: AbstractPullRequest {
         case .commented:
             return .commented
         default:
-            assertionFailure("Unknown status: \(String(describing: pullRequest.viewerLatestReview?.state))")
+            assertionFailure("Unknown status: \(String(describing: viewersReview?.state))")
             return .waiting
         }
     }

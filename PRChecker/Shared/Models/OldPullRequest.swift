@@ -88,12 +88,14 @@ class OldPullRequest: AbstractPullRequest {
         }
     }
     
-    override var viewerStatus: ViewerStatus {
+    override var reviewStatus: ReviewStatus {
         guard let nodes = pullRequest.reviews?.nodes else {
             return .waiting     // No reviews at all
         }
         
-        guard let viewersReview = nodes.last(where: { $0?.author?.login == viewingUser }) else {
+        guard
+            let viewersReview = nodes.last(where: { $0?.author?.login.lowercased() == currentUser.lowercased() })
+        else {
             return .waiting     // Viewer has not reviewed
         }
         

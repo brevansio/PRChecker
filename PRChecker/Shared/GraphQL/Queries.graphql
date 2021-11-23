@@ -35,10 +35,15 @@ fragment PRInfo on PullRequest {
     }
 
     state
-    viewerLatestReview {
-        id
-        state
+    reviews(last: 100) {
+        nodes {
+            author {
+                login
+            }
+            state
+        }
     }
+    
     mergedAt
     updatedAt
 }

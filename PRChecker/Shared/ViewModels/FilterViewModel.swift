@@ -23,12 +23,12 @@ class FilterViewModel: ObservableObject {
     static let reviewStatusFilter: FilterSection = {
         FilterSection(
             name: "Review Status",
-            type: .viewerStatus,
+            type: .reviewStatus,
             filters: [
-                Filter(name: "Waiting") { $0.viewerStatus == .waiting },
-                Filter(name: "Blocked") { $0.viewerStatus == .blocked },
-                Filter(name: "Commented") { $0.viewerStatus == .commented },
-                Filter(name: "Approved") { $0.viewerStatus == .approved },
+                Filter(name: "Waiting") { $0.reviewStatus == .waiting },
+                Filter(name: "Blocked") { $0.reviewStatus == .blocked },
+                Filter(name: "Commented") { $0.reviewStatus == .commented },
+                Filter(name: "Approved") { $0.reviewStatus == .approved },
             ]
         )
     }()
