@@ -16,7 +16,8 @@ import UIKit
 struct LoginView: View {
     private let helpURL =
         URL(string: "https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token")!
-    @State private var loginInfo = LoginInfoViewModel()
+    
+    @ObservedObject var loginInfo = SettingsViewModel.shared.loginViewModel
         
     var body: some View {
         HStack {
@@ -43,7 +44,7 @@ struct LoginView: View {
         }
         .padding(20)
         .onDisappear {
-            loginInfo.saveToKeychain()
+            loginInfo.save()
         }
     }
 }

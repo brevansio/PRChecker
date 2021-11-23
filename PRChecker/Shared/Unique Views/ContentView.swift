@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var showLogin = !LoginInfoViewModel().canLogin
+    @State var showLogin = !SettingsViewModel.shared.loginViewModel.canLogin
     @State var showSettings = false
     var prListViewModel = PRListViewModel()
     
