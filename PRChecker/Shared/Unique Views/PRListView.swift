@@ -19,7 +19,7 @@ struct PRListView: View {
                 completion()
             }
         }) {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], alignment: .leading, pinnedViews: [.sectionHeaders]) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300), alignment: .top)], alignment: .leading, pinnedViews: [.sectionHeaders]) {
                 
                 if let filteredPRList = myPRManager.prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
                     PRSectionView(name: "You", prList: filteredPRList)
@@ -30,7 +30,6 @@ struct PRListView: View {
                     if let filteredPRList = networkPR.pullRequests.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
                         PRSectionView(name: networkPR.name, prList: filteredPRList)
                     }
-                    
                 }
             }
             .padding()

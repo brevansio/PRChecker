@@ -15,7 +15,7 @@ struct FilterView: View {
             Divider()
                 .background(Color.gray5)
             FilterContentView()
-                .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 0))
             Spacer()
         }
     }
