@@ -44,7 +44,7 @@ struct ContentView: View {
                         .renderingMode(.template)
                         .foregroundColor(Color.primary)
                 }
-                .popover(isPresented: $showSettings, arrowEdge: .bottom) {
+                .popover(isPresented: $showSettings) {
                     SettingsView()
                         .frame(minWidth: 200, maxHeight: 800, alignment: .leading)
                         .onDisappear { prListViewModel.getPRList() }
