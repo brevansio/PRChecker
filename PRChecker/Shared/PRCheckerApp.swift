@@ -19,7 +19,9 @@ struct PRCheckerApp: App {
             ContentView()
                 .environmentObject(FilterViewModel())
                 .background(Color.gray6)
-                .frame(minWidth: 655, minHeight: 375)
+                .frame(minWidth: 960, minHeight: 640)
+        }.commands {
+            SidebarCommands()
         }
     }
 }

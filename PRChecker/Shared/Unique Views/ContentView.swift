@@ -10,49 +10,56 @@ import SwiftUI
 struct ContentView: View {
     @State var showLogin = !SettingsViewModel.shared.loginViewModel.canLogin
     @State var showSettings = false
+    
     var prListViewModel = PRListViewModel()
     
     var body: some View {
-        GeometryReader { geometry in
-            HStack {
-                Divider()
-                    .background(Color.gray5)
+        NavigationView {
+            // Side bar
+            FilterView()
+                .frame(minWidth: 300)
+            // PR List
+            GeometryReader { geometry in
                 PRListView(prListViewModel: prListViewModel)
-                    .frame(minWidth: 300, maxWidth: max(geometry.size.width, 300), minHeight: geometry.size.height, alignment: .topLeading)
-                Divider()
-                    .background(Color.gray5)
-                FilterView()
-                    .frame(width: 300, height: geometry.size.height)
+                    .frame(
+                        minWidth: 300,
+                        maxWidth: max(geometry.size.width, 300),
+                        minHeight: geometry.size.height,
+                        alignment: .topLeading
+                    )
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
-        }
-        .overlay(
-            HStack {
-                VStack {
-                    Spacer()
-                    
-                    Button {
-                        showSettings.toggle()
-                    } label: {
-                        Text(.init(systemName: "gearshape"))
-                            .font(.system(size: 45))
-                            .fontWeight(.thin)
-                            .foregroundColor(.secondary)
-                    }
-                    .buttonStyle(LinkButtonStyle())
-                    .popover(isPresented: $showSettings, arrowEdge: .bottom) {
-                        SettingsView()
-                            .frame(minWidth: 200, maxHeight: 800, alignment: .leading)
-                            .onDisappear { prListViewModel.getPRList() }
-                    }
-                    .padding(8)
-                    .background(Color.gray4.clipShape(Circle()))
+        }.toolbar {
+            ToolbarItem(placement: .navigation) {
+                Button(action: toggleSidebar, label: {
+                    Image(systemName: "sidebar.leading")
+                        .renderingMode(.template)
+                        .foregroundColor(Color.primary)
+                })
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button{
+                    showSettings.toggle()
+                } label: {
+                    Image(systemName: "gearshape")
+                        .renderingMode(.template)
+                        .foregroundColor(Color.primary)
                 }
-                .padding([.leading, .bottom])
-                
-                Spacer()
+                .popover(isPresented: $showSettings) {
+                    SettingsView()
+                        .frame(minWidth: 200, maxHeight: 800, alignment: .leading)
+                        .onDisappear { prListViewModel.getPRList() }
+                }
             }
+        }
+    }
+    
+    private func toggleSidebar() {
+        #if canImport(AppKit)
+        NSApp.keyWindow?.firstResponder?.tryToPerform(
+            #selector(NSSplitViewController.toggleSidebar(_:)),
+            with: nil
         )
+        #endif
     }
 }
 

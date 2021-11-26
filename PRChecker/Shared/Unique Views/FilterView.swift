@@ -11,11 +11,11 @@ struct FilterView: View {
     var body: some View {
         VStack {
             Header()
-                .padding(EdgeInsets(top: 16, leading: 0, bottom: 8, trailing: 8))
+                .padding(.horizontal, 8)
             Divider()
                 .background(Color.gray5)
             FilterContentView()
-                .padding(.leading, 8)
+                .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 0))
             Spacer()
         }
     }
@@ -31,19 +31,19 @@ private struct Header: View {
                 Text("Filter by")
                     .fontWeight(.bold)
             } icon: {
-                Image(systemName: "line.horizontal.3.decrease")
+                Image(systemName: "line.3.horizontal.decrease")
                     .scaledToFit()
             }
             .font(.title)
             Spacer()
-            Button("Reset Filters") {
+            Button("Reset") {
                 filterViewModel.sections.map(\.filters).flatMap { $0 }.forEach {
                     $0.isEnabled = false
                 }
                 filterViewModel.sections.forEach { $0.updateFilters() }
                 filterViewModel.updateFilters()
             }
-            .font(.title2)
+            .font(.title3)
             .foregroundColor(.blue)
             .buttonStyle(PlainButtonStyle())
         }
