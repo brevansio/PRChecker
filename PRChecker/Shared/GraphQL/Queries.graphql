@@ -46,6 +46,16 @@ fragment PRInfo on PullRequest {
     
     mergedAt
     updatedAt
+  
+  reviewRequests(last: 25) {
+    nodes {
+      requestedReviewer {
+        ... on User {
+          login
+        }
+      }
+    }
+  }
 }
 
 fragment OldPRInfo on PullRequest {
@@ -93,6 +103,16 @@ fragment OldPRInfo on PullRequest {
     }
     mergedAt
     updatedAt
+  
+    reviewRequests(last: 25) {
+        nodes {
+            requestedReviewer {
+                ... on User {
+                    login
+                }
+            }
+        }
+    }
 }
 
 query GetPRsByAuthor($author: String!) {
