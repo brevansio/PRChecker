@@ -29,6 +29,7 @@ class FilterViewModel: ObservableObject {
                 Filter(name: "Blocked") { $0.reviewStatus == .blocked },
                 Filter(name: "Commented") { $0.reviewStatus == .commented },
                 Filter(name: "Approved") { $0.reviewStatus == .approved },
+                Filter(name: "Directly Requested") { $0.isReviewDirectlyRequested },
             ]
         )
     }()
@@ -39,7 +40,7 @@ class FilterViewModel: ObservableObject {
             type: .readStatus,
             filters: [
                 Filter(name: "Read") { $0.isRead },
-                Filter(name: "Unread") { !$0.isRead }
+                Filter(name: "Unread") { !$0.isRead },
             ]
         )
     }()

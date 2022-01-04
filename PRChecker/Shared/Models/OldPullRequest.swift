@@ -129,4 +129,10 @@ class OldPullRequest: AbstractPullRequest {
     override var updatedAt: String {
         Self.relativeDateString(from: pullRequest.updatedAt)
     }
+    
+    override var isReviewDirectlyRequested: Bool {
+        pullRequest.reviewRequests?.nodes?.map(\.?.requestedReviewer?.asUser).contains { user in
+            user?.login == self.currentUser
+        } ?? false
+    }
 }

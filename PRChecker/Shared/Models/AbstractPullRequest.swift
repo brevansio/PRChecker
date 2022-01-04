@@ -175,7 +175,9 @@ class AbstractPullRequest: ObservableObject, Identifiable {
     var rawUpdatedAt: String { "" }
     
     var updatedAt: String { "" }
-    
+        
+    var isReviewDirectlyRequested: Bool { false }
+        
     private static let dateFormatter = ISO8601DateFormatter()
     
     private static let secondsPerDay: Double = 60 * 60 * 24
