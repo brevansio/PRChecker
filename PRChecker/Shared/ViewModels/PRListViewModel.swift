@@ -35,7 +35,7 @@ class PRListViewModel: ObservableObject {
                     .publish(every: refreshSetting.rawValue, tolerance: 15, on: .main, in: .default)
                     .autoconnect()
                     .sink { _ in
-                        self.getPRList()
+                        self.getMyPRList()
                     }
             }
             .store(in: &subscriptions)

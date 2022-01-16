@@ -39,7 +39,7 @@ struct MenuView: View {
         .padding(.vertical, 12)
         .background(Color.gray6)
         .onAppear {
-            prListViewModel.getPRList()
+            prListViewModel.getMyPRList()
         }
     }
 }
