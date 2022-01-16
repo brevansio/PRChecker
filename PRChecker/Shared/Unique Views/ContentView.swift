@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State var showLogin = !SettingsViewModel.shared.loginViewModel.canLogin
     @State var showSettings = false
+    @State var refreshable = true
     
     var prListViewModel = PRListViewModel()
     
@@ -37,12 +38,20 @@ struct ContentView: View {
                 })
             }
             ToolbarItem(placement: .primaryAction) {
-                Button {
-                    prListViewModel.getPRList()
-                } label: {
-                    Image(systemName: "arrow.clockwise")
-                        .renderingMode(.template)
-                        .foregroundColor(Color.primary)
+                if refreshable {
+                    Button {
+                        refreshable = false
+                        prListViewModel.getPRList() { refreshable = true }
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                            .renderingMode(.template)
+                            .foregroundColor(Color.primary)
+                    }
+                } else {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .scaleEffect(0.75)
+                        .foregroundColor(.primary)
                 }
             }
             ToolbarItem(placement: .primaryAction) {
