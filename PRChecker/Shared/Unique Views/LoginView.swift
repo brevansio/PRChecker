@@ -36,10 +36,6 @@ struct LoginView: View {
                     }
                 }
                 TextField(LocalizedStringKey("API Endpoint"), text: $loginInfo.apiEndpoint)
-                Toggle(isOn: $loginInfo.useLegacyQuery) {
-                    Text("Use Legacy Queries")
-                }
-                // TODO: Some sort of guidance on the legacy query usage
             }
         }
         .padding(20)
