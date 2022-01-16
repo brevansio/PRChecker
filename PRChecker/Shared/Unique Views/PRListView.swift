@@ -10,6 +10,8 @@ import SwiftUI
 struct PRListView: View {
     @EnvironmentObject var filterViewModel: FilterViewModel
     
+    @Environment(\.scenePhase) var scenePhase
+    
     @ObservedObject var prListViewModel = PRListViewModel()
     @ObservedObject var myPRManager = MyPRManager.shared
 
@@ -29,10 +31,12 @@ struct PRListView: View {
                 }
             }
             .padding()
-            .onAppear {
-                prListViewModel.getPRList()
-            }
             .onChange(of: prListViewModel.additionalFilters, perform: updateAdditionalFilters(_:))
+            .onChange(of: scenePhase) { newValue in
+                if newValue == .active {
+                    prListViewModel.getPRList()
+                }
+            }
         }
     }
     
