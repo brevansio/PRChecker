@@ -53,7 +53,6 @@ protocol LabelNode {
 }
 
 extension PrInfo.Label.Node: LabelNode {}
-extension OldPrInfo.Label.Node: LabelNode {}
 
 struct LabelModel {
     let labelConnection: LabelNode
@@ -117,7 +116,7 @@ class AbstractPullRequest: ObservableObject, Identifiable {
             author: author,
             additions: "+\(lineAdditions)",
             deletions: "-\(lineDeletions)",
-            commits: "\(commits.count) commits",
+            commits: "\(commitCount) commits",
             description: body,
             labels: labels
         )
@@ -139,9 +138,7 @@ class AbstractPullRequest: ObservableObject, Identifiable {
     var idBySection: String { id + currentUser }
     
     var id: GraphQLID { GraphQLID("!!") }
-    
-    var isRead: Bool { false }
-    
+        
     var url: String { "" }
     
     var repositoryName: String { "" }
@@ -162,7 +159,7 @@ class AbstractPullRequest: ObservableObject, Identifiable {
     
     var lineDeletions: Int { 0 }
     
-    var commits: [GraphQLID] { [] }
+    var commitCount: Int { 0 }
     
     var labels: [LabelModel] { [] }
     
@@ -174,7 +171,9 @@ class AbstractPullRequest: ObservableObject, Identifiable {
     
     var rawUpdatedAt: String { "" }
     
-    var updatedAt: String { "" }
+    var updatedAt: String {
+        Self.relativeDateString(from: rawUpdatedAt)
+    }
     
     private static let dateFormatter = ISO8601DateFormatter()
     
