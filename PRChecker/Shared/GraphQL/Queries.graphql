@@ -21,12 +21,10 @@ fragment PRInfo on PullRequest {
     changedFiles
     additions
     deletions
-    commits(last: 100) {
-        nodes {
-            id
-        }
+    commits {
+        totalCount
     }
-    labels(last: 10) {
+    labels(last: 5) {
         nodes {
             id
             name
@@ -35,7 +33,7 @@ fragment PRInfo on PullRequest {
     }
 
     state
-    reviews(last: 100) {
+    reviews(last: 10) {
         nodes {
             author {
                 login
@@ -48,83 +46,12 @@ fragment PRInfo on PullRequest {
     updatedAt
 }
 
-fragment OldPRInfo on PullRequest {
-    id
-        
-    url
-        
-    repository {
-        id
-        nameWithOwner
-    }
-    baseRefName
-    headRefName
-        
-    author {
-        login
-    }
-    title
-    body
-        
-    changedFiles
-    additions
-    deletions
-    commits(last: 100) {
-        nodes {
-            id
-        }
-    }
-    labels(last: 10) {
-        nodes {
-            id
-            name
-            color
-        }
-    }
-
-    state
-    reviews(last: 100) {
-        nodes {
-            author {
-                login
-            }
-            state
-        }
-    }
-    mergedAt
-    updatedAt
-}
-
-query GetPRsByAuthor($author: String!) {
-    user(login: $author) {
-        id
-        name
-        pullRequests(last: 25, orderBy: { field:UPDATED_AT, direction:DESC }, states: [OPEN, MERGED]) {
-            nodes {
-                ...PRInfo
-            }
-        }
-    }
-}
-
 query GetAssignedPRsWithQuery($query: String!) {
-    search(last: 25, query: $query, type: ISSUE) {
+    search(last: 10, query: $query, type: ISSUE) {
         edges {
             node {
                 ... on PullRequest {
                     ...PRInfo
-                }
-            }
-        }
-    }
-}
-
-query GetOldAssignedPRsWithQuery($query: String!) {
-    search(last: 25, query: $query, type: ISSUE) {
-        edges {
-            node {
-                ... on PullRequest {
-                    ...OldPRInfo
                 }
             }
         }
