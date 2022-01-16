@@ -127,7 +127,6 @@ final class NetworkSerivce {
             return Fail(error: NetworkServiceError.missingLogin).eraseToAnyPublisher()
         }
         
-        guard !SettingsViewModel.shared.loginViewModel.useLegacyQuery else { return getOldPR(with: networkQuery) }
         return getNewPR(with: networkQuery)
     }
 }
@@ -153,39 +152,6 @@ extension NetworkSerivce {
                     .map {
                         PullRequest(pullRequest: $0, currentUser: networkQuery.username)
                     }
-                resultPublisher.send(resultList)
-                resultPublisher.send(completion: .finished)
-            case .failure(let error):
-                resultPublisher.send(completion: .failure(error))
-            }
-        }
-        
-        return resultPublisher.eraseToAnyPublisher()
-    }
-}
-
-extension NetworkSerivce {
-    func getOldPR(with networkQuery: NetworkQuery) -> AnyPublisher<[AbstractPullRequest], Error> {
-        let resultPublisher = PassthroughSubject<[AbstractPullRequest], Error>()
-        
-        apollo.fetch(
-            query: GetOldAssignedPRsWithQueryQuery(query: networkQuery.completedQuery),
-            cachePolicy: .fetchIgnoringCacheData,
-            queue: .global(qos: .userInitiated)
-        ) { result in
-            switch result {
-            case .success(let graphQLResult):
-                guard let prList = graphQLResult.data?.search.edges?.map(\.?.node?.asPullRequest?.fragments.oldPrInfo)
-                else {
-                    resultPublisher.send(completion: .failure(NetworkServiceError.decodingIssue))
-                    return
-                }
-                let resultList = prList.compactMap { $0 }
-                    .filter { $0.author?.login.lowercased() != networkQuery.username.lowercased() }
-                    .map {
-                        OldPullRequest(pullRequest: $0, currentUser: networkQuery.username, viewingUser: SettingsViewModel.shared.loginViewModel.username)
-                    }
-                
                 resultPublisher.send(resultList)
                 resultPublisher.send(completion: .finished)
             case .failure(let error):
