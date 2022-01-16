@@ -37,7 +37,16 @@ struct ContentView: View {
                 })
             }
             ToolbarItem(placement: .primaryAction) {
-                Button{
+                Button {
+                    prListViewModel.getPRList()
+                } label: {
+                    Image(systemName: "arrow.clockwise")
+                        .renderingMode(.template)
+                        .foregroundColor(Color.primary)
+                }
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
                     showSettings.toggle()
                 } label: {
                     Image(systemName: "gearshape")

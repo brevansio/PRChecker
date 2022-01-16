@@ -42,7 +42,6 @@ class PRListViewModel: ObservableObject {
     }
     
     func getPRList(completion: (() -> Void)? = nil) {
-        // TODO: Convert these to Publishers and make it work with the RefreshableScrollView
         getMyPRList(completion: completion)
         
         if !SettingsViewModel.shared.userList.isEmpty {

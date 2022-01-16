@@ -14,11 +14,7 @@ struct PRListView: View {
     @ObservedObject var myPRManager = MyPRManager.shared
 
     var body: some View {
-        RefreshableScrollView(onRefresh: { completion in
-            prListViewModel.getPRList() {
-                completion()
-            }
-        }) {
+        ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 300), alignment: .top)], alignment: .leading, pinnedViews: [.sectionHeaders]) {
                 
                 if let filteredPRList = myPRManager.prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
