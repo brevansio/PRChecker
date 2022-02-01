@@ -5,6 +5,7 @@
 //  Created by Bruce Evans on 2021/11/06.
 //
 
+import Combine
 import SwiftUI
 
 struct PRListView: View {
@@ -12,8 +13,14 @@ struct PRListView: View {
     
     @Environment(\.scenePhase) var scenePhase
     
-    @ObservedObject var prListViewModel = PRListViewModel()
+    @ObservedObject var prListViewModel: PRListViewModel
     @ObservedObject var myPRManager = MyPRManager.shared
+    
+    private var subscriptions = Set<AnyCancellable>()
+    
+    init(prListViewModel: PRListViewModel) {
+        self.prListViewModel = prListViewModel
+    }
 
     var body: some View {
         ScrollView {
@@ -92,6 +99,6 @@ struct PRSectionHeaderView: View {
 
 struct PRListView_Previews: PreviewProvider {
     static var previews: some View {
-        PRListView()
+        PRListView(prListViewModel: PRListViewModel())
     }
 }

@@ -42,21 +42,21 @@ class PRListViewModel: ObservableObject {
     }
     
     func getPRList(completion: (() -> Void)? = nil) {
-        getMyPRList(completion: completion)
-        
         if !SettingsViewModel.shared.userList.isEmpty {
             getWatchedPRList(for: SettingsViewModel.shared.userList)
         }
+        getMyPRList(completion: completion)
     }
     
     func getMyPRList(completion: (() -> Void)? = nil) {
-        NetworkSerivce.shared.getAllPRs()
+        NetworkSerivce.shared.getAllMyReviews()
             .receive(on: DispatchQueue.main)
             .sink { termination in
-                if case .failure(let error) = termination {
-                    // TODO: Handle Errors
-                    MyPRManager.shared.prList = []
+                guard case .failure(let error) = termination else {
+                    completion?()
+                    return
                 }
+                MyPRManager.shared.prList = []
                 completion?()
             } receiveValue: { prList in
                 MyPRManager.shared.prList = prList.pullRequests
@@ -81,15 +81,14 @@ class PRListViewModel: ObservableObject {
                     .arrayByRemovingDuplicates()
                 
                 self.updateAdditionalFilters(with: ["Labels": labelFilters, "Repository": repositoryFilters])
-                completion?()
             }
-            .store(in: &subscriptions)
+            .store(in: &self.subscriptions)
     }
     
     func getWatchedPRList(for userList: [String]) {        
         self.watchedPRList = self.watchedPRList.filter { userList.contains($0.name) }
         
-        NetworkSerivce.shared.getAllPRs(for: userList)
+        NetworkSerivce.shared.getAllReviews(for: userList)
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 if case .failure(let error) = completion {

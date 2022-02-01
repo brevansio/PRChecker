@@ -13,7 +13,7 @@ struct ContentView: View {
     @State var refreshable = true
     
     var prListViewModel = PRListViewModel()
-    
+        
     var body: some View {
         NavigationView {
             // Side bar
@@ -41,7 +41,9 @@ struct ContentView: View {
                 if refreshable {
                     Button {
                         refreshable = false
-                        prListViewModel.getPRList() { refreshable = true }
+                        prListViewModel.getPRList {
+                            refreshable = true
+                        }
                     } label: {
                         Image(systemName: "arrow.clockwise")
                             .renderingMode(.template)
@@ -65,7 +67,9 @@ struct ContentView: View {
                 .popover(isPresented: $showSettings) {
                     SettingsView()
                         .frame(minWidth: 200, maxHeight: 800, alignment: .leading)
-                        .onDisappear { prListViewModel.getPRList() }
+                        .onDisappear {
+                            prListViewModel.getPRList()
+                        }
                 }
             }
         }
