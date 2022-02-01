@@ -391,7 +391,6 @@ public struct PrInfo: GraphQLFragment {
     fragment PRInfo on PullRequest {
       __typename
       id
-      isReadByViewer
       url
       repository {
         __typename
@@ -405,8 +404,7 @@ public struct PrInfo: GraphQLFragment {
         login
       }
       title
-      body
-      changedFiles
+      bodyText
       additions
       deletions
       commits {
@@ -434,7 +432,6 @@ public struct PrInfo: GraphQLFragment {
           state
         }
       }
-      mergedAt
       updatedAt
     }
     """
@@ -445,22 +442,19 @@ public struct PrInfo: GraphQLFragment {
     return [
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
       GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
-      GraphQLField("isReadByViewer", type: .scalar(Bool.self)),
       GraphQLField("url", type: .nonNull(.scalar(String.self))),
       GraphQLField("repository", type: .nonNull(.object(Repository.selections))),
       GraphQLField("baseRefName", type: .nonNull(.scalar(String.self))),
       GraphQLField("headRefName", type: .nonNull(.scalar(String.self))),
       GraphQLField("author", type: .object(Author.selections)),
       GraphQLField("title", type: .nonNull(.scalar(String.self))),
-      GraphQLField("body", type: .nonNull(.scalar(String.self))),
-      GraphQLField("changedFiles", type: .nonNull(.scalar(Int.self))),
+      GraphQLField("bodyText", type: .nonNull(.scalar(String.self))),
       GraphQLField("additions", type: .nonNull(.scalar(Int.self))),
       GraphQLField("deletions", type: .nonNull(.scalar(Int.self))),
       GraphQLField("commits", type: .nonNull(.object(Commit.selections))),
       GraphQLField("labels", arguments: ["last": 5], type: .object(Label.selections)),
       GraphQLField("state", type: .nonNull(.scalar(PullRequestState.self))),
       GraphQLField("reviews", arguments: ["last": 10], type: .object(Review.selections)),
-      GraphQLField("mergedAt", type: .scalar(String.self)),
       GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
     ]
   }
@@ -471,8 +465,8 @@ public struct PrInfo: GraphQLFragment {
     self.resultMap = unsafeResultMap
   }
 
-  public init(id: GraphQLID, isReadByViewer: Bool? = nil, url: String, repository: Repository, baseRefName: String, headRefName: String, author: Author? = nil, title: String, body: String, changedFiles: Int, additions: Int, deletions: Int, commits: Commit, labels: Label? = nil, state: PullRequestState, reviews: Review? = nil, mergedAt: String? = nil, updatedAt: String) {
-    self.init(unsafeResultMap: ["__typename": "PullRequest", "id": id, "isReadByViewer": isReadByViewer, "url": url, "repository": repository.resultMap, "baseRefName": baseRefName, "headRefName": headRefName, "author": author.flatMap { (value: Author) -> ResultMap in value.resultMap }, "title": title, "body": body, "changedFiles": changedFiles, "additions": additions, "deletions": deletions, "commits": commits.resultMap, "labels": labels.flatMap { (value: Label) -> ResultMap in value.resultMap }, "state": state, "reviews": reviews.flatMap { (value: Review) -> ResultMap in value.resultMap }, "mergedAt": mergedAt, "updatedAt": updatedAt])
+  public init(id: GraphQLID, url: String, repository: Repository, baseRefName: String, headRefName: String, author: Author? = nil, title: String, bodyText: String, additions: Int, deletions: Int, commits: Commit, labels: Label? = nil, state: PullRequestState, reviews: Review? = nil, updatedAt: String) {
+    self.init(unsafeResultMap: ["__typename": "PullRequest", "id": id, "url": url, "repository": repository.resultMap, "baseRefName": baseRefName, "headRefName": headRefName, "author": author.flatMap { (value: Author) -> ResultMap in value.resultMap }, "title": title, "bodyText": bodyText, "additions": additions, "deletions": deletions, "commits": commits.resultMap, "labels": labels.flatMap { (value: Label) -> ResultMap in value.resultMap }, "state": state, "reviews": reviews.flatMap { (value: Review) -> ResultMap in value.resultMap }, "updatedAt": updatedAt])
   }
 
   public var __typename: String {
@@ -490,16 +484,6 @@ public struct PrInfo: GraphQLFragment {
     }
     set {
       resultMap.updateValue(newValue, forKey: "id")
-    }
-  }
-
-  /// Is this pull request read by the viewer
-  public var isReadByViewer: Bool? {
-    get {
-      return resultMap["isReadByViewer"] as? Bool
-    }
-    set {
-      resultMap.updateValue(newValue, forKey: "isReadByViewer")
     }
   }
 
@@ -563,23 +547,13 @@ public struct PrInfo: GraphQLFragment {
     }
   }
 
-  /// The body as Markdown.
-  public var body: String {
+  /// The body rendered to text.
+  public var bodyText: String {
     get {
-      return resultMap["body"]! as! String
+      return resultMap["bodyText"]! as! String
     }
     set {
-      resultMap.updateValue(newValue, forKey: "body")
-    }
-  }
-
-  /// The number of changed files in this pull request.
-  public var changedFiles: Int {
-    get {
-      return resultMap["changedFiles"]! as! Int
-    }
-    set {
-      resultMap.updateValue(newValue, forKey: "changedFiles")
+      resultMap.updateValue(newValue, forKey: "bodyText")
     }
   }
 
@@ -640,16 +614,6 @@ public struct PrInfo: GraphQLFragment {
     }
     set {
       resultMap.updateValue(newValue?.resultMap, forKey: "reviews")
-    }
-  }
-
-  /// The date and time that the pull request was merged.
-  public var mergedAt: String? {
-    get {
-      return resultMap["mergedAt"] as? String
-    }
-    set {
-      resultMap.updateValue(newValue, forKey: "mergedAt")
     }
   }
 

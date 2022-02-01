@@ -46,11 +46,7 @@ class PullRequest: AbstractPullRequest {
     }
     
     override var body: String {
-        pullRequest.body
-    }
-    
-    override var changedFileCount: Int {
-        pullRequest.changedFiles
+        pullRequest.bodyText
     }
     
     override var lineAdditions: Int {
@@ -106,14 +102,6 @@ class PullRequest: AbstractPullRequest {
             assertionFailure("Unknown status: \(String(describing: viewersReview?.state))")
             return .waiting
         }
-    }
-    
-    override var mergedAt: String? {
-        guard let mergedAt = pullRequest.mergedAt else {
-            return nil
-        }
-
-        return Self.relativeDateString(from: mergedAt)
     }
     
     override var rawUpdatedAt: String {

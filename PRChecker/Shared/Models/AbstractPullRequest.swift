@@ -152,9 +152,7 @@ class AbstractPullRequest: ObservableObject, Identifiable {
     var title: String { "" }
     
     var body: String { "" }
-    
-    var changedFileCount: Int { 0 }
-    
+        
     var lineAdditions: Int { 0 }
     
     var lineDeletions: Int { 0 }
@@ -166,9 +164,7 @@ class AbstractPullRequest: ObservableObject, Identifiable {
     var state: PRState { .closed }
     
     var reviewStatus: ReviewStatus { .waiting }
-    
-    var mergedAt: String? { nil }
-    
+        
     var rawUpdatedAt: String { "" }
     
     var updatedAt: String {

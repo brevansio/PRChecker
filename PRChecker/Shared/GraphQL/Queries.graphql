@@ -1,8 +1,7 @@
 
 fragment PRInfo on PullRequest {
     id
-        
-    isReadByViewer
+    
     url
         
     repository {
@@ -16,9 +15,8 @@ fragment PRInfo on PullRequest {
         login
     }
     title
-    body
+    bodyText
         
-    changedFiles
     additions
     deletions
     commits {
@@ -42,7 +40,6 @@ fragment PRInfo on PullRequest {
         }
     }
     
-    mergedAt
     updatedAt
 }
 
