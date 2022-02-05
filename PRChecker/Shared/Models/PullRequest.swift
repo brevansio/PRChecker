@@ -21,10 +21,6 @@ class PullRequest: AbstractPullRequest {
         pullRequest.id
     }
     
-    override var isRead: Bool {
-        pullRequest.isReadByViewer ?? false
-    }
-    
     override var url: String {
         pullRequest.url
     }
@@ -50,11 +46,7 @@ class PullRequest: AbstractPullRequest {
     }
     
     override var body: String {
-        pullRequest.body
-    }
-    
-    override var changedFileCount: Int {
-        pullRequest.changedFiles
+        pullRequest.bodyText
     }
     
     override var lineAdditions: Int {
@@ -65,8 +57,8 @@ class PullRequest: AbstractPullRequest {
         pullRequest.deletions
     }
     
-    override var commits: [GraphQLID] {
-        pullRequest.commits.nodes?.compactMap { $0 }.map(\.id) ?? []
+    override var commitCount: Int {
+        pullRequest.commits.totalCount
     }
     
     override var labels: [LabelModel] {
@@ -112,19 +104,7 @@ class PullRequest: AbstractPullRequest {
         }
     }
     
-    override var mergedAt: String? {
-        guard let mergedAt = pullRequest.mergedAt else {
-            return nil
-        }
-
-        return Self.relativeDateString(from: mergedAt)
-    }
-    
     override var rawUpdatedAt: String {
         pullRequest.updatedAt
-    }
-    
-    override var updatedAt: String {
-        Self.relativeDateString(from: pullRequest.updatedAt)
     }
 }

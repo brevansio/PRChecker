@@ -18,7 +18,6 @@ extension UserDefaults {
     private enum UserDefaultsKey {
         static let userList = "io.brevans.PRChecker.userList"
         static let refreshInterval = "io.brevans.PRChecker.refreshInterval"
-        static let legacyQueries = "io.brevans.PRChecker.legacyQueries"
         static let displayOptions = "io.brevans.PRChecker.displayOptions"
     }
     
@@ -33,11 +32,6 @@ extension UserDefaults {
             return RefreshSetting(rawValue: rawValue) ?? .fiveMinutes
         }
         set { set(newValue.rawValue, forKey: UserDefaultsKey.refreshInterval) }
-    }
-    
-    var useLegacyQueries: Bool {
-        get { bool(forKey: UserDefaultsKey.legacyQueries) }
-        set { set(newValue, forKey: UserDefaultsKey.legacyQueries) }
     }
     
     var displayOptions: DisplayOption {

@@ -94,13 +94,13 @@ final class NetworkSerivce {
         return ApolloClient(networkTransport: requestChainTransport, store: store)
     }
     
-    func getAllPRs() -> AnyPublisher<NetworkPRResult, Error> {
-        getAllPRs(for: SettingsViewModel.shared.loginViewModel.username)
+    func getAllMyReviews() -> AnyPublisher<NetworkPRResult, Error> {
+        getAllReviews(for: SettingsViewModel.shared.loginViewModel.username)
     }
     
-    func getAllPRs(for username: String) -> AnyPublisher<NetworkPRResult, Error> {
+    func getAllReviews(for username: String) -> AnyPublisher<NetworkPRResult, Error> {
         let publishers = SettingsViewModel.shared.displayOptions.queries(for: username)
-            .map { self.getPR(with: $0) }
+            .map { self.getReviews(with: $0) }
         
         guard !publishers.isEmpty else { return Fail(error: NetworkServiceError.missingQuery).eraseToAnyPublisher() }
         
@@ -117,23 +117,22 @@ final class NetworkSerivce {
             .eraseToAnyPublisher()
     }
     
-    func getAllPRs(for usernameList: [String]) -> AnyPublisher<NetworkPRResult, Error> {
-        Publishers.MergeMany(usernameList.map(getAllPRs(for:)))
+    func getAllReviews(for usernameList: [String]) -> AnyPublisher<NetworkPRResult, Error> {
+        Publishers.MergeMany(usernameList.map(getAllReviews(for:)))
             .eraseToAnyPublisher()
     }
     
-    func getPR(with networkQuery: NetworkQuery) -> AnyPublisher<[AbstractPullRequest], Error> {
+    func getReviews(with networkQuery: NetworkQuery) -> AnyPublisher<[AbstractPullRequest], Error> {
         guard !SettingsViewModel.shared.loginViewModel.username.isEmpty, !SettingsViewModel.shared.loginViewModel.accessToken.isEmpty, !SettingsViewModel.shared.loginViewModel.apiEndpoint.isEmpty else {
             return Fail(error: NetworkServiceError.missingLogin).eraseToAnyPublisher()
         }
         
-        guard !SettingsViewModel.shared.loginViewModel.useLegacyQuery else { return getOldPR(with: networkQuery) }
-        return getNewPR(with: networkQuery)
+        return getReviewList(with: networkQuery)
     }
 }
 
 extension NetworkSerivce {
-    func getNewPR(with networkQuery: NetworkQuery) -> AnyPublisher<[AbstractPullRequest], Error> {
+    func getReviewList(with networkQuery: NetworkQuery) -> AnyPublisher<[AbstractPullRequest], Error> {
         let resultPublisher = PassthroughSubject<[AbstractPullRequest], Error>()
         
         apollo.fetch(
@@ -153,39 +152,6 @@ extension NetworkSerivce {
                     .map {
                         PullRequest(pullRequest: $0, currentUser: networkQuery.username)
                     }
-                resultPublisher.send(resultList)
-                resultPublisher.send(completion: .finished)
-            case .failure(let error):
-                resultPublisher.send(completion: .failure(error))
-            }
-        }
-        
-        return resultPublisher.eraseToAnyPublisher()
-    }
-}
-
-extension NetworkSerivce {
-    func getOldPR(with networkQuery: NetworkQuery) -> AnyPublisher<[AbstractPullRequest], Error> {
-        let resultPublisher = PassthroughSubject<[AbstractPullRequest], Error>()
-        
-        apollo.fetch(
-            query: GetOldAssignedPRsWithQueryQuery(query: networkQuery.completedQuery),
-            cachePolicy: .fetchIgnoringCacheData,
-            queue: .global(qos: .userInitiated)
-        ) { result in
-            switch result {
-            case .success(let graphQLResult):
-                guard let prList = graphQLResult.data?.search.edges?.map(\.?.node?.asPullRequest?.fragments.oldPrInfo)
-                else {
-                    resultPublisher.send(completion: .failure(NetworkServiceError.decodingIssue))
-                    return
-                }
-                let resultList = prList.compactMap { $0 }
-                    .filter { $0.author?.login.lowercased() != networkQuery.username.lowercased() }
-                    .map {
-                        OldPullRequest(pullRequest: $0, currentUser: networkQuery.username, viewingUser: SettingsViewModel.shared.loginViewModel.username)
-                    }
-                
                 resultPublisher.send(resultList)
                 resultPublisher.send(completion: .finished)
             case .failure(let error):

@@ -5,20 +5,25 @@
 //  Created by Bruce Evans on 2021/11/06.
 //
 
+import Combine
 import SwiftUI
 
 struct PRListView: View {
     @EnvironmentObject var filterViewModel: FilterViewModel
     
-    @ObservedObject var prListViewModel = PRListViewModel()
+    @Environment(\.scenePhase) var scenePhase
+    
+    @ObservedObject var prListViewModel: PRListViewModel
     @ObservedObject var myPRManager = MyPRManager.shared
+    
+    private var subscriptions = Set<AnyCancellable>()
+    
+    init(prListViewModel: PRListViewModel) {
+        self.prListViewModel = prListViewModel
+    }
 
     var body: some View {
-        RefreshableScrollView(onRefresh: { completion in
-            prListViewModel.getPRList() {
-                completion()
-            }
-        }) {
+        ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 300), alignment: .top)], alignment: .leading, pinnedViews: [.sectionHeaders]) {
                 
                 if let filteredPRList = myPRManager.prList.filter(filterViewModel.combinedFilter?.filter ?? { _ in true }), !filteredPRList.isEmpty {
@@ -33,10 +38,12 @@ struct PRListView: View {
                 }
             }
             .padding()
-            .onAppear {
-                prListViewModel.getPRList()
-            }
             .onChange(of: prListViewModel.additionalFilters, perform: updateAdditionalFilters(_:))
+            .onChange(of: scenePhase) { newValue in
+                if newValue == .active {
+                    prListViewModel.getPRList()
+                }
+            }
         }
     }
     
@@ -92,6 +99,6 @@ struct PRSectionHeaderView: View {
 
 struct PRListView_Previews: PreviewProvider {
     static var previews: some View {
-        PRListView()
+        PRListView(prListViewModel: PRListViewModel())
     }
 }

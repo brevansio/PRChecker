@@ -69,7 +69,7 @@ struct MenuBarPRCell: View {
 struct MenuBarPRCell_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self) {
-            MenuBarPRCell(pullRequest: PullRequest(pullRequest: PrInfo(id: "1", isReadByViewer: false, url: "https://google.com", repository: .init(id: "2", nameWithOwner: "testUser/testRepo"), baseRefName: "main", headRefName: "dev", author: .makeBot(login: "testBot"), title: "Test PR title", body: "Test PR Body", changedFiles: 3, additions: 4, deletions: 5, commits: .init(nodes: [.init(id: "6")]), labels: .init(nodes: .none), state: .open, reviews: nil, mergedAt: "2021", updatedAt: "2021"), currentUser: "test")).preferredColorScheme($0)
+            MenuBarPRCell(pullRequest: PullRequest(pullRequest: PrInfo(id: "1", url: "https://google.com", repository: .init(id: "2", nameWithOwner: "testUser/testRepo"), baseRefName: "main", headRefName: "dev", author: .makeBot(login: "testBot"), title: "Test PR title", bodyText: "Test PR Body", additions: 4, deletions: 5, commits: .init(totalCount: 6), labels: .init(nodes: .none), state: .open, reviews: nil, updatedAt: "2021"), currentUser: "test")).preferredColorScheme($0)
         }
     }
 }

@@ -10,9 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @State var showLogin = !SettingsViewModel.shared.loginViewModel.canLogin
     @State var showSettings = false
+    @State var isRefreshable = true
     
     var prListViewModel = PRListViewModel()
-    
+        
     var body: some View {
         NavigationView {
             // Side bar
@@ -37,7 +38,26 @@ struct ContentView: View {
                 })
             }
             ToolbarItem(placement: .primaryAction) {
-                Button{
+                if isRefreshable {
+                    Button {
+                        isRefreshable = false
+                        prListViewModel.getPRList {
+                            isRefreshable = true
+                        }
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                            .renderingMode(.template)
+                            .foregroundColor(Color.primary)
+                    }
+                } else {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .scaleEffect(0.75)
+                        .foregroundColor(.primary)
+                }
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
                     showSettings.toggle()
                 } label: {
                     Image(systemName: "gearshape")
@@ -47,7 +67,9 @@ struct ContentView: View {
                 .popover(isPresented: $showSettings) {
                     SettingsView()
                         .frame(minWidth: 200, maxHeight: 800, alignment: .leading)
-                        .onDisappear { prListViewModel.getPRList() }
+                        .onDisappear {
+                            prListViewModel.getPRList()
+                        }
                 }
             }
         }
