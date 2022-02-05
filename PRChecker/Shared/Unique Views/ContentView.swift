@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State var showLogin = !SettingsViewModel.shared.loginViewModel.canLogin
     @State var showSettings = false
-    @State var refreshable = true
+    @State var isRefreshable = true
     
     var prListViewModel = PRListViewModel()
         
@@ -38,11 +38,11 @@ struct ContentView: View {
                 })
             }
             ToolbarItem(placement: .primaryAction) {
-                if refreshable {
+                if isRefreshable {
                     Button {
-                        refreshable = false
+                        isRefreshable = false
                         prListViewModel.getPRList {
-                            refreshable = true
+                            isRefreshable = true
                         }
                     } label: {
                         Image(systemName: "arrow.clockwise")
